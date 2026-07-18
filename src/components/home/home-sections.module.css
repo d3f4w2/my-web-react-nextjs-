@@ -1,0 +1,121 @@
+.section {
+  padding-block: clamp(4.5rem, 10vw, 7rem);
+}
+
+.borderedSection {
+  background: var(--color-surface);
+  border-block: 1px solid var(--color-border);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.capabilityCard {
+  display: grid;
+  gap: var(--space-5);
+  min-height: 18rem;
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+}
+
+.capabilityIndex {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.capabilityCopy {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.capabilityCopy h3 {
+  font-size: 1.25rem;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.capabilityCopy p {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+.keywordList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+  align-self: end;
+  list-style: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+
+.keywordList li::before {
+  margin-right: var(--space-1);
+  color: var(--color-agent-signal);
+  content: "+";
+}
+
+.experienceGrid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.experienceCard {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-page);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+}
+
+.experiencePeriod {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.experienceCopy {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.experienceCopy h3 {
+  font-size: 1.125rem;
+  letter-spacing: -0.02em;
+}
+
+.experienceOrganization {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.experienceSummary {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+}
+
+@media (min-width: 42rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .experienceCard {
+    grid-template-columns: minmax(7rem, 0.3fr) minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+@media (min-width: 68rem) {
+  .threeColumnGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
