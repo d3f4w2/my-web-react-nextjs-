@@ -1,0 +1,40 @@
+# Dependencies
+/node_modules/
+
+# Testing
+/coverage/
+
+# Next.js generated output
+/.next/
+/out/
+
+# Production output
+/build/
+
+# Debug logs
+npm-debug.log*
+
+# Local environment files and secrets
+.env*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Deployment tooling
+/.vercel/
+
+# TypeScript generated files
+*.tsbuildinfo
+next-env.d.ts
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local planning and reports (not part of the public repository yet)
+/config/
+/docs/
+/reports/
