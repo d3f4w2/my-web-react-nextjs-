@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  applicationName: "AI Agent Portfolio",
   title: {
     default: "AI Agent Portfolio",
     template: "%s | AI Agent Portfolio",

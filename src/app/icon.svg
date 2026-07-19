@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>AI Agent Portfolio A/01</title>
+  <rect
+    x="1"
+    y="1"
+    width="62"
+    height="62"
+    rx="14"
+    fill="#0f172a"
+    stroke="#64748b"
+    stroke-width="2"
+  />
+  <text
+    x="7"
+    y="39"
+    fill="#f8fafc"
+    font-family="ui-monospace, SFMono-Regular, Consolas, monospace"
+    font-size="23"
+    font-weight="700"
+    letter-spacing="-1"
+  >A/</text>
+  <text
+    x="38"
+    y="38"
+    fill="#06b6d4"
+    font-family="ui-monospace, SFMono-Regular, Consolas, monospace"
+    font-size="14"
+    font-weight="700"
+    letter-spacing="-1"
+  >01</text>
+</svg>
