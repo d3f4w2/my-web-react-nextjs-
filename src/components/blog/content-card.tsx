@@ -4,11 +4,12 @@ import styles from "./content-card.module.css";
 
 type ContentCardProps = {
   content: ContentPreview;
+  variant?: "default" | "featured";
 };
 
-export function ContentCard({ content }: ContentCardProps) {
+export function ContentCard({ content, variant = "default" }: ContentCardProps) {
   return (
-    <article className={styles.card}>
+    <article className={styles.card} data-variant={variant}>
       <div className={styles.meta}>
         <p>{content.type}</p>
         <span>{content.status}</span>

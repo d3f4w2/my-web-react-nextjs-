@@ -6,55 +6,53 @@
   position: relative;
   display: grid;
   align-items: center;
-  min-height: clamp(42rem, 74vh, 54rem);
-  padding-block: clamp(4rem, 10vw, 7rem);
+  min-height: clamp(42rem, 76vh, 56rem);
+  padding-block: clamp(4rem, 10vw, 8rem);
   overflow: clip;
-}
-
-.section::before {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
   background:
-    radial-gradient(circle at 12% 20%, rgb(79 70 229 / 0.08), transparent 28rem),
-    linear-gradient(180deg, var(--color-page), rgb(244 244 245 / 0.72));
-  content: "";
+    linear-gradient(90deg, transparent 0 8%, rgb(240 234 223 / 0.06) 8% calc(8% + 1px), transparent calc(8% + 1px)),
+    var(--color-page);
 }
 
 .layout {
   display: grid;
-  gap: clamp(3rem, 8vw, 6rem);
+  gap: clamp(3rem, 8vw, 7rem);
   align-items: center;
 }
 
 .copy {
   display: grid;
   gap: var(--space-6);
-  max-width: 42rem;
+  max-width: 44rem;
 }
 
 .eyebrow {
-  color: var(--color-accent);
+  width: fit-content;
+  padding: 0.4rem 0.6rem;
+  color: var(--color-ink);
+  background: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.66rem;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .title {
-  max-width: 11ch;
-  font-size: clamp(2.75rem, 11vw, 5.25rem);
-  font-weight: 750;
-  line-height: 1.04;
-  letter-spacing: -0.06em;
+  max-width: 10ch;
+  font-size: clamp(3rem, 11vw, 6.5rem);
+  font-weight: 850;
+  line-height: 0.92;
+  letter-spacing: -0.075em;
   text-wrap: balance;
 }
 
 .description {
   max-width: 38rem;
+  padding-left: var(--space-5);
   color: var(--color-text-muted);
-  font-size: clamp(1.0625rem, 3vw, 1.125rem);
+  border-left: 3px solid var(--color-accent);
+  font-size: clamp(1rem, 3vw, 1.1rem);
   line-height: 1.8;
 }
 
@@ -67,93 +65,57 @@
 }
 
 .primaryAction,
-.secondaryAction {
+.secondaryAction,
+.textAction {
   display: inline-flex;
-  min-height: 3rem;
+  min-height: 3.2rem;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
   padding-inline: var(--space-5);
-  border: 1px solid transparent;
-  border-radius: var(--radius-small);
-  font-size: 0.9375rem;
-  font-weight: 700;
+  border: 1px solid var(--color-border-strong);
+  font-size: 0.9rem;
+  font-weight: 800;
   transition:
     color var(--duration-normal) var(--easing-standard),
     background var(--duration-normal) var(--easing-standard),
-    border-color var(--duration-normal) var(--easing-standard),
     transform var(--duration-normal) var(--easing-standard);
 }
 
 .primaryAction {
-  color: var(--color-accent-text);
+  color: var(--color-ink);
   background: var(--color-accent);
   border-color: var(--color-accent);
 }
 
-.primaryAction:hover {
-  background: var(--color-accent-hover);
-  border-color: var(--color-accent-hover);
-  transform: translateY(-1px);
-}
-
-.secondaryAction {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-}
-
-.secondaryAction:hover {
-  border-color: var(--color-border-strong);
-  transform: translateY(-1px);
-}
-
-.textAction {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: 3rem;
-  color: var(--color-text-muted);
-  font-size: 0.9375rem;
-  font-weight: 700;
-  transition: color var(--duration-fast) var(--easing-standard);
-}
-
+.primaryAction:hover,
+.secondaryAction:hover,
 .textAction:hover {
-  color: var(--color-accent);
+  color: var(--color-paper);
+  background: var(--color-ink);
+  transform: translateY(-3px);
 }
 
 .hint {
   max-width: 34rem;
   padding-top: var(--space-3);
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
   border-top: 1px solid var(--color-border);
-  font-size: 0.8125rem;
+  font-size: 0.8rem;
 }
 
 .statusPanel {
   position: relative;
   overflow: hidden;
-  color: var(--color-dark-text);
-  background-color: var(--color-dark-surface);
-  background-image:
-    linear-gradient(rgb(100 116 139 / 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(100 116 139 / 0.1) 1px, transparent 1px);
+  color: var(--color-ink);
+  background:
+    linear-gradient(rgb(20 18 15 / 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(20 18 15 / 0.09) 1px, transparent 1px),
+    var(--color-paper);
   background-size: 2rem 2rem;
-  border: 1px solid var(--color-dark-border);
-  border-radius: var(--radius-large);
-  box-shadow: 0 2rem 5rem rgb(15 23 42 / 0.18);
-}
-
-.statusPanel::after {
-  position: absolute;
-  right: -7rem;
-  bottom: -9rem;
-  width: 18rem;
-  height: 18rem;
-  background: radial-gradient(circle, rgb(6 182 212 / 0.17), transparent 66%);
-  content: "";
-  pointer-events: none;
+  border: 2px solid var(--color-ink);
+  box-shadow: 1rem 1rem 0 var(--color-accent);
+  transform: rotate(1deg);
 }
 
 .panelHeader {
@@ -162,13 +124,13 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
-  border-bottom: 1px solid rgb(100 116 139 / 0.45);
+  border-bottom: 2px solid var(--color-ink);
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.62rem;
 }
 
 .panelHeader code {
-  color: var(--color-dark-text-muted);
+  color: inherit;
   font-family: inherit;
   text-align: center;
 }
@@ -181,42 +143,40 @@
 .windowDots i {
   width: 0.45rem;
   height: 0.45rem;
-  background: var(--color-dark-border);
-  border-radius: 50%;
+  background: var(--color-ink);
 }
 
 .windowDots i:last-child {
-  background: var(--color-agent-signal);
+  background: var(--color-accent);
 }
 
 .panelState {
   justify-self: end;
-  color: var(--color-agent-signal);
-  font-weight: 700;
+  color: var(--color-paper);
+  background: var(--color-ink);
+  padding-inline: 0.35rem;
+  font-weight: 800;
 }
 
 .panelBody {
-  position: relative;
-  z-index: 1;
   display: grid;
   gap: var(--space-5);
   padding: clamp(2rem, 7vw, 3.5rem);
 }
 
 .errorCode {
-  color: var(--color-agent-signal);
+  color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: clamp(4.75rem, 22vw, 8rem);
-  font-weight: 700;
-  line-height: 0.85;
-  letter-spacing: -0.08em;
+  font-size: clamp(5rem, 22vw, 9rem);
+  font-weight: 850;
+  line-height: 0.8;
+  letter-spacing: -0.1em;
 }
 
 .panelMessage {
   max-width: 24rem;
-  color: var(--color-dark-text-muted);
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   line-height: 1.7;
 }
 
@@ -225,9 +185,9 @@
   gap: var(--space-3);
   margin: var(--space-3) 0 0;
   padding-top: var(--space-5);
-  border-top: 1px solid rgb(100 116 139 / 0.4);
+  border-top: 2px solid var(--color-ink);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
 }
 
 .routeStatus div {
@@ -237,14 +197,14 @@
 }
 
 .routeStatus dt {
-  color: var(--color-agent-signal);
+  color: var(--color-accent-active);
+  font-weight: 800;
 }
 
 .routeStatus dd {
   min-width: 0;
   margin: 0;
   overflow-wrap: anywhere;
-  color: var(--color-dark-text-muted);
 }
 
 @media (min-width: 32rem) {
@@ -252,10 +212,6 @@
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
-  }
-
-  .textAction {
-    padding-inline: var(--space-2);
   }
 }
 

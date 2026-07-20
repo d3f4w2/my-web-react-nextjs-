@@ -1,81 +1,149 @@
 .card {
+  position: relative;
   display: flex;
-  min-height: 19rem;
+  height: 100%;
+  min-height: 23rem;
   flex-direction: column;
-  gap: var(--space-5);
-  padding: var(--space-6);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-accent);
-  border-radius: var(--radius-medium);
-  box-shadow: var(--shadow-card);
+  gap: var(--space-6);
+  padding: clamp(1.5rem, 4vw, 2.2rem);
+  overflow: hidden;
+  color: inherit;
+  background: transparent;
   transition:
-    transform var(--duration-normal) var(--easing-standard),
-    border-color var(--duration-normal) var(--easing-standard);
+    color var(--duration-normal) var(--easing-standard),
+    background var(--duration-normal) var(--easing-standard),
+    transform var(--duration-normal) var(--easing-standard);
 }
 
-.card:nth-child(2) {
-  border-left-color: var(--color-agent-signal);
+.card::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3.2rem;
+  height: 0.45rem;
+  background: var(--color-accent);
+  content: "";
+}
+
+.card::after {
+  position: absolute;
+  right: -0.12em;
+  bottom: -0.25em;
+  color: currentColor;
+  font-family: var(--font-mono);
+  font-size: 10rem;
+  font-weight: 800;
+  line-height: 0.8;
+  content: "↘";
+  opacity: 0.035;
 }
 
 .card:hover {
-  border-color: var(--color-border-strong);
-  transform: translateY(-2px);
+  color: var(--color-paper);
+  background: var(--color-ink);
+  transform: translateY(-0.4rem);
+}
+
+.card:hover .meta p,
+.card:hover .copy p,
+.card:hover .tags,
+.card:hover .link,
+.card:hover .pending {
+  color: var(--color-paper);
+}
+
+.card:hover .meta p {
+  color: var(--color-accent);
 }
 
 .meta {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   gap: var(--space-3);
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.61rem;
 }
 
 .meta p {
   color: var(--color-accent);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .copy {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .copy h3 {
-  font-size: clamp(1.125rem, 4vw, 1.25rem);
-  line-height: 1.35;
-  letter-spacing: -0.025em;
+  max-width: 14ch;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.052em;
 }
 
 .copy p {
   color: var(--color-text-muted);
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .tags {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-3);
   list-style: none;
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.59rem;
 }
 
 .link,
 .pending {
+  position: relative;
+  z-index: 1;
   margin-top: auto;
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-border);
-  font-size: 0.8125rem;
+  padding-top: var(--space-5);
+  border-top: 1px solid currentColor;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
 }
 
 .link {
   color: var(--color-accent);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .pending {
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
+}
+
+.card[data-variant="featured"] {
+  min-height: 100%;
+  padding: clamp(2rem, 5vw, 3.5rem);
+}
+
+.card[data-variant="featured"]::before {
+  width: 5.5rem;
+}
+
+.card[data-variant="featured"] .copy {
+  max-width: 42rem;
+  margin-top: clamp(1rem, 5vw, 4rem);
+}
+
+.card[data-variant="featured"] .copy h3 {
+  max-width: 13ch;
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  line-height: 0.94;
+}
+
+.card[data-variant="featured"] .copy p {
+  max-width: 35rem;
+  font-size: 1.02rem;
 }

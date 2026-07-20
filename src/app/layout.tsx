@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
+import "@fontsource-variable/jetbrains-mono";
+import "@fontsource-variable/manrope";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { MotionProvider } from "@/components/providers/motion-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  applicationName: "AI Agent Portfolio",
+  applicationName: "Personal Agent Lab",
   title: {
-    default: "AI Agent Portfolio",
-    template: "%s | AI Agent Portfolio",
+    default: "Personal Agent Lab",
+    template: "%s | Personal Agent Lab",
   },
   description:
     "一个持续整理 AI Agent 项目、实践经历与学习记录的个人作品集。",
@@ -24,9 +27,11 @@ export default function RootLayout({
         <a className="skip-link" href="#main-content">
           跳到主要内容
         </a>
-        <SiteHeader />
-        {children}
-        <SiteFooter />
+        <MotionProvider>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </MotionProvider>
       </body>
     </html>
   );

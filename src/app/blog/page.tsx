@@ -13,8 +13,8 @@ export default function BlogPage() {
     <main id="main-content" className={styles.page}>
       <div className="site-container">
         <header className={styles.intro}>
-          <p className={styles.eyebrow}>Content Hub / 统一内容中心</p>
-          <h1 className={styles.title}>把学习过程写清楚，也把不确定性留下来。</h1>
+          <p className={styles.eyebrow}>Field Notes / 观察记录</p>
+          <h1 className={styles.title}>把正在形成的认识，留在实验桌上。</h1>
           <p className={styles.description}>
             完整技术文章、短学习记录和随笔共用一个入口。它们共享基本元数据，但保留各自适合的正文结构。
           </p>
@@ -22,12 +22,16 @@ export default function BlogPage() {
 
         <section className={styles.collection} aria-labelledby="content-list-title">
           <div className={styles.collectionHeader}>
-            <h2 id="content-list-title">内容条目</h2>
-            <p>03 placeholder entries · drafts pending</p>
+            <h2 id="content-list-title">观察条目</h2>
+            <p>03 FIELD NOTES · DRAFTS PENDING</p>
           </div>
-          <div className={styles.grid}>
-            {latestContent.map((content) => (
-              <ContentCard content={content} key={content.title} />
+          <div className={styles.grid} data-layout="notes">
+            {latestContent.map((content, index) => (
+              <ContentCard
+                content={content}
+                variant={index === 0 ? "featured" : "default"}
+                key={content.title}
+              />
             ))}
           </div>
         </section>

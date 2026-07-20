@@ -13,8 +13,8 @@ export default function ProjectsPage() {
     <main id="main-content" className={styles.page}>
       <div className="site-container">
         <header className={styles.intro}>
-          <p className={styles.eyebrow}>Project Index / 项目索引</p>
-          <h1 className={styles.title}>用案例说明我如何理解和解决问题。</h1>
+          <p className={styles.eyebrow}>Experiment Archive / 实验档案</p>
+          <h1 className={styles.title}>每个项目，都应该留下可以复查的过程。</h1>
           <p className={styles.description}>
             这里将收录实习或真实工作项目、个人 Agent 项目，以及开源贡献或比赛实践。受限项目会先完成脱敏审查。
           </p>
@@ -22,12 +22,12 @@ export default function ProjectsPage() {
 
         <section className={styles.collection} aria-labelledby="project-list-title">
           <div className={styles.collectionHeader}>
-            <h2 id="project-list-title">项目条目</h2>
-            <p>03 placeholder entries · content pending</p>
+            <h2 id="project-list-title">实验样本</h2>
+            <p>03 SAMPLE RECORDS · CONTENT PENDING</p>
           </div>
-          <div className={styles.grid}>
-            {featuredProjects.map((project) => (
-              <ProjectCard project={project} key={project.title} />
+          <div className={styles.grid} data-layout="projects">
+            {featuredProjects.map((project, index) => (
+              <ProjectCard index={index + 1} project={project} key={project.title} />
             ))}
           </div>
         </section>

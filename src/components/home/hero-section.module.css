@@ -1,65 +1,155 @@
 .hero {
   position: relative;
-  padding-block: clamp(3.5rem, 9vw, 6.5rem);
+  min-height: 210svh;
   overflow: clip;
+  border-bottom: 1px solid var(--color-border-strong);
 }
 
-.hero::before {
+.stickyFrame {
+  position: sticky;
+  top: var(--header-height);
+  min-height: calc(100svh - var(--header-height));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.stickyFrame::before {
   position: absolute;
-  top: -16rem;
-  right: -15rem;
-  width: 32rem;
-  height: 32rem;
-  background: radial-gradient(
-    circle,
-    rgb(79 70 229 / 0.1) 0,
-    rgb(79 70 229 / 0) 68%
-  );
+  z-index: -3;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0 8%, rgb(240 234 223 / 0.08) 8% calc(8% + 1px), transparent calc(8% + 1px)),
+    linear-gradient(0deg, rgb(240 234 223 / 0.035) 1px, transparent 1px),
+    var(--color-page);
+  background-size: auto, 100% 5rem, auto;
   content: "";
+}
+
+.ambientGlow {
+  position: absolute;
+  z-index: -2;
+  top: 8%;
+  right: -8%;
+  width: min(42vw, 34rem);
+  aspect-ratio: 1;
+  background: rgb(215 90 50 / 0.1);
+  border: 1px solid rgb(215 90 50 / 0.38);
+  border-radius: 50%;
+  opacity: 0.72;
   pointer-events: none;
+}
+
+.backgroundType {
+  position: absolute;
+  z-index: -1;
+  right: -0.02em;
+  bottom: -0.15em;
+  color: transparent;
+  font-size: clamp(10rem, 28vw, 27rem);
+  font-weight: 850;
+  line-height: 0.65;
+  letter-spacing: -0.12em;
+  -webkit-text-stroke: 1px rgb(240 234 223 / 0.08);
+  text-align: right;
+  user-select: none;
+}
+
+.backgroundType span {
+  display: block;
+  margin-right: 0.12em;
+  color: rgb(240 234 223 / 0.035);
+  font-size: 0.24em;
+  letter-spacing: -0.06em;
+  -webkit-text-stroke: 0;
 }
 
 .inner {
   position: relative;
   display: grid;
-  gap: var(--space-12);
+  gap: clamp(3rem, 7vw, 7rem);
   align-items: center;
+  padding-block: clamp(3rem, 8vw, 6.5rem);
 }
 
 .copy {
+  position: relative;
+  z-index: 2;
   display: grid;
-  gap: var(--space-6);
+  gap: clamp(1.1rem, 2.5vh, 1.7rem);
+  transform-origin: left center;
 }
 
 .eyebrow {
-  color: var(--color-accent);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  color: var(--color-paper);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  line-height: 1.6;
-  letter-spacing: 0.08em;
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
 }
 
+.eyebrow::before {
+  width: 3.2rem;
+  height: 0.55rem;
+  background: var(--color-accent);
+  content: "";
+}
+
+.eyebrow span {
+  color: var(--color-text-faint);
+}
+
 .title {
-  max-width: 13ch;
-  font-size: clamp(2.5rem, 10vw, 4.25rem);
-  font-weight: 750;
-  line-height: 1.08;
-  letter-spacing: -0.055em;
+  max-width: 12ch;
+  font-size: clamp(3.05rem, 5.7vw, 6.6rem);
+  font-weight: 850;
+  line-height: 0.92;
+  letter-spacing: -0.078em;
   text-wrap: balance;
 }
 
-.title span {
+.titleLine {
   display: block;
-  color: var(--color-accent);
+  overflow: hidden;
+}
+
+.titleLine > span {
+  display: block;
+  padding-bottom: 0.08em;
+}
+
+.titleAccent > span {
+  color: var(--color-paper);
+}
+
+.titleAccent {
+  position: relative;
+  padding-bottom: 0.14em;
+}
+
+.titleAccent::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  height: 0.055em;
+  background: var(--color-accent);
+  content: "";
 }
 
 .lead {
   max-width: 39rem;
+  padding-left: var(--space-5);
   color: var(--color-text-muted);
-  font-size: clamp(1.0625rem, 3vw, 1.125rem);
-  line-height: 1.8;
+  border-left: 1px solid var(--color-border-strong);
+  font-size: clamp(1rem, 2vw, 1.12rem);
+  line-height: 1.85;
 }
 
 .actions {
@@ -72,93 +162,204 @@
 .primaryAction,
 .secondaryAction {
   display: inline-flex;
-  min-height: 3rem;
+  min-height: 3.4rem;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
+  justify-content: space-between;
+  gap: var(--space-5);
   padding: var(--space-3) var(--space-5);
+  border: 1px solid;
   border-radius: var(--radius-small);
-  font-size: 0.9375rem;
-  font-weight: 700;
+  font-size: 0.86rem;
+  font-weight: 800;
   transition:
-    color var(--duration-fast) var(--easing-standard),
-    background-color var(--duration-fast) var(--easing-standard),
-    border-color var(--duration-fast) var(--easing-standard),
-    transform var(--duration-fast) var(--easing-standard);
+    color var(--duration-normal) var(--easing-standard),
+    background var(--duration-normal) var(--easing-standard),
+    transform var(--duration-normal) var(--easing-standard);
 }
 
 .primaryAction {
-  color: var(--color-accent-text);
+  color: var(--color-ink);
   background: var(--color-accent);
-  border: 1px solid var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .primaryAction:hover {
-  background: var(--color-accent-hover);
-  border-color: var(--color-accent-hover);
-  transform: translateY(-1px);
-}
-
-.primaryAction:active {
-  background: var(--color-accent-active);
+  color: var(--color-paper);
+  background: var(--color-ink);
+  border-color: var(--color-paper);
+  transform: translate(-4px, -4px);
 }
 
 .secondaryAction {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  color: var(--color-paper);
+  background: transparent;
+  border-color: var(--color-border-strong);
 }
 
 .secondaryAction:hover {
-  border-color: var(--color-border-strong);
-  transform: translateY(-1px);
+  color: var(--color-ink);
+  background: var(--color-paper);
+  transform: translate(4px, -4px);
 }
 
 .signals {
   display: grid;
-  gap: var(--space-2);
-  padding-top: var(--space-2);
+  width: min(100%, 33rem);
   list-style: none;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   color: var(--color-text-muted);
-  font-family: var(--font-mono);
   font-size: 0.75rem;
 }
 
+.signals li {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: var(--space-4);
+  padding-block: 0.65rem;
+}
+
+.signals li + li {
+  border-top: 1px solid var(--color-border);
+}
+
 .signals span {
-  display: inline-block;
-  min-width: 3.75rem;
-  margin-right: var(--space-2);
-  color: var(--color-text);
-  font-weight: 700;
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+.scanShell {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  cursor: crosshair;
+  isolation: isolate;
+  touch-action: pan-y;
+  transform-origin: center center;
+}
+
+.scanShell::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0.65rem -0.65rem -0.65rem 0.65rem;
+  background: var(--color-accent);
+  border: 1px solid var(--color-ink);
+  content: "";
+  pointer-events: none;
 }
 
 .workflowPanel {
   position: relative;
+  z-index: 1;
   min-width: 0;
-  padding: var(--space-5);
+  padding: clamp(1rem, 3vw, 1.6rem);
   overflow: hidden;
-  color: var(--color-dark-text);
-  background-color: var(--color-dark-surface);
-  background-image:
-    linear-gradient(rgb(100 116 139 / 0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(100 116 139 / 0.12) 1px, transparent 1px);
-  background-size: 2rem 2rem;
-  border: 1px solid var(--color-dark-border);
-  border-radius: var(--radius-large);
-  box-shadow: 0 26px 70px rgb(15 23 42 / 0.22);
+  color: var(--color-ink);
+  background:
+    linear-gradient(rgb(20 18 15 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(20 18 15 / 0.08) 1px, transparent 1px),
+    var(--color-paper);
+  background-size: 1.8rem 1.8rem;
+  border: 2px solid var(--color-ink);
+  border-radius: var(--radius-medium);
+  box-shadow: 0 32px 80px rgb(0 0 0 / 0.34);
 }
 
-.workflowPanel::after {
+.revealSurface {
   position: absolute;
-  right: -5rem;
-  bottom: -6rem;
-  width: 15rem;
-  height: 15rem;
-  background: radial-gradient(
-    circle,
-    rgb(6 182 212 / 0.2) 0,
-    rgb(6 182 212 / 0) 68%
-  );
+  z-index: 3;
+  inset: 0;
+  color: var(--color-paper);
+  background:
+    repeating-linear-gradient(135deg, transparent 0 16px, rgb(240 234 223 / 0.05) 16px 17px),
+    var(--color-ink);
+  border-color: var(--color-accent);
+  pointer-events: none;
+  will-change: clip-path;
+}
+
+.idleRevealSurface {
+  z-index: 2;
+  clip-path: circle(0 at 18% 34%);
+  animation: idle-reveal-scan 3.2s var(--easing-standard) 0.85s both;
+}
+
+.scanShell:hover .idleRevealSurface {
+  opacity: 0;
+  animation: none;
+}
+
+.scanLens {
+  position: absolute;
+  z-index: 4;
+  display: block;
+  border: 2px solid var(--color-ink);
+  border-radius: 50%;
+  background: rgb(215 90 50 / 0.16);
+  box-shadow:
+    0 0 0 0.5rem var(--color-accent),
+    0 0 0 0.65rem var(--color-ink),
+    0 18px 36px rgb(0 0 0 / 0.32);
+  mix-blend-mode: normal;
+  pointer-events: none;
+  will-change: width, height, transform, opacity;
+}
+
+.scanLens::before,
+.scanLens::after {
+  position: absolute;
+  background: var(--color-ink);
   content: "";
+}
+
+.scanLens::before {
+  top: 50%;
+  right: 1rem;
+  left: 1rem;
+  height: 1px;
+}
+
+.scanLens::after {
+  top: 1rem;
+  bottom: 1rem;
+  left: 50%;
+  width: 1px;
+}
+
+@keyframes idle-reveal-scan {
+  0% {
+    clip-path: circle(0 at 18% 34%);
+  }
+
+  18% {
+    clip-path: circle(10rem at 24% 38%);
+  }
+
+  58% {
+    clip-path: circle(10rem at 78% 58%);
+  }
+
+  82% {
+    clip-path: circle(10rem at 56% 42%);
+  }
+
+  100% {
+    clip-path: circle(0 at 56% 42%);
+  }
+}
+
+.panelGlow {
+  position: absolute;
+  top: -4rem;
+  right: -4rem;
+  width: 10rem;
+  height: 10rem;
+  background: var(--color-accent);
+  border-radius: 50%;
+  content: "";
+  opacity: 0.14;
   pointer-events: none;
 }
 
@@ -170,32 +371,68 @@
   align-items: center;
   gap: var(--space-3);
   padding-bottom: var(--space-4);
-  border-bottom: 1px solid rgb(100 116 139 / 0.45);
-  color: var(--color-dark-text-muted);
+  border-bottom: 2px solid currentColor;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
-.panelHeader > div {
+.windowControls {
   display: flex;
   gap: 0.35rem;
 }
 
-.panelHeader > div span {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: var(--color-dark-border);
-  border-radius: 50%;
+.windowControls span {
+  width: 0.48rem;
+  height: 0.48rem;
+  background: currentColor;
 }
 
-.panelHeader > div span:last-child {
-  background: var(--color-agent-signal);
+.windowControls span:last-child {
+  background: var(--color-accent);
 }
 
-.panelHeader > span {
+.panelHeader > p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.liveStatus {
   justify-self: end;
-  color: var(--color-agent-signal);
-  font-weight: 700;
+  color: var(--color-accent);
+  font-weight: 850;
+}
+
+.panelTelemetry {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid currentColor;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+}
+
+.panelTelemetry p {
+  min-width: 0;
+  padding: var(--space-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panelTelemetry p + p {
+  border-left: 1px solid currentColor;
+}
+
+.panelTelemetry span {
+  display: block;
+  margin-bottom: 0.18rem;
+  color: var(--color-accent);
+  font-size: 0.5rem;
+  font-weight: 850;
 }
 
 .workflowList {
@@ -203,59 +440,160 @@
   z-index: 1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-3);
-  margin-block: var(--space-8);
+  gap: 0;
+  margin-block: var(--space-5);
   list-style: none;
+  border: 1px solid currentColor;
 }
 
 .workflowStep {
+  position: relative;
   display: grid;
   min-width: 0;
+  min-height: 8.2rem;
   gap: var(--space-4);
   padding: var(--space-4);
-  background: rgb(23 32 51 / 0.92);
-  border: 1px solid rgb(100 116 139 / 0.5);
-  border-radius: var(--radius-small);
+  overflow: hidden;
+  background: rgb(240 234 223 / 0.58);
+  transform-origin: center;
 }
 
-.workflowStep:last-child {
-  border-color: var(--color-agent-signal);
-  box-shadow: inset 0 0 0 1px rgb(6 182 212 / 0.16);
+.workflowStep:nth-child(even) {
+  border-left: 1px solid currentColor;
+}
+
+.workflowStep:nth-child(n + 3) {
+  border-top: 1px solid currentColor;
+}
+
+.workflowStepRevealed {
+  color: var(--color-paper);
+  background: transparent;
+}
+
+.stepTopline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.stepIndex,
+.stepState {
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
 }
 
 .stepIndex {
-  color: var(--color-agent-signal);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  display: grid;
+  width: 1.7rem;
+  height: 1.7rem;
+  place-items: center;
+  color: var(--color-ink);
+  background: var(--color-accent);
+  font-weight: 850;
+}
+
+.stepState {
+  opacity: 0.58;
 }
 
 .workflowStep p {
-  font-family: var(--font-mono);
-  font-size: 0.9375rem;
-  font-weight: 700;
+  font-size: clamp(1.15rem, 2.4vw, 1.65rem);
+  font-weight: 820;
+  letter-spacing: -0.04em;
 }
 
-.workflowStep div span {
-  color: var(--color-dark-text-muted);
-  font-size: 0.75rem;
+.workflowStep div + div > span {
+  font-size: 0.68rem;
+  opacity: 0.62;
+}
+
+.stepTrack {
+  position: absolute;
+  right: var(--space-4);
+  bottom: var(--space-3);
+  left: var(--space-4);
+  height: 3px;
+  overflow: hidden;
+  background: rgb(20 18 15 / 0.16);
+}
+
+.stepTrack span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transform-origin: left;
 }
 
 .panelFooter {
   position: relative;
   z-index: 1;
-  display: grid;
-  gap: var(--space-2);
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-4);
   padding-top: var(--space-4);
-  border-top: 1px solid rgb(100 116 139 / 0.45);
-  color: var(--color-dark-text-muted);
+  border-top: 2px solid currentColor;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.56rem;
+}
+
+.panelFooter > div {
+  display: grid;
+  gap: var(--space-1);
 }
 
 .panelFooter span {
   display: inline-block;
-  min-width: 4.5rem;
-  color: var(--color-agent-signal);
+  min-width: 3.5rem;
+  color: var(--color-accent);
+  font-weight: 850;
+}
+
+.progressLabel {
+  max-width: 12rem;
+  text-align: right;
+  letter-spacing: 0.06em;
+}
+
+.progressTrack {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  overflow: hidden;
+  background: var(--color-ink);
+}
+
+.progressTrack > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transform-origin: left;
+}
+
+.scrollCue {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.1rem;
+  display: none;
+  gap: var(--space-3);
+  align-items: center;
+  color: var(--color-text-faint);
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  writing-mode: vertical-rl;
+}
+
+.scrollCue i {
+  width: 3px;
+  height: 3.5rem;
+  background: var(--color-accent);
 }
 
 @media (min-width: 32rem) {
@@ -267,11 +605,102 @@
 
 @media (min-width: 62rem) {
   .inner {
-    grid-template-columns: minmax(0, 1.08fr) minmax(25rem, 0.92fr);
-    gap: clamp(3rem, 7vw, 6rem);
+    grid-template-columns: minmax(0, 0.92fr) minmax(28rem, 1.08fr);
   }
 
-  .workflowPanel {
-    padding: var(--space-6);
+  .scrollCue {
+    display: flex;
+  }
+}
+
+@media (max-width: 61.99rem) {
+  .hero {
+    min-height: auto;
+  }
+
+  .stickyFrame {
+    position: relative;
+    top: auto;
+    min-height: auto;
+  }
+
+  .ambientGlow {
+    top: 22%;
+    right: -22%;
+    width: 24rem;
+    opacity: 0.5;
+  }
+
+  .scanShell {
+    transform: none !important;
+  }
+}
+
+@media (pointer: coarse) {
+  .scanShell {
+    cursor: default;
+  }
+}
+
+@media (max-width: 35rem) {
+  .title {
+    font-size: clamp(2.85rem, 14vw, 4.2rem);
+  }
+
+  .panelHeader {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .liveStatus {
+    display: none;
+  }
+
+  .panelTelemetry {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .panelTelemetry p:last-child {
+    display: none;
+  }
+
+  .workflowList {
+    grid-template-columns: 1fr;
+  }
+
+  .workflowStep:nth-child(even) {
+    border-left: 0;
+  }
+
+  .workflowStep:nth-child(n + 2) {
+    border-top: 1px solid currentColor;
+  }
+
+  .workflowStep {
+    min-height: 6.6rem;
+  }
+
+  .panelFooter {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    min-height: auto;
+  }
+
+  .stickyFrame {
+    position: relative;
+    top: auto;
+  }
+
+  .scanShell {
+    transform: none !important;
+  }
+
+  .revealSurface,
+  .scanLens {
+    display: none;
   }
 }
