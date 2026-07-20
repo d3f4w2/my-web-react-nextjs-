@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: "%s | Personal Agent Lab",
   },
   description:
-    "一个持续整理 AI Agent 项目、实践经历与学习记录的个人作品集。",
+    "记录 Agent 系统、上下文、工具集成与可靠执行的个人工程实践。",
 };
 
 export default function RootLayout({

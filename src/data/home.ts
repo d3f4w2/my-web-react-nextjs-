@@ -9,6 +9,7 @@ export type ProjectPreview = {
   type: string;
   title: string;
   summary: string;
+  responsibility: string;
   status: string;
   tags: readonly string[];
   href?: `/projects/${string}`;
@@ -60,6 +61,7 @@ export const featuredProjects = [
     title: "[受限项目占位] Agent 工作流实践",
     summary:
       "等待确认可公开范围后，只展示问题、个人职责、脱敏方案与可验证结果。",
+    responsibility: "个人职责与公开边界等待本人确认",
     status: "待脱敏审查",
     tags: ["Agent 协作", "责任边界", "结果验证"],
   },
@@ -68,6 +70,7 @@ export const featuredProjects = [
     title: "[个人项目占位] 从想法到可运行原型",
     summary:
       "将补充动机、独立负责范围、Agent 架构、关键决策与迭代记录。",
+    responsibility: "项目范围与个人负责部分等待补充",
     status: "内容待补充",
     tags: ["Prototype", "Tool Calling", "Iteration"],
   },
@@ -76,6 +79,7 @@ export const featuredProjects = [
     title: "[贡献占位] 开源协作或比赛实践",
     summary:
       "将根据真实材料补充 issue、贡献内容、团队分工与最终结果，不创建虚假链接。",
+    responsibility: "贡献内容、协作范围与结果等待整理",
     status: "材料待整理",
     tags: ["Open Source", "Collaboration", "Learning"],
   },
