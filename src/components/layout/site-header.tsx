@@ -6,7 +6,12 @@ export function SiteHeader() {
   return (
     <header className={styles.header}>
       <div className={`site-container ${styles.inner}`}>
-        <Link className={styles.brand} href="/" aria-label="Personal Agent Lab 首页">
+        <Link
+          className={styles.brand}
+          href="/"
+          aria-label="Personal Agent Lab 首页"
+          transitionTypes={["nav-back"]}
+        >
           <span className={styles.brandMark} aria-hidden="true">
             LAB
           </span>

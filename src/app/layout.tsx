@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "@fontsource-variable/jetbrains-mono";
 import "@fontsource-variable/manrope";
-import { SiteFooter } from "@/components/layout/site-footer";
+import { RouteFooter } from "@/components/layout/route-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { MotionProvider } from "@/components/providers/motion-provider";
 import "./globals.css";
@@ -13,7 +13,24 @@ export const metadata: Metadata = {
     template: "%s | Personal Agent Lab",
   },
   description:
-    "一个持续整理 AI Agent 项目、实践经历与学习记录的个人作品集。",
+    "记录 Agent 系统、上下文、工具集成与可靠执行的个人工程实践。",
+  keywords: ["AI Agent", "Agent Engineering", "Tool Calling", "可靠性"],
+  openGraph: {
+    type: "website",
+    locale: "zh_CN",
+    siteName: "Personal Agent Lab",
+    title: "Personal Agent Lab",
+    description: "记录 Agent 系统、上下文、工具集成与可靠执行的个人工程实践。",
+  },
+  twitter: {
+    card: "summary",
+    title: "Personal Agent Lab",
+    description: "记录 Agent 系统、上下文、工具集成与可靠执行的个人工程实践。",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +47,7 @@ export default function RootLayout({
         <MotionProvider>
           <SiteHeader />
           {children}
-          <SiteFooter />
+          <RouteFooter />
         </MotionProvider>
       </body>
     </html>

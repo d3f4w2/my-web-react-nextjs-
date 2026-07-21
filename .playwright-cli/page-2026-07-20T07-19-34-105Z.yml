@@ -1,0 +1,179 @@
+- generic [active] [ref=e1]:
+  - link "跳到主要内容" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Personal Agent Lab 首页" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: LAB
+        - generic [ref=e7]: Personal Agent Lab
+      - navigation "主要导航" [ref=e8]:
+        - list [ref=e9]:
+          - listitem [ref=e10]:
+            - link "项目" [ref=e11] [cursor=pointer]:
+              - /url: /projects
+          - listitem [ref=e12]:
+            - link "博客" [ref=e13] [cursor=pointer]:
+              - /url: /blog
+          - listitem [ref=e14]:
+            - link "联系" [ref=e15] [cursor=pointer]:
+              - /url: /#contact
+  - main [ref=e16]:
+    - region [ref=e17]:
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - paragraph [ref=e21]: Personal Agent Lab
+          - heading "把 Agent 做成 真正能工作的系统。" [level=1] [ref=e22]:
+            - generic [ref=e23]: 把 Agent 做成
+            - generic [ref=e24]: 真正能工作的系统。
+          - paragraph [ref=e25]: 我关心的不只是 Agent 能不能回答，而是它能不能理解上下文、使用工具，并把任务可靠地做完。
+          - list "关注方向" [ref=e26]:
+            - listitem [ref=e27]:
+              - button "Agent Systems 系统组织" [ref=e28]:
+                - generic [ref=e29]: Agent Systems
+                - generic [ref=e30]: 系统组织
+            - listitem [ref=e31]:
+              - button "Memory & Context 上下文保持" [ref=e32]:
+                - generic [ref=e33]: Memory & Context
+                - generic [ref=e34]: 上下文保持
+            - listitem [ref=e35]:
+              - button "Tool Integration 工具连接" [ref=e36]:
+                - generic [ref=e37]: Tool Integration
+                - generic [ref=e38]: 工具连接
+            - listitem [ref=e39]:
+              - button "Agent Reliability 可靠执行" [ref=e40]:
+                - generic [ref=e41]: Agent Reliability
+                - generic [ref=e42]: 可靠执行
+          - link "查看项目" [ref=e43] [cursor=pointer]:
+            - /url: "#featured-projects"
+            - generic [ref=e46]: →
+        - generic [ref=e47]:
+          - generic [ref=e49]:
+            - generic [ref=e50]: AGENT HARNESS
+            - generic [ref=e56]: SYSTEM
+            - generic [ref=e59]: MEMORY
+            - generic [ref=e62]: TOOLS
+            - generic [ref=e65]: RELIABILITY
+            - generic [ref=e71]: AGENT
+          - paragraph [ref=e79]: Context connected to tools through a reliable system boundary.
+    - region [ref=e80]:
+      - heading "精选项目" [level=2] [ref=e81]
+      - generic [ref=e82]:
+        - generic:
+          - paragraph: SELECTED PROJECTS
+          - generic: 1 / 3
+        - generic [ref=e83]:
+          - article [ref=e84]:
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - generic [ref=e87]:
+                  - paragraph [ref=e88]: 实习 / 工作项目
+                  - generic [ref=e89]: 待脱敏审查
+                - heading "[受限项目占位] Agent 工作流实践" [level=3] [ref=e90]
+                - paragraph [ref=e91]: 等待确认可公开范围后，只展示问题、个人职责、脱敏方案与可验证结果。
+                - paragraph [ref=e92]:
+                  - generic [ref=e93]: 个人职责
+                  - text: 个人职责与公开边界等待本人确认
+                - list "项目关键词" [ref=e94]:
+                  - listitem [ref=e95]: —Agent 协作
+                  - listitem [ref=e96]: —责任边界
+                  - listitem [ref=e97]: —结果验证
+                - generic [ref=e98]: 详情内容整理中
+              - generic [ref=e99]:
+                - generic [ref=e102]: CONTEXT
+                - generic [ref=e103]: AGENT
+                - generic [ref=e104]: TOOLS
+                - generic [ref=e105]: BOUNDARY
+          - article:
+            - generic:
+              - generic:
+                - generic:
+                  - paragraph: 个人 Agent 项目
+                  - generic: 内容待补充
+                - heading "[个人项目占位] 从想法到可运行原型" [level=3]
+                - paragraph: 将补充动机、独立负责范围、Agent 架构、关键决策与迭代记录。
+                - paragraph:
+                  - generic: 个人职责
+                  - text: 项目范围与个人负责部分等待补充
+                - list "项目关键词":
+                  - listitem: —Prototype
+                  - listitem: —Tool Calling
+                  - listitem: —Iteration
+                - generic: 详情内容整理中
+              - generic:
+                - generic:
+                  - generic: PERSONAL
+                  - strong: AGENT
+                - paragraph: IDEA → PROTOTYPE → ITERATION
+          - article:
+            - generic:
+              - generic:
+                - generic:
+                  - paragraph: 开源 / 比赛
+                  - generic: 材料待整理
+                - heading "[贡献占位] 开源协作或比赛实践" [level=3]
+                - paragraph: 将根据真实材料补充 issue、贡献内容、团队分工与最终结果，不创建虚假链接。
+                - paragraph:
+                  - generic: 个人职责
+                  - text: 贡献内容、协作范围与结果等待整理
+                - list "项目关键词":
+                  - listitem: —Open Source
+                  - listitem: —Collaboration
+                  - listitem: —Learning
+                - generic: 详情内容整理中
+              - generic:
+                - paragraph: OPEN
+                - paragraph: SOURCE
+                - strong: BUILD IN PUBLIC
+                - generic: COLLABORATE / LEARN / CONTRIBUTE
+    - region [ref=e106]:
+      - generic [ref=e107]:
+        - generic [ref=e108]:
+          - paragraph [ref=e109]: TIME LOG / 时间日志
+          - heading "正在发生的学习与实践" [level=2] [ref=e110]
+          - generic [ref=e111]: 只记录能够公开确认的内容。
+        - generic [ref=e112]:
+          - article [ref=e113]:
+            - paragraph [ref=e114]: 现在
+            - generic [ref=e115]:
+              - heading "AI Agent 方向学习与项目实践" [level=3] [ref=e116]
+              - paragraph [ref=e117]: "[个人经历占位]"
+            - paragraph [ref=e118]: 用于梳理已经完成和正在进行的学习、实验与项目，具体时间和内容等待本人确认。
+          - article [ref=e119]:
+            - paragraph [ref=e120]: 待填写
+            - generic [ref=e121]:
+              - heading "实习 / 真实工作经历" [level=3] [ref=e122]
+              - paragraph [ref=e123]: "[组织名称暂不公开]"
+            - paragraph [ref=e124]: 公开版本只保留经过审查的职责、方法与结果，受限业务信息不会进入网站。
+  - contentinfo [ref=e125]:
+    - generic [ref=e126]:
+      - generic [ref=e127]:
+        - paragraph [ref=e128]: PERSONAL AGENT LAB / END
+        - generic [ref=e129]: Open for conversation
+      - generic [ref=e130]:
+        - heading "真正的工作， 发生在回答之后。" [level=2] [ref=e131]:
+          - generic [ref=e132]: 真正的工作，
+          - generic [ref=e133]: 发生在回答之后。
+        - paragraph [ref=e134]: 希望遇到认真构建 Agent 的优秀团队。
+      - generic "联系方式" [ref=e135]:
+        - link "Email 2471998283@qq.com" [ref=e136] [cursor=pointer]:
+          - /url: mailto:2471998283@qq.com
+          - generic [ref=e137]: Email
+          - strong [ref=e138]: 2471998283@qq.com
+          - generic [ref=e139]: ↗
+        - link "GitHub github.com/d3f4w2" [ref=e140] [cursor=pointer]:
+          - /url: https://github.com/d3f4w2
+          - generic [ref=e141]: GitHub
+          - strong [ref=e142]: github.com/d3f4w2
+          - generic [ref=e143]: ↗
+        - group [ref=e144]:
+          - generic "WeChat 点击展开二维码" [ref=e145] [cursor=pointer]:
+            - generic [ref=e146]: WeChat
+            - strong [ref=e147]: 点击展开二维码
+            - generic [ref=e148]: ＋
+      - generic [ref=e149]:
+        - paragraph [ref=e150]: Email · GitHub · WeChat
+        - link "返回开场" [ref=e151] [cursor=pointer]:
+          - /url: "#main-content"
+          - text: 返回开场 ↑
+    - text: AFTER

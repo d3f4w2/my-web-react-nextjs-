@@ -10,26 +10,31 @@ type ContentCardProps = {
 export function ContentCard({ content, variant = "default" }: ContentCardProps) {
   return (
     <article className={styles.card} data-variant={variant}>
-      <div className={styles.meta}>
+      <header className={styles.meta}>
         <p>{content.type}</p>
         <span>{content.status}</span>
-      </div>
+      </header>
+
       <div className={styles.copy}>
         <h3>{content.title}</h3>
         <p>{content.summary}</p>
       </div>
-      <ul className={styles.tags} aria-label="内容关键词">
-        {content.tags.map((tag) => (
-          <li key={tag}>#{tag}</li>
-        ))}
-      </ul>
-      {content.href ? (
-        <Link className={styles.link} href={content.href}>
-          阅读正文 →
-        </Link>
-      ) : (
-        <p className={styles.pending}>正文待本人确认后发布</p>
-      )}
+
+      <footer className={styles.footer}>
+        <ul className={styles.tags} aria-label="内容关键词">
+          {content.tags.map((tag) => (
+            <li key={tag}>{tag}</li>
+          ))}
+        </ul>
+
+        {content.href ? (
+          <Link href={content.href} transitionTypes={["nav-forward"]}>
+            阅读正文 <span aria-hidden="true">↗</span>
+          </Link>
+        ) : (
+          <span>完成校对后发布</span>
+        )}
+      </footer>
     </article>
   );
 }
