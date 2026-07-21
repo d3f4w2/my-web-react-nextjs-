@@ -1,35 +1,47 @@
-# Homepage redesign — design QA
+# Homepage second-version cinematic pass — design QA
 
 ## Scope
 
-- Source target: `output/design-references/homepage-post-punk-mechanical-assembly.png`
+- Baseline: second homepage version at commit `73982ba`
 - Desktop viewport: 1440 × 1000
 - Mobile viewport: 390 × 844
-- States reviewed: hero assembly, project rail, evidence timeline, final system frame, reduced mobile stack
+- States reviewed: hero, project feature cut, time log, final frame, reduced motion
 
-## Comparison evidence
+## Cinematic treatment
 
-- Full key-state comparison: `output/implementation-qa/comparison-full.png`
-- Hero comparison: `output/implementation-qa/comparison-hero.png`
-- Desktop captures: `homepage-desktop-1440.png`, `homepage-project-stage.png`, `homepage-time-log.png`, `homepage-footer.png`
-- Mobile captures: `homepage-mobile-390.png`, `homepage-mobile-projects.png`
+- Hero: camera boot reveal, REC/roll metadata, 16:9 aperture bars, viewfinder corners, focus sweep, restrained grain and vignette.
+- Projects: horizontal push and clip transitions, feature-cut slate, scene/take counters, focus-settle animation.
+- Time log: film perforation rail, roll metadata, sequential frame labels.
+- Footer: final-frame metadata, held end card, subtle closing-gate treatment.
+- Content, hierarchy, mechanical system visual, project data, and contact details remain from the second version.
 
-## Findings and corrections
+## Verification evidence
 
-1. The first hero pass made the assembly image too recessive. Its initial opacity was raised from 0.40 to 0.62 so the machine reads immediately without overpowering the headline.
-2. The inactive evidence rows were too faint on the paper surface. Their opacity was raised from 0.52 to 0.72 for legibility.
-3. The hero LCP image was changed to eager loading. A clean browser pass reports no errors or warnings.
-4. Full-page browser capture is not used as a fidelity artifact because sticky scroll scenes repeat during tiled capture. The comparison board instead uses four real viewport states from the implemented interaction.
-
-## Acceptance notes
-
-- The black, warm ivory, signal-orange palette and post-punk industrial hierarchy match the approved direction.
-- The hero retains the stacked Chinese statement and presents the Agent as a mechanical system of Context, Memory, Tools, and Evidence.
-- Projects are arranged as three assembly workstations with truthful placeholder content; no invented case-study outcomes were introduced.
-- Motion is functional and scroll-driven: module assembly, rail travel, evidence scanning, and final lock-up.
-- Mobile removes sticky choreography and presents stable, readable stacked content without horizontal overflow.
-- The final status remains `STRUCTURE READY · CONTENT IN REVIEW`, avoiding a false claim that unfinished project content is complete.
+- Desktop: `output/playwright/cinematic-hero-desktop.png`, `cinematic-projects-desktop.png`, `cinematic-time-log-desktop.png`, `cinematic-footer-desktop.png`
+- Mobile: `output/playwright/cinematic-hero-mobile.png`, `cinematic-projects-mobile.png`, `cinematic-time-log-mobile.png`, `cinematic-footer-mobile.png`
+- Film intro: `output/playwright/film-intro-countdown-desktop.png`, `film-intro-slate-desktop.png`, `film-intro-gate-desktop.png`, `film-intro-reveal-desktop.png`, `film-intro-countdown-mobile.png`
+- Mobile document width equals viewport width: 390 px; no horizontal overflow.
+- Reduced-motion mode keeps the hero visible and disables decorative aperture/focus animation.
+- Browser pass reports zero console errors. The three production-only CSS preload warnings are emitted by the local Next.js start server and do not affect rendering.
 - `npm run lint`, `npm run build`, and `git diff --check` pass.
+
+## Film countdown interaction QA
+
+- A fresh session completes the full countdown, removes the overlay, writes `personal-agent-lab:film-intro:v1=complete`, and restores page scrolling.
+- Reloading in the same session does not replay the overlay.
+- The visible skip control and Escape both dismiss the overlay, persist the session flag, and restore scrolling.
+- Reduced motion bypasses the countdown and persists the session flag.
+- Desktop and 390 × 844 mobile captures show the countdown, slate, and reveal without horizontal overflow.
+
+## Hero assembly stage QA
+
+- Evidence: `output/playwright/hero-assembly-mid-desktop.png`, `hero-assembly-complete-desktop.png`, `hero-assembly-cycle-desktop.png`, `hero-assembly-handoff-desktop.png`, and `hero-assembly-mobile.png`.
+- The film intro now explicitly releases the Hero timeline; title and apparatus motion no longer finish behind the countdown overlay.
+- The frame and rails appear first, four modules enter from their physical directions, connection paths draw in, and the Agent core locks last.
+- After assembly, the active system cycles through SYSTEM, MEMORY, TOOLS, and RELIABILITY. Pointer and keyboard focus take control of the same state and signal path.
+- The Hero apparatus compresses, rotates slightly, and transfers toward the project stage during scroll instead of only fading vertically.
+- The 390 × 844 completed Hero has a document width of 390 px and keeps all primary copy readable before the apparatus.
+- Reduced motion bypasses the intro and automated inspection while retaining the complete Hero content.
 
 ## Final result
 
