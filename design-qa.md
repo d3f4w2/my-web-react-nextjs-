@@ -33,15 +33,43 @@
 - Reduced motion bypasses the countdown and persists the session flag.
 - Desktop and 390 × 844 mobile captures show the countdown, slate, and reveal without horizontal overflow.
 
-## Hero assembly stage QA
+## Editorial Agent core QA
 
-- Evidence: `output/playwright/hero-assembly-mid-desktop.png`, `hero-assembly-complete-desktop.png`, `hero-assembly-cycle-desktop.png`, `hero-assembly-handoff-desktop.png`, and `hero-assembly-mobile.png`.
-- The film intro now explicitly releases the Hero timeline; title and apparatus motion no longer finish behind the countdown overlay.
-- The frame and rails appear first, four modules enter from their physical directions, connection paths draw in, and the Agent core locks last.
-- After assembly, the active system cycles through SYSTEM, MEMORY, TOOLS, and RELIABILITY. Pointer and keyboard focus take control of the same state and signal path.
-- The Hero apparatus compresses, rotates slightly, and transfers toward the project stage during scroll instead of only fading vertically.
-- The 390 × 844 completed Hero has a document width of 390 px and keeps all primary copy readable before the apparatus.
-- Reduced motion bypasses the intro and automated inspection while retaining the complete Hero content.
+- The previous dashboard-like apparatus has been replaced by a single high-contrast Agent monolith, four sparse coordinate signals, and restrained orbital geometry.
+- The film intro explicitly releases the Hero timeline; the title, coordinate paths, aperture, and core reveal after the countdown instead of completing behind it.
+- After reveal, the active route cycles through SYSTEM, MEMORY, TOOLS, and RELIABILITY. Pointer movement adds shallow 3D focus, while pointer and keyboard focus on the direction list take manual control of the same signal state.
+- The Agent monolith uses a warm-paper face, orange structural backplate, and black aperture so the primary object remains legible against the dark stage. Orange is still reserved for the headline, active route, structural backplate, and state signal.
+- During scroll, the copy eases left while the core gains scale, rotation, and lateral drift before handing off to the project scene.
+- Desktop verification at 1440 × 900 reports a 1425 px layout width inside a 1440 px viewport, with no horizontal overflow and zero console errors. The settled Agent core is visible without relying on its animated signal state.
+- The 390 × 844 mobile layout keeps the complete headline and direction list ahead of the enlarged core, with a 375 px layout width inside the scrollbar-adjusted 390 px viewport and no horizontal overflow.
+- Reduced-motion CSS removes sticky depth, automated transitions, and decorative animation while preserving the complete static composition.
+
+## Cinematic mechanical shot QA
+
+- Each automatic or manually selected system state now triggers a complete shot: the active route charges, the oversized shot number hard-cuts behind the apparatus, rear plates shift on separate depth rails, the paper face enters from a direction-specific axis, the aperture locks, and a light gate crosses the core.
+- SYSTEM enters from the left, MEMORY from the right, TOOLS from below, and RELIABILITY from above, so motion communicates the source and meaning of the state change.
+- The sequence settles into a readable hold instead of continuously floating. The next automatic cut occurs after 3.6 seconds; pointer or keyboard inspection pauses automatic cycling.
+- Scroll progress now creates a controlled camera push before the apparatus rotates and transfers toward the project scene.
+- Desktop verification at 1440 × 900 captured the settled state, a manual mid-cut, an automatic state change, and the scroll-driven camera push with no horizontal overflow.
+- Mobile verification at 390 × 844 preserves the completed core below the primary copy with no horizontal overflow. Reduced motion removes the light gate, route travel, plate transitions, focus lock, and continuous orbit.
+- Browser runtime verification reports zero warnings or errors; lint and the production build pass.
+
+## Cinematic chassis style QA
+
+- The warm-paper face is now an inset film bay inside a graphite outer chassis instead of defining the full silhouette, removing the oversized folder appearance seen in the supplied wide screenshot.
+- The assembly uses a near-square camera-module proportion, a thicker black boundary, an orange rear lock plate, a side rail, and a live frame counter while retaining the legible black Agent aperture.
+- Headline scale, description spacing, list spacing, and project-link spacing were tightened so all four system directions and the project entry fit in the 1440 × 900 Hero viewport.
+- Verified at 1440 × 900, a 2048 × 1024 wide viewport, and 390 × 844 mobile with no horizontal overflow.
+- Automatic state motion remains active after the restyle, moving from TOOLS to RELIABILITY during runtime verification with zero console warnings or errors.
+
+## Evidence reel transition QA
+
+- The project stage now hands off through two matte-black film gates instead of cutting directly to a warm-paper table. An orange seam closes, a numbered evidence packet crosses the frame, and the paper chronology opens from the same center axis.
+- The time log is a 210svh scroll-driven scanner scene: the warm-paper tape advances between metal rollers while a fixed evidence scanner locates, scans, and records the first frame, then reviews and protects the second.
+- Only the two real placeholder records are rendered. Their original period, title, organization boundary, and summary remain unchanged; states use honest `IN PROGRESS` and `CONTENT REVIEW` labels.
+- Desktop verification at 1440 × 900 covers the dark gate, evidence-packet handoff, first scan, second scan, and the final handoff into the footer.
+- Mobile verification at 390 × 844 removes the long sticky mechanism and presents both records as readable perforated film frames with no horizontal overflow.
+- Reduced motion removes the gates, scanner, rollers, tape travel, and sticky timeline while preserving the complete records in normal document order.
 
 ## Final result
 
