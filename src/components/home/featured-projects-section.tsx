@@ -6,6 +6,7 @@ import {
   motion,
   type MotionValue,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
@@ -16,21 +17,73 @@ import styles from "./featured-projects-section.module.css";
 const variants = ["assembly", "field", "poster"] as const;
 type SceneVariant = (typeof variants)[number];
 
-function AssemblyVisual() {
+function AssemblyVisual({ progress }: { progress: MotionValue<number> }) {
+  const reduceMotion = useReducedMotion();
+  const packetX = useTransform(progress, [0, 0.045, 0.13, 0.23], ["62%", "62%", "0%", "0%"]);
+  const packetY = useTransform(progress, [0, 0.045, 0.13, 0.23], ["-42%", "-42%", "0%", "0%"]);
+  const packetScale = useTransform(progress, [0, 0.045, 0.13, 0.23], [0.68, 0.68, 1, 1]);
+  const packetRotate = useTransform(progress, [0, 0.045, 0.13, 0.23], [7, 7, -1.4, 0]);
+  const clampScale = useTransform(progress, [0.1, 0.17, 0.24], [1.18, 1.18, 1]);
+  const clampOpacity = useTransform(progress, [0.1, 0.17, 0.24], [0, 0.35, 1]);
+  const scanY = useTransform(progress, [0.16, 0.27], [-230, 250]);
+  const scanOpacity = useTransform(progress, [0.14, 0.18, 0.27, 0.3], [0, 1, 1, 0]);
+  const reviewOpacity = useTransform(progress, [0.22, 0.29], [0, 1]);
+  const reviewY = useTransform(progress, [0.22, 0.29], [12, 0]);
+
+  const movingPacketStyle = reduceMotion
+    ? undefined
+    : { x: packetX, y: packetY, scale: packetScale, rotate: packetRotate };
+  const movingClampStyle = reduceMotion
+    ? undefined
+    : { scale: clampScale, opacity: clampOpacity };
+
   return (
     <div className={styles.assemblyVisual} aria-hidden="true">
-      <span className={styles.assemblyFrame} />
-      <span className={styles.assemblyRail} />
-      <div className={styles.assemblyNode} data-node="context">
-        CONTEXT
+      <div className={styles.reviewBayHeader}>
+        <span>PROJECT MATERIALS</span>
+        <i>UNDER REVIEW</i>
       </div>
-      <div className={styles.assemblyNode} data-node="agent">
-        AGENT
+
+      <div className={styles.reviewBay}>
+        <span className={styles.assemblyRail} />
+        <span className={styles.reviewPerforations} />
+        <motion.span
+          className={styles.reviewClamp}
+          style={movingClampStyle}
+        />
+
+        <motion.div className={styles.evidencePacket} style={movingPacketStyle}>
+          <span className={styles.packetSerial}>PUBLIC SCOPE PENDING</span>
+          <div className={styles.packetWindow}>
+            <i />
+            <strong>AGENT</strong>
+            <small>REDACTED</small>
+          </div>
+          <span className={styles.packetSeal}>REVIEWING</span>
+        </motion.div>
+
+        <motion.span
+          className={styles.reviewScan}
+          style={reduceMotion ? { opacity: 0 } : { y: scanY, opacity: scanOpacity }}
+        />
+
+        <motion.div
+          className={styles.reviewVerdict}
+          style={reduceMotion ? undefined : { opacity: reviewOpacity, y: reviewY }}
+        >
+          <span>SCOPE</span>
+          <span>ROLE</span>
+          <span>EVIDENCE</span>
+        </motion.div>
       </div>
-      <div className={styles.assemblyNode} data-node="tools">
-        TOOLS
+
+      <div className={styles.assemblyBoundary}>
+        <span>COLLECT</span>
+        <i />
+        <span>REVIEW</span>
+        <i />
+        <span>PROTECT</span>
       </div>
-      <div className={styles.assemblyBoundary}>BOUNDARY</div>
     </div>
   );
 }
@@ -62,9 +115,15 @@ function PosterVisual() {
   );
 }
 
-function ProjectVisual({ variant }: { variant: SceneVariant }) {
+function ProjectVisual({
+  progress,
+  variant,
+}: {
+  progress: MotionValue<number>;
+  variant: SceneVariant;
+}) {
   if (variant === "assembly") {
-    return <AssemblyVisual />;
+    return <AssemblyVisual progress={progress} />;
   }
 
   if (variant === "field") {
@@ -81,13 +140,13 @@ const sceneMotion: Array<{
   clipPath: string[];
 }> = [
   {
-    input: [0, 0.23, 0.34],
+    input: [0, 0.27, 0.35],
     opacity: [1, 1, 0],
     x: ["0%", "0%", "-14%"],
     clipPath: ["inset(0 0 0 0)", "inset(0 0 0 0)", "inset(0 100% 0 0)"],
   },
   {
-    input: [0.22, 0.35, 0.64, 0.77],
+    input: [0.31, 0.37, 0.64, 0.77],
     opacity: [0, 1, 1, 0],
     x: ["14%", "0%", "0%", "-14%"],
     clipPath: ["inset(0 0 0 100%)", "inset(0 0 0 0)", "inset(0 0 0 0)", "inset(0 100% 0 0)"],
@@ -119,6 +178,11 @@ function ProjectScene({
   const opacity = useTransform(progress, ranges.input, ranges.opacity);
   const x = useTransform(progress, ranges.input, ranges.x);
   const clipPath = useTransform(progress, ranges.input, ranges.clipPath);
+  const entryGateClip = useTransform(
+    progress,
+    [0, 0.035, 0.135],
+    ["inset(0% 0% 0% 0%)", "inset(0% 0% 0% 0%)", "inset(0% 0% 100% 0%)"],
+  );
 
   return (
     <motion.article
@@ -127,11 +191,12 @@ function ProjectScene({
       data-variant={variant}
       style={{ opacity, x, clipPath }}
     >
-      <div className={styles.sceneFilmMeta} aria-hidden="true">
-        <span>ROLL 0{index + 1}</span>
-        <span>SCENE 0{index + 1} / TAKE 01</span>
-        <span className={styles.sceneRec}><i /> REC</span>
-      </div>
+      {variant === "assembly" ? (
+        <motion.div className={styles.reviewEntryGate} style={{ clipPath: entryGateClip }} aria-hidden="true">
+          <span>PROJECT MATERIALS</span>
+          <i />
+        </motion.div>
+      ) : null}
       <div className={`site-container ${styles.sceneInner}`}>
         <div className={styles.projectCopy}>
           <div className={styles.projectMeta}>
@@ -157,7 +222,7 @@ function ProjectScene({
             )}
           </div>
         </div>
-        <ProjectVisual variant={variant} />
+        <ProjectVisual progress={progress} variant={variant} />
       </div>
     </motion.article>
   );
@@ -181,7 +246,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const nextIndex = latest < 0.3 ? 0 : latest < 0.7 ? 1 : 2;
+    const nextIndex = latest < 0.35 ? 0 : latest < 0.7 ? 1 : 2;
     setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
   });
 
@@ -197,10 +262,8 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
       </h2>
       <div className={styles.stageFrame}>
         <div className={styles.stageChrome} aria-hidden="true">
-          <p>SELECTED PROJECTS / FEATURE CUT</p>
-          <span className={styles.formatLabel}>24 FPS · 16:9 · CAM A</span>
+          <p>PROJECTS / 项目实践</p>
           <div className={styles.stageProgress}>
-            <span>{activeIndex + 1} / {projects.length}</span>
             <i>
               <motion.b style={{ scaleX: progress }} />
             </i>

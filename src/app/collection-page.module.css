@@ -1,143 +1,191 @@
 .page {
+  --page-foreground: var(--color-paper);
+  --page-muted: var(--color-text-muted);
+  --page-background: var(--color-page);
   min-height: 100vh;
-  padding-block: clamp(4rem, 10vw, 8rem) clamp(6rem, 12vw, 10rem);
+  overflow: clip;
+  color: var(--page-foreground);
+  background: var(--page-background);
+}
+
+.page[data-page="projects"] {
   background:
-    linear-gradient(90deg, transparent 0 8%, rgb(240 234 223 / 0.06) 8% calc(8% + 1px), transparent calc(8% + 1px)),
+    linear-gradient(90deg, transparent 0 8%, rgb(240 234 223 / 0.05) 8% calc(8% + 1px), transparent calc(8% + 1px)),
     var(--color-page);
+}
+
+.page[data-page="blog"] {
+  --page-foreground: var(--color-ink);
+  --page-muted: #5f594f;
+  --page-background: var(--color-paper);
+  background:
+    linear-gradient(90deg, rgb(20 18 15 / 0.075) 1px, transparent 1px),
+    linear-gradient(rgb(20 18 15 / 0.035) 1px, transparent 1px),
+    var(--color-paper);
+  background-size: 8rem 100%, 100% 2rem, auto;
 }
 
 .intro {
   position: relative;
   display: grid;
-  gap: var(--space-6);
-  margin-bottom: clamp(5rem, 12vw, 9rem);
-  padding-block: clamp(2rem, 6vw, 4rem);
-  border-top: 1px solid var(--color-border-strong);
-  border-bottom: 1px solid var(--color-border-strong);
+  min-height: min(48rem, calc(100svh - var(--header-height)));
+  gap: clamp(2rem, 5vw, 5rem);
+  align-content: center;
+  padding-block: clamp(5rem, 12vw, 9rem);
+  border-bottom: 1px solid color-mix(in srgb, var(--page-foreground) 34%, transparent);
+  isolation: isolate;
 }
 
 .intro::before {
   position: absolute;
-  top: -0.18em;
+  z-index: -2;
+  inset: 0 calc(50% - 50vw);
+  background:
+    linear-gradient(108deg, transparent 0 58%, rgb(215 90 50 / 0.2) 58% 58.3%, transparent 58.3%),
+    linear-gradient(90deg, transparent 0 72%, color-mix(in srgb, var(--page-foreground) 6%, transparent) 72% 72.08%, transparent 72.08%);
+  content: "";
+}
+
+.page[data-page="blog"] .intro::before {
+  background:
+    linear-gradient(108deg, transparent 0 58%, rgb(215 90 50 / 0.3) 58% 58.3%, transparent 58.3%),
+    radial-gradient(circle at 82% 48%, rgb(215 90 50 / 0.13), transparent 28rem);
+}
+
+.intro::after {
+  position: absolute;
+  z-index: -1;
   right: 0;
-  color: transparent;
-  font-family: var(--font-mono);
-  font-size: clamp(7rem, 22vw, 17rem);
-  font-weight: 800;
-  line-height: 0.8;
-  letter-spacing: -0.12em;
-  -webkit-text-stroke: 1px rgb(240 234 223 / 0.08);
-  content: "INDEX";
-  pointer-events: none;
+  bottom: 13%;
+  width: min(42vw, 32rem);
+  height: 1px;
+  background: var(--color-accent);
+  box-shadow: 0 0 2.8rem 0.4rem rgb(215 90 50 / 0.25);
+  content: "";
+  transform-origin: right center;
+  animation: signal-draw 900ms 220ms var(--easing-standard) both;
 }
 
 .eyebrow,
 .title,
 .description {
   position: relative;
+  animation: intro-rise 720ms var(--easing-standard) both;
 }
 
 .eyebrow {
   width: fit-content;
-  padding: 0.45rem 0.65rem;
-  color: var(--color-ink);
-  background: var(--color-accent);
+  color: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transform: rotate(-1deg);
+  font-size: 0.74rem;
+  font-weight: 850;
+  letter-spacing: 0.09em;
 }
 
 .title {
-  max-width: 13ch;
-  font-size: clamp(3rem, 9vw, 6.8rem);
-  font-weight: 850;
-  line-height: 0.92;
-  letter-spacing: -0.075em;
+  max-width: 12ch;
+  font-size: clamp(3.25rem, 9vw, 8.4rem);
+  font-weight: 880;
+  line-height: 0.9;
+  letter-spacing: -0.078em;
   text-wrap: balance;
+  animation-delay: 80ms;
 }
 
 .description {
-  max-width: 43rem;
+  max-width: 45rem;
   padding-left: var(--space-5);
-  color: var(--color-text-muted);
+  color: var(--page-muted);
   border-left: 3px solid var(--color-accent);
-  font-size: clamp(1rem, 3vw, 1.12rem);
-  line-height: 1.8;
+  font-size: clamp(1rem, 2vw, 1.17rem);
+  line-height: 1.85;
+  animation-delay: 160ms;
 }
 
 .collection {
-  padding-top: var(--space-8);
+  padding-block: clamp(5rem, 12vw, 10rem);
 }
 
 .collectionHeader {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  margin-bottom: var(--space-8);
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-border-strong);
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: clamp(2rem, 6vw, 4rem);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid color-mix(in srgb, var(--page-foreground) 42%, transparent);
 }
 
 .collectionHeader h2 {
-  font-size: clamp(1.4rem, 3vw, 2rem);
-  letter-spacing: -0.04em;
+  max-width: 20ch;
+  font-size: clamp(1.75rem, 4vw, 3.3rem);
+  line-height: 1;
+  letter-spacing: -0.055em;
 }
 
 .collectionHeader p {
-  color: var(--color-accent);
+  color: var(--color-accent-active);
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 750;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-align: right;
+}
+
+.page[data-page="projects"] .collectionHeader p {
+  color: var(--color-accent);
 }
 
 .grid {
   display: grid;
-  gap: 0;
-  border-top: 1px solid var(--color-border-strong);
-  border-left: 1px solid var(--color-border-strong);
+  min-width: 0;
+  gap: clamp(1rem, 2vw, 1.5rem);
 }
 
-.grid > * {
-  border-right: 1px solid var(--color-border-strong) !important;
-  border-bottom: 1px solid var(--color-border-strong) !important;
-  border-top: 0 !important;
-  border-left: 0 !important;
+.grid[data-layout="notes"] {
+  align-items: stretch;
 }
 
 .notice {
-  position: relative;
-  max-width: 54rem;
-  margin-top: var(--space-12);
-  padding: clamp(1.25rem, 4vw, 2rem);
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-border-strong);
-  border-left: 0.65rem solid var(--color-accent);
-  font-size: 0.94rem;
-}
-
-.notice::after {
-  position: absolute;
-  right: 1rem;
-  bottom: -0.85rem;
-  padding: 0.2rem 0.45rem;
-  color: var(--color-ink);
-  background: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  font-weight: 850;
-  content: "RECORD INCOMPLETE";
+  max-width: 56rem;
+  margin-bottom: clamp(5rem, 10vw, 8rem);
+  padding: clamp(1.25rem, 3vw, 2rem) 0 clamp(1.25rem, 3vw, 2rem) var(--space-5);
+  color: var(--page-muted);
+  border-left: 3px solid var(--color-accent);
+  font-size: 0.95rem;
+  line-height: 1.8;
 }
 
 .notice strong {
-  color: var(--color-paper);
+  color: var(--page-foreground);
 }
 
-@media (min-width: 42rem) {
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes signal-draw {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@media (min-width: 48rem) {
   .intro {
-    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.6fr);
+    grid-template-columns: minmax(0, 1.25fr) minmax(20rem, 0.75fr);
     align-items: end;
   }
 
@@ -145,46 +193,26 @@
     grid-column: 1 / -1;
   }
 
-  .collectionHeader {
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (min-width: 68rem) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .grid[data-layout="projects"],
   .grid[data-layout="notes"] {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-
-  .grid[data-layout="projects"] > [data-project-index="1"] {
-    grid-column: span 7;
-  }
-
-  .grid[data-layout="projects"] > [data-project-index="2"] {
-    grid-column: span 5;
-  }
-
-  .grid[data-layout="projects"] > [data-project-index="3"] {
-    grid-column: span 12;
-    min-height: 18rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .grid[data-layout="notes"] > [data-variant="featured"] {
-    grid-column: span 7;
-    grid-row: span 2;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .intro {
+    min-height: auto;
   }
 
-  .grid[data-layout="notes"] > [data-variant="default"] {
-    grid-column: span 5;
+  .collectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .collectionHeader p {
+    text-align: left;
   }
 }

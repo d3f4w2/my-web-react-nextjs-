@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import styles from "./site-header.module.css";
 
 const navigationItems = [
-  { href: "/projects", label: "项目" },
-  { href: "/blog", label: "博客" },
-  { href: "/#contact", label: "联系" },
+  { href: "/projects", label: "项目", transitionType: "nav-forward" },
+  { href: "/blog", label: "博客", transitionType: "nav-forward" },
+  { href: "/#contact-details", label: "联系", transitionType: "nav-back" },
 ] as const;
 
 export function SiteNavigation() {
@@ -28,6 +28,7 @@ export function SiteNavigation() {
                 className={styles.navigationLink}
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
+                transitionTypes={[item.transitionType]}
               >
                 {item.label}
               </Link>

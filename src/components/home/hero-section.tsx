@@ -16,29 +16,29 @@ const directions = [
     id: "systems",
     label: "Agent Systems",
     note: "系统组织",
-    coordinate: "01 / SYSTEM",
-    status: "ARCHITECTURE ALIGNED",
+    coordinate: "SYSTEM DESIGN",
+    status: "结构已对齐",
   },
   {
     id: "memory",
     label: "Memory & Context",
     note: "上下文保持",
-    coordinate: "02 / MEMORY",
-    status: "CONTEXT IN FRAME",
+    coordinate: "CONTEXT",
+    status: "上下文可用",
   },
   {
     id: "tools",
     label: "Tool Integration",
     note: "工具连接",
-    coordinate: "03 / TOOLS",
-    status: "TOOL PATH OPEN",
+    coordinate: "TOOL PATH",
+    status: "工具链已连接",
   },
   {
     id: "reliability",
     label: "Agent Reliability",
     note: "可靠执行",
-    coordinate: "04 / RELIABILITY",
-    status: "BOUNDARY STABLE",
+    coordinate: "BOUNDARY",
+    status: "执行边界稳定",
   },
 ] as const;
 
@@ -121,7 +121,6 @@ function AgentCoreStage({
         }
         transition={{ duration: reduceMotion ? 0 : 1.05, times: [0, 0.34, 1], ease: editorialEase }}
       >
-        <span>0{activeIndex + 1}</span>
         <strong>{activeDirection}</strong>
       </motion.div>
 
@@ -182,7 +181,6 @@ function AgentCoreStage({
             }
             transition={{ duration: 0.62, delay: 0.52 + index * 0.09, ease: editorialEase }}
           >
-            <span>0{index + 1}</span>
             <strong>{direction.id.toUpperCase()}</strong>
             <i />
           </motion.div>
@@ -239,8 +237,7 @@ function AgentCoreStage({
           transition={{ duration: reduceMotion ? 0 : 0.82, times: [0, 0.76, 1], ease: editorialEase }}
         >
           <span className={styles.chassisRail} />
-          <span className={styles.coreSerial}>PAL / AGENT · 01</span>
-          <span className={styles.frameCounter}>FRAME / 0{activeIndex + 1}</span>
+          <span className={styles.coreSerial}>PERSONAL AGENT LAB</span>
           <motion.div
             className={styles.coreAperture}
             key={`aperture-${activeDirection}`}
@@ -256,7 +253,7 @@ function AgentCoreStage({
             <i />
           </motion.div>
           <span className={styles.signalSlit} />
-          <span className={styles.coreState}>{activeItem.coordinate} / ACTIVE</span>
+          <span className={styles.coreState}>{activeItem.coordinate} · ACTIVE</span>
         </motion.div>
       </motion.div>
 
@@ -315,9 +312,8 @@ export function HeroSection({ openingReady = true }: HeroSectionProps) {
           transition={{ duration: 0.45, delay: 0.1 }}
           aria-hidden="true"
         >
-          <span className={styles.recording}><i /> REC</span>
-          <span>PORTRAIT / SYSTEM 01</span>
-          <span>24 FPS · LIVE</span>
+          <span>SYSTEM LIVE</span>
+          <span>CONTEXT · TOOLS · RELIABILITY</span>
         </motion.div>
 
         <div className={`site-container ${styles.inner}`}>
@@ -384,7 +380,7 @@ export function HeroSection({ openingReady = true }: HeroSectionProps) {
               }}
               aria-label="关注方向"
             >
-              {directions.map((direction, index) => (
+              {directions.map((direction) => (
                 <motion.li
                   key={direction.id}
                   variants={{
@@ -400,7 +396,7 @@ export function HeroSection({ openingReady = true }: HeroSectionProps) {
                     onFocus={() => setActiveDirection(direction.id)}
                   >
                     <span>{direction.label}</span>
-                    <small>0{index + 1} / {direction.note}</small>
+                    <small>{direction.note}</small>
                   </button>
                 </motion.li>
               ))}
@@ -459,7 +455,7 @@ export function HeroSection({ openingReady = true }: HeroSectionProps) {
           aria-hidden="true"
         >
           <span />
-          SCROLL / NEXT SCENE
+          继续探索
         </motion.div>
       </div>
     </section>

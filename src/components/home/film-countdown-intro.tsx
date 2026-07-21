@@ -115,8 +115,7 @@ export function FilmCountdownIntro({ onComplete }: FilmCountdownIntroProps) {
 
       <div className={styles.reelHeader} aria-hidden="true">
         <span>PERSONAL AGENT LAB</span>
-        <span>LEADER / ROLL 01</span>
-        <span>24 FPS · 16:9</span>
+        <span>SYSTEM OPENING</span>
       </div>
 
       <div className={styles.leader} aria-hidden="true">
@@ -128,7 +127,7 @@ export function FilmCountdownIntro({ onComplete }: FilmCountdownIntroProps) {
           <span className={styles.sweep} />
         </div>
 
-        <p className={styles.pictureStart}>PICTURE START</p>
+        <p className={styles.pictureStart}>SYSTEM START</p>
         <div className={styles.countdown}>
           <span>3</span>
           <span>2</span>
@@ -137,14 +136,9 @@ export function FilmCountdownIntro({ onComplete }: FilmCountdownIntroProps) {
         <div className={styles.exposure} />
         <div className={styles.takeSlate}>
           <span>AGENT SYSTEM</span>
-          <strong>TAKE 01</strong>
-          <small>CAM A · READY</small>
+          <strong>READY</strong>
+          <small>ENTERING WORKSPACE</small>
         </div>
-      </div>
-
-      <div className={styles.frameFooter} aria-hidden="true">
-        <span>FRAME 0000</span>
-        <span>SYNC · PICTURE · SYSTEM</span>
       </div>
 
       <button

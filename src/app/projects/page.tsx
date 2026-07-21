@@ -5,25 +5,25 @@ import styles from "../collection-page.module.css";
 
 export const metadata: Metadata = {
   title: "项目",
-  description: "AI Agent 实践、个人项目与开源协作的项目索引。",
+  description: "记录 Agent 项目的问题、个人职责、工程方法、公开边界与验证过程。",
 };
 
 export default function ProjectsPage() {
   return (
-    <main id="main-content" className={styles.page}>
+    <main id="main-content" className={styles.page} data-page="projects">
       <div className="site-container">
         <header className={styles.intro}>
-          <p className={styles.eyebrow}>Experiment Archive / 实验档案</p>
-          <h1 className={styles.title}>每个项目，都应该留下可以复查的过程。</h1>
+          <p className={styles.eyebrow}>项目与方法</p>
+          <h1 className={styles.title}>不只展示结果，也留下系统如何被做出来。</h1>
           <p className={styles.description}>
-            这里将收录实习或真实工作项目、个人 Agent 项目，以及开源贡献或比赛实践。受限项目会先完成脱敏审查。
+            这里记录真实工作、个人 Agent 原型与协作实践。没有确认的事实不包装成成果；受限内容先完成脱敏审查，再公开方法与证据。
           </p>
         </header>
 
         <section className={styles.collection} aria-labelledby="project-list-title">
           <div className={styles.collectionHeader}>
-            <h2 id="project-list-title">实验样本</h2>
-            <p>03 SAMPLE RECORDS · CONTENT PENDING</p>
+            <h2 id="project-list-title">正在整理的工作片段</h2>
+            <p>问题、职责、边界、验证</p>
           </div>
           <div className={styles.grid} data-layout="projects">
             {featuredProjects.map((project, index) => (
@@ -33,8 +33,8 @@ export default function ProjectsPage() {
         </section>
 
         <p className={styles.notice}>
-          <strong>为什么暂时没有详情链接？</strong>
-          目前还没有经过本人确认的公开项目材料。确认后会在同一数据结构中加入详情路由，不会用虚假案例填满页面。
+          <strong>公开边界：</strong>
+          当前材料仍在确认与脱敏。详情入口只会在问题背景、个人职责和证据都能够被准确说明后开放。
         </p>
       </div>
     </main>

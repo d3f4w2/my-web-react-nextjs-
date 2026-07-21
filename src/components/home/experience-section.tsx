@@ -65,9 +65,9 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
             className={`site-container ${styles.header}`}
             style={reduceMotion ? undefined : { opacity: headerOpacity, y: headerY }}
           >
-            <p>TIME LOG / 时间日志</p>
-            <h2 id="experience-title">正在发生的学习与实践</h2>
-            <span>只记录能够公开确认的内容。</span>
+            <p>PRACTICE LOG / 学习记录</p>
+            <h2 id="experience-title">持续发生的学习与实践</h2>
+            <span>只记录可公开、可确认的内容。</span>
           </motion.header>
 
           <motion.div
@@ -75,9 +75,8 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
             style={reduceMotion ? undefined : { opacity: headerOpacity }}
             aria-hidden="true"
           >
-            <span>ROLL B / EVIDENCE CHRONOLOGY</span>
-            <span>PROJECT OUTPUT → TIME LOG</span>
-            <span>24 FPS · LIVE FEED</span>
+            <span>持续学习 · 持续记录</span>
+            <span>项目实践 → 学习归档</span>
           </motion.div>
 
           <motion.div
@@ -99,17 +98,15 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
                     data-active={activeIndex === index}
                     key={experience.title}
                   >
-                    <span className={styles.frameIndex} aria-hidden="true">FRAME 0{index + 1}</span>
                     <p className={styles.period}>{experience.period}</p>
                     <div className={styles.identity}>
                       <span className={styles.recordState}>
-                        {index === 0 ? "IN PROGRESS" : "CONTENT REVIEW"}
+                        {index === 0 ? "进行中" : "内容待核对"}
                       </span>
                       <h3>{experience.title}</h3>
                       <p>{experience.organization}</p>
                     </div>
                     <p className={styles.summary}>{experience.summary}</p>
-                    <span className={styles.frameEdge} aria-hidden="true">0{index + 1} / PAL / RECORD</span>
                   </article>
                 ))}
               </motion.div>
@@ -121,19 +118,18 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
               aria-hidden="true"
             >
               <div className={styles.scannerHead}>
-                <span>EVIDENCE SCANNER</span>
-                <strong>FRAME 0{activeIndex + 1}</strong>
+                <span>内容核对</span>
               </div>
               <motion.i style={reduceMotion ? undefined : { scaleY: scanScale }} />
               <div className={styles.scannerFoot}>
-                {activeIndex === 0 ? "LOCATE / SCAN / RECORD" : "REVIEW / HOLD / PROTECT"}
+                {activeIndex === 0 ? "定位 · 核对 · 记录" : "审阅 · 保护边界"}
               </div>
             </motion.div>
           </motion.div>
 
           <div className={styles.progressTrack} aria-hidden="true">
             <motion.i style={{ scaleX: reduceMotion ? 1 : progress }} />
-            <span>CONTINUOUS RECORD / {String(activeIndex + 1).padStart(2, "0")}</span>
+            <span>学习记录持续更新</span>
           </div>
         </div>
       </motion.div>
@@ -141,19 +137,19 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
       {!reduceMotion && (
         <div className={styles.transitionGate} aria-hidden="true">
           <motion.div className={styles.gateTop} style={{ y: gateTopY }}>
-            <span>PROJECT OUTPUT / SEALED</span>
-            <i>ROLL A · END FRAME</i>
+            <span>项目材料已归档</span>
+            <i>转入学习记录</i>
           </motion.div>
           <motion.div className={styles.gateBottom} style={{ y: gateBottomY }}>
-            <span>NEXT REEL / EVIDENCE RECORD</span>
-            <i>GATE 02 · OPEN</i>
+            <span>学习记录持续更新</span>
+            <i>下一章节</i>
           </motion.div>
           <motion.div
             className={styles.evidencePacket}
             style={{ x: packetX, opacity: packetOpacity }}
           >
-            <b>03</b>
-            <span>EVIDENCE PACKET</span>
+            <b>LOG</b>
+            <span>LEARNING RECORD</span>
             <i />
           </motion.div>
         </div>

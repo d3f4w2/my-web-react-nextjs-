@@ -47,7 +47,7 @@
   gap: 1.5rem;
   color: currentColor;
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: clamp(0.64rem, 0.7vw, 0.72rem);
   font-weight: 800;
   letter-spacing: 0.11em;
   pointer-events: none;
@@ -70,7 +70,7 @@
 
 .stageProgress {
   display: grid;
-  grid-template-columns: auto 5rem;
+  grid-template-columns: 5rem;
   align-items: center;
   gap: 0.8rem;
 }
@@ -130,7 +130,7 @@
   grid-template-columns: 1fr auto auto;
   gap: clamp(1rem, 3vw, 2.6rem);
   color: currentColor;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.46rem;
   font-weight: 800;
   letter-spacing: 0.09em;
@@ -155,9 +155,17 @@
 }
 
 .assembly {
+  --color-text-muted: #555852;
+  --color-text-faint: #73766f;
+  color: #171816;
   background:
-    linear-gradient(90deg, transparent 0 8%, rgb(240 234 223 / 0.055) 8% calc(8% + 1px), transparent calc(8% + 1px)),
-    #0b0a09;
+    linear-gradient(#0a0b0a 0 3.9rem, transparent 3.9rem),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.055) 0 1px, transparent 1px 5px),
+    linear-gradient(115deg, #d2d4d0 0%, #b8bbb7 52%, #c8cac6 100%);
+}
+
+.assembly .sceneFilmMeta {
+  color: #171816;
 }
 
 .field {
@@ -192,7 +200,7 @@
   padding-bottom: 0.8rem;
   border-bottom: 1px solid currentColor;
   font-family: var(--font-mono);
-  font-size: 0.57rem;
+  font-size: 0.66rem;
   font-weight: 800;
   letter-spacing: 0.05em;
 }
@@ -322,92 +330,302 @@
 .assemblyVisual {
   overflow: hidden;
   background:
-    linear-gradient(rgb(240 234 223 / 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(240 234 223 / 0.06) 1px, transparent 1px);
-  background-size: 3.2rem 3.2rem;
-  border: 1px solid rgb(240 234 223 / 0.25);
+    linear-gradient(90deg, rgb(20 21 19 / 0.055) 1px, transparent 1px),
+    #aeb1ad;
+  background-size: 4.5rem 100%;
+  border: 1px solid rgb(20 21 19 / 0.46);
+  box-shadow: 1rem 1rem 0 rgb(20 21 19 / 0.1);
+  isolation: isolate;
 }
 
-.assemblyFrame {
+.reviewBayHeader {
   position: absolute;
-  inset: 8%;
-  border: 1px solid rgb(240 234 223 / 0.42);
+  z-index: 8;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 2.8rem;
+  padding-inline: 1rem;
+  color: #d8d9d5;
+  background: #111210;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
 }
 
-.assemblyFrame::before,
-.assemblyFrame::after {
-  position: absolute;
+.reviewBayHeader i {
+  color: #92958f;
+  font-style: normal;
+}
+
+.reviewBayHeader::before {
+  width: 2.4rem;
+  height: 0.32rem;
+  margin-right: 0.75rem;
   background: var(--color-accent);
   content: "";
 }
 
-.assemblyFrame::before {
-  top: -1px;
-  left: -1px;
-  width: 28%;
-  height: 0.45rem;
+.reviewBayHeader span {
+  margin-right: auto;
 }
 
-.assemblyFrame::after {
-  right: -1px;
-  bottom: -1px;
-  width: 0.45rem;
-  height: 30%;
+.reviewBay {
+  position: absolute;
+  top: 2.8rem;
+  right: 0;
+  bottom: 3.1rem;
+  left: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(rgb(213 216 211 / 0.065) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(213 216 211 / 0.065) 1px, transparent 1px),
+    radial-gradient(circle at 50% 48%, #242622 0%, #111210 63%, #090a09 100%);
+  background-size: 3rem 3rem, 3rem 3rem, auto;
+  border-block: 1px solid #121310;
 }
+
+.reviewBay::before,
+.reviewBay::after {
+  position: absolute;
+  z-index: 1;
+  top: 7%;
+  bottom: 7%;
+  width: 1px;
+  background: rgb(214 217 211 / 0.24);
+  content: "";
+}
+
+.reviewBay::before { left: 8%; }
+.reviewBay::after { right: 8%; }
 
 .assemblyRail {
   position: absolute;
-  top: 50%;
-  left: 14%;
+  z-index: 1;
+  top: 51%;
+  right: 8%;
+  left: 8%;
+  height: 1px;
+  background: rgb(214 217 211 / 0.46);
+}
+
+.assemblyRail::before,
+.assemblyRail::after {
+  position: absolute;
+  top: -0.2rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  background: #d6d9d3;
+  border-radius: 50%;
+  content: "";
+}
+
+.assemblyRail::before { left: 0; }
+.assemblyRail::after { right: 0; }
+
+.reviewPerforations {
+  position: absolute;
+  z-index: 2;
+  inset: 5% 3%;
+  background:
+    radial-gradient(circle, #9da09b 0 2px, transparent 2.5px) left top / 0.65rem 1.5rem repeat-y,
+    radial-gradient(circle, #9da09b 0 2px, transparent 2.5px) right top / 0.65rem 1.5rem repeat-y;
+  opacity: 0.55;
+}
+
+.reviewClamp {
+  position: absolute;
+  z-index: 3;
+  width: min(66%, 26rem);
+  aspect-ratio: 0.84;
+  border: 1px solid rgb(216 219 213 / 0.58);
+  box-shadow:
+    inset 0 0 0 0.55rem #111210,
+    inset 0 0 0 calc(0.55rem + 1px) rgb(215 90 50 / 0.62);
+}
+
+.reviewClamp::before,
+.reviewClamp::after {
+  position: absolute;
+  width: 22%;
+  height: 0.38rem;
+  background: var(--color-accent);
+  content: "";
+}
+
+.reviewClamp::before { top: -0.38rem; left: 8%; }
+.reviewClamp::after { right: 8%; bottom: -0.38rem; }
+
+.evidencePacket {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  width: min(53%, 20.5rem);
+  aspect-ratio: 0.82;
+  align-content: space-between;
+  padding: clamp(1rem, 3vw, 1.6rem);
+  color: #151614;
+  background: #d7d9d4;
+  border: 1px solid #8e918c;
+  box-shadow:
+    0.75rem 0.75rem 0 var(--color-accent),
+    0 1.4rem 2.8rem rgb(0 0 0 / 0.46);
+  clip-path: polygon(8% 0, 100% 0, 100% 91%, 92% 100%, 0 100%, 0 8%);
+}
+
+.packetSerial {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.packetWindow {
+  position: relative;
+  display: grid;
+  width: 82%;
+  aspect-ratio: 1.72;
+  place-self: center;
+  place-items: center;
+  overflow: hidden;
+  color: #d9dbd6;
+  background:
+    radial-gradient(circle, #8e918c 0 2px, transparent 2.5px) left 0.35rem top 0.3rem / 0.8rem 0.55rem repeat-x,
+    radial-gradient(circle, #8e918c 0 2px, transparent 2.5px) left 0.35rem bottom 0.3rem / 0.8rem 0.55rem repeat-x,
+    #121310;
+  border-block: 0.34rem solid #c3c5c0;
+  border-inline: 1px solid #777a74;
+  outline: 1px solid #777a74;
+}
+
+.packetWindow i {
+  position: absolute;
   width: 72%;
   height: 1px;
-  background: var(--color-paper);
+  background: var(--color-accent);
+  box-shadow: 0 0 1rem rgb(215 90 50 / 0.65);
+  transform: rotate(-8deg);
 }
 
-.assemblyNode {
+.packetWindow strong {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-shadow: 0 0 1rem #121310;
+}
+
+.packetWindow small {
   position: absolute;
-  top: 50%;
-  display: grid;
-  width: clamp(5.4rem, 9vw, 7rem);
-  aspect-ratio: 1;
-  place-items: center;
-  color: var(--color-text-muted);
-  background: #11100e;
-  border: 1px solid currentColor;
+  right: 0.35rem;
+  bottom: 0.35rem;
+  color: #858880;
   font-family: var(--font-mono);
   font-size: 0.5rem;
-  font-weight: 800;
-  transform: translateY(-50%);
+  letter-spacing: 0.12em;
 }
 
-.assemblyNode[data-node="context"] {
-  left: 10%;
+.packetSeal {
+  width: max-content;
+  padding: 0.3rem 0.5rem;
+  color: #d8dad5;
+  background: #151614;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
 }
 
-.assemblyNode[data-node="agent"] {
+.reviewScan {
+  position: absolute;
+  z-index: 6;
   left: 50%;
-  color: var(--color-ink);
-  background: var(--color-accent);
-  border: 0.55rem solid #0b0a09;
-  outline: 1px solid var(--color-accent);
-  transform: translate(-50%, -50%) rotate(-3deg) scale(1.22);
+  width: min(64%, 25rem);
+  height: 2px;
+  background: #f0f2ed;
+  box-shadow: 0 0 1.4rem 0.3rem rgb(215 90 50 / 0.48);
+  transform: translateX(-50%);
 }
 
-.assemblyNode[data-node="tools"] {
+.reviewVerdict {
+  position: absolute;
+  z-index: 7;
   right: 10%;
+  bottom: 7%;
+  display: flex;
+  gap: 0.65rem;
+  color: #d5d8d1;
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.reviewVerdict span {
+  padding-top: 0.35rem;
+  border-top: 2px solid var(--color-accent);
 }
 
 .assemblyBoundary {
   position: absolute;
-  right: 13%;
-  bottom: 11%;
-  left: 13%;
-  padding-top: 0.55rem;
-  color: var(--color-text-faint);
-  border-top: 0.45rem solid var(--color-accent);
+  z-index: 8;
+  right: 1rem;
+  bottom: 0;
+  left: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  height: 3.1rem;
+  color: #3d403b;
   font-family: var(--font-mono);
-  font-size: 0.5rem;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.assemblyBoundary i {
+  height: 1px;
+  background: #747770;
+}
+
+.reviewEntryGate {
+  position: absolute;
+  z-index: 17;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #e2e0d9;
+  background:
+    linear-gradient(112deg, transparent 48%, rgb(215 90 50 / 0.44) 49%, transparent 50%),
+    #090a09;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
+  pointer-events: none;
+}
+
+.reviewEntryGate span {
+  padding: 0.55rem 0.8rem;
+  background: #090a09;
+  border: 1px solid rgb(226 224 217 / 0.28);
+}
+
+.reviewEntryGate i {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: rgb(226 224 217 / 0.16);
 }
 
 .fieldVisual {
@@ -451,7 +669,7 @@
 
 .fieldCore span {
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.64rem;
   font-weight: 800;
   letter-spacing: 0.14em;
 }
@@ -468,7 +686,7 @@
   bottom: 1rem;
   color: var(--color-ink);
   font-family: var(--font-mono);
-  font-size: 0.55rem;
+  font-size: 0.64rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   writing-mode: vertical-rl;
@@ -521,7 +739,7 @@
   top: 13%;
   right: 2%;
   font-family: var(--font-mono);
-  font-size: 0.56rem;
+  font-size: 0.64rem;
   font-style: normal;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -639,6 +857,19 @@
 
   .sceneFilmMeta { display: none; }
 
+  .reviewEntryGate { display: none; }
+
+  .evidencePacket,
+  .reviewClamp,
+  .reviewVerdict {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .reviewScan {
+    display: none;
+  }
+
   .posterVisual {
     position: relative;
     order: 1;
@@ -678,6 +909,34 @@
     right: 8%;
   }
 
+  .reviewBayHeader {
+    font-size: 0.58rem;
+  }
+
+  .reviewBayHeader i {
+    display: none;
+  }
+
+  .evidencePacket {
+    width: 62%;
+  }
+
+  .reviewClamp {
+    width: 76%;
+  }
+
+  .reviewVerdict {
+    right: 7%;
+    left: 7%;
+    justify-content: space-between;
+    gap: 0.3rem;
+  }
+
+  .assemblyBoundary {
+    gap: 0.4rem;
+    font-size: 0.52rem;
+  }
+
   .fieldCore {
     width: 72%;
   }
@@ -712,6 +971,10 @@
   }
 
   .stageProgress {
+    display: none;
+  }
+
+  .reviewEntryGate {
     display: none;
   }
 

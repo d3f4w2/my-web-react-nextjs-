@@ -5,25 +5,25 @@ import styles from "../collection-page.module.css";
 
 export const metadata: Metadata = {
   title: "博客",
-  description: "完整技术文章、短学习记录与随笔组成的统一内容中心。",
+  description: "关于 Agent 工程、工具调用、可靠性与持续实践的技术观察。",
 };
 
 export default function BlogPage() {
   return (
-    <main id="main-content" className={styles.page}>
+    <main id="main-content" className={styles.page} data-page="blog">
       <div className="site-container">
         <header className={styles.intro}>
-          <p className={styles.eyebrow}>Field Notes / 观察记录</p>
-          <h1 className={styles.title}>把正在形成的认识，留在实验桌上。</h1>
+          <p className={styles.eyebrow}>观察与记录</p>
+          <h1 className={styles.title}>把工程判断写下来，让它经得起下一次复查。</h1>
           <p className={styles.description}>
-            完整技术文章、短学习记录和随笔共用一个入口。它们共享基本元数据，但保留各自适合的正文结构。
+            长文解释完整过程，实验记录保留失败与修正，随笔区分事实、经验和推测。内容宁可少，也不发布没有完成校对的结论。
           </p>
         </header>
 
         <section className={styles.collection} aria-labelledby="content-list-title">
           <div className={styles.collectionHeader}>
-            <h2 id="content-list-title">观察条目</h2>
-            <p>03 FIELD NOTES · DRAFTS PENDING</p>
+            <h2 id="content-list-title">编辑台上的内容</h2>
+            <p>正在写作与校对</p>
           </div>
           <div className={styles.grid} data-layout="notes">
             {latestContent.map((content, index) => (
@@ -37,8 +37,8 @@ export default function BlogPage() {
         </section>
 
         <p className={styles.notice}>
-          <strong>当前状态：</strong>
-          卡片仅用于验证内容类型、长度变化和页面层级。正文将在 MDX 内容流程建立后逐篇加入。
+          <strong>发布原则：</strong>
+          正文会在资料来源、实验过程和结论边界都完成复核后开放，不用空文章制造更新频率。
         </p>
       </div>
     </main>
