@@ -1,350 +1,38 @@
-.footer {
-  position: relative;
-  min-height: calc(100svh - var(--header-height));
-  display: grid;
-  align-items: center;
-  overflow: hidden;
-  color: var(--color-paper);
-  background:
-    radial-gradient(circle at 78% 32%, rgb(215 90 50 / 0.14), transparent 28rem),
-    #070706;
-  border-top: 1px solid var(--color-border-strong);
-  isolation: isolate;
-}
-
-.footer::before,
-.footer::after {
-  position: absolute;
-  z-index: -1;
-  content: "";
-  pointer-events: none;
-}
-
-.footer::before {
-  top: 0;
-  left: 8%;
-  width: 1px;
-  height: 38%;
-  background: linear-gradient(to bottom, var(--color-accent), transparent);
-}
-
-.footer::after {
-  right: -0.04em;
-  bottom: -0.08em;
-  color: transparent;
-  font-size: clamp(9rem, 25vw, 24rem);
-  font-weight: 850;
-  line-height: 0.68;
-  letter-spacing: -0.1em;
-  -webkit-text-stroke: 1px rgb(240 234 223 / 0.055);
-  content: "AFTER";
-}
-
-.inner {
-  display: grid;
-  gap: clamp(2.5rem, 6vw, 5rem);
-  padding-block: clamp(4rem, 9vw, 7rem) clamp(1.5rem, 4vw, 2.5rem);
-}
-
-.topline {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding-bottom: 0.9rem;
-  color: var(--color-text-faint);
-  border-bottom: 1px solid var(--color-border);
-  font-family: var(--font-mono);
-  font-size: 0.54rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.topline p {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-.topline p::before {
-  width: 2.4rem;
-  height: 0.34rem;
-  background: var(--color-accent);
-  content: "";
-}
-
-.statement {
-  display: grid;
-  gap: clamp(1.5rem, 4vw, 2.6rem);
-}
-
-.title {
-  display: grid;
-  max-width: 12ch;
-  font-size: clamp(3.5rem, 8.3vw, 8.4rem);
-  font-weight: 790;
-  line-height: 0.9;
-  letter-spacing: -0.078em;
-}
-
-.title span:last-child {
-  color: var(--color-accent);
-}
-
-.invitation {
-  display: flex;
-  max-width: 35rem;
-  align-items: center;
-  gap: 1rem;
-  color: var(--color-text-muted);
-  font-size: clamp(0.95rem, 1.6vw, 1.12rem);
-  line-height: 1.7;
-}
-
-.invitation::before {
-  width: 2.5rem;
-  height: 1px;
-  flex: 0 0 auto;
-  background: var(--color-accent);
-  content: "";
-}
-
-.contactList {
-  display: grid;
-  border-top: 1px solid var(--color-border-strong);
-  border-left: 1px solid var(--color-border-strong);
-}
-
-.contactItem {
-  display: grid;
-  min-width: 0;
-  min-height: 9rem;
-  align-content: space-between;
-  gap: 1.2rem;
-  padding: clamp(1.2rem, 3vw, 1.8rem);
-  color: var(--color-text-muted);
-  background: rgb(240 234 223 / 0.012);
-  border: 0;
-  border-right: 1px solid var(--color-border-strong);
-  border-bottom: 1px solid var(--color-border-strong);
-  text-align: left;
-  cursor: pointer;
-  transition:
-    color var(--duration-normal) var(--easing-standard),
-    background var(--duration-normal) var(--easing-standard);
-}
-
-.contactItem > span {
-  color: var(--color-text-faint);
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.contactItem strong {
-  min-width: 0;
-  overflow: hidden;
-  color: inherit;
-  font-size: clamp(0.86rem, 1.7vw, 1.08rem);
-  font-weight: 650;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.contactItem i {
-  position: absolute;
-  top: 1.3rem;
-  right: 1.3rem;
-  color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-style: normal;
-}
-
-.contactItem:hover,
-.contactItem:focus-visible {
-  color: var(--color-paper);
-  background: rgb(240 234 223 / 0.055);
-}
-
-.contactItem:hover > span,
-.contactItem:focus-visible > span {
-  color: var(--color-accent);
-}
-
-.contactList > a,
-.wechatContact {
-  position: relative;
-}
-
-.wechatContact > summary {
-  list-style: none;
-}
-
-.wechatContact > summary::-webkit-details-marker {
-  display: none;
-}
-
-.wechatContact[open] > summary {
-  color: var(--color-paper);
-  background: rgb(240 234 223 / 0.055);
-}
-
-.wechatContact[open] > summary i {
-  transform: rotate(45deg);
-}
-
-.qrPanel {
-  position: relative;
-  display: grid;
-  width: min(100%, 21rem);
-  gap: 0.8rem;
-  margin: 1.2rem 0 1.2rem auto;
-  padding: 0.65rem;
-  color: var(--color-ink);
-  background: var(--color-paper);
-  box-shadow: 0 32px 90px rgb(0 0 0 / 0.5);
-  transform-origin: top right;
-  animation: qr-reveal 360ms var(--easing-standard) both;
-}
-
-.qrViewport {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: #fff;
-}
-
-.qrImage {
-  object-fit: cover;
-  object-position: 50% 58%;
-}
-
-.qrCaption {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.2rem;
-}
-
-.qrCaption span {
-  font-family: var(--font-mono);
-  font-size: 0.52rem;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-}
-
-.qrCaption p {
-  color: #625b50;
-  font-size: 0.68rem;
-  text-align: right;
-}
-
-.lastFrame {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding-top: 1.1rem;
-  color: var(--color-text-faint);
-  border-top: 1px solid var(--color-border);
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  font-weight: 750;
-  letter-spacing: 0.06em;
-}
-
-.lastFrame a {
-  transition: color var(--duration-fast) var(--easing-standard);
-}
-
-.lastFrame a:hover {
-  color: var(--color-paper);
-}
-
-.lastFrame a span {
-  margin-left: 0.45rem;
-  color: var(--color-accent);
-}
-
-@keyframes qr-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(-0.8rem) scale(0.97);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@media (min-width: 58rem) {
-  .contactList {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .wechatContact[open] .qrPanel {
-    position: absolute;
-    z-index: 5;
-    right: 0;
-    bottom: calc(100% + 1rem);
-  }
-}
-
-@media (max-width: 57.99rem) {
-  .contactList {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .wechatContact {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 36rem) {
-  .title {
-    font-size: clamp(3.3rem, 15vw, 5.3rem);
-  }
-
-  .topline span {
-    display: none;
-  }
-
-  .contactList {
-    grid-template-columns: 1fr;
-  }
-
-  .wechatContact {
-    grid-column: auto;
-  }
-
-  .contactItem {
-    min-height: 7.5rem;
-  }
-
-  .qrPanel {
-    width: 100%;
-  }
-
-  .qrCaption,
-  .lastFrame {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .qrCaption p {
-    text-align: left;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .qrPanel {
-    animation: none;
-  }
-}
+.footer { position: relative; min-height: 160svh; color: var(--color-paper); background: #070706; border-top: 1px solid var(--color-border-strong); }
+.stickyFrame { position: sticky; top: var(--header-height); min-height: calc(100svh - var(--header-height)); display: grid; align-items: center; overflow: hidden; }
+.inner { display: grid; gap: clamp(1.1rem, 2.2vh, 1.8rem); padding-block: clamp(1.25rem, 3vh, 2.4rem); }
+.topline, .lastFrame { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.75rem; color: var(--color-text-faint); border-block: 1px solid var(--color-border); font-family: var(--font-mono); font-size: 0.52rem; font-weight: 800; letter-spacing: 0.07em; }
+.topline p { color: var(--color-accent); }
+.finalStage { display: grid; grid-template-columns: minmax(20rem, 0.78fr) minmax(30rem, 1.22fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); }
+.statement { position: relative; z-index: 2; }
+.eyebrow { color: var(--color-accent); font-family: var(--font-mono); font-size: 0.55rem; font-weight: 850; letter-spacing: 0.08em; }
+.title { display: grid; margin-top: 1rem; font-size: clamp(3rem, 6.7vw, 6.9rem); font-weight: 820; line-height: 0.88; letter-spacing: -0.075em; }
+.title span:last-child { color: var(--color-accent); }
+.principles { display: grid; gap: 0.45rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); color: var(--color-text-muted); font-size: 0.78rem; list-style: none; }
+.principles li::before { margin-right: 0.65rem; color: var(--color-accent); content: "✦"; }
+.assemblyPanel { position: relative; width: 100%; aspect-ratio: 6 / 5; overflow: hidden; }
+.assemblyImage { object-fit: contain; }
+.seal { position: absolute; right: 13%; bottom: 14%; display: grid; width: clamp(3rem, 5vw, 4.6rem); aspect-ratio: 1; place-items: center; color: var(--color-accent); border: 3px double currentColor; font-family: var(--font-mono); font-size: clamp(0.5rem, 0.8vw, 0.75rem); font-weight: 900; line-height: 1; text-align: center; transform: rotate(-7deg); }
+.systemInfo { position: absolute; top: 10%; right: 2%; display: grid; gap: 0.36rem; color: var(--color-text-faint); font-family: var(--font-mono); font-size: 0.42rem; }
+.systemInfo span { display: flex; justify-content: space-between; gap: 1rem; }
+.systemInfo b { color: var(--color-accent); }
+.contactList { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--color-border-strong); border-left: 1px solid var(--color-border-strong); }
+.contactItem { position: relative; display: grid; min-height: 5.6rem; align-content: center; gap: 0.3rem; padding: 0.9rem 1.1rem; color: var(--color-text-muted); border: 0; border-right: 1px solid var(--color-border-strong); border-bottom: 1px solid var(--color-border-strong); text-align: left; cursor: pointer; transition: color 180ms var(--easing-standard), background 180ms var(--easing-standard); }
+.contactItem:hover, .contactItem:focus-visible { color: var(--color-paper); background: rgb(240 234 223 / 0.055); }
+.contactItem span { color: var(--color-accent); font-family: var(--font-mono); font-size: 0.5rem; font-weight: 850; letter-spacing: 0.08em; }
+.contactItem strong { overflow: hidden; font-size: 0.78rem; text-overflow: ellipsis; white-space: nowrap; }
+.contactItem i { position: absolute; top: 0.75rem; right: 0.85rem; color: var(--color-accent); font-style: normal; }
+.wechatContact { position: relative; }
+.wechatContact summary { list-style: none; }
+.wechatContact summary::-webkit-details-marker { display: none; }
+.wechatContact[open] summary i { transform: rotate(45deg); }
+.qrPanel { position: absolute; z-index: 8; right: 0; bottom: calc(100% + 0.75rem); width: min(20rem, 85vw); padding: 0.6rem; color: var(--color-ink); background: var(--color-paper); box-shadow: 0 28px 80px rgb(0 0 0 / 0.55); }
+.qrViewport { position: relative; aspect-ratio: 1; overflow: hidden; background: #fff; }
+.qrImage { object-fit: cover; object-position: 50% 58%; }
+.qrPanel p { padding-top: 0.45rem; font-size: 0.68rem; }
+.lastFrame { border-bottom: 0; }
+.lastFrame a:hover { color: var(--color-paper); }
+.lastFrame a span { color: var(--color-accent); }
+@media (max-width: 63.99rem) { .footer { min-height: auto; } .stickyFrame { position: relative; top: auto; } .inner { padding-block: 3rem 1.5rem; } .finalStage { grid-template-columns: 1fr; } .assemblyPanel { width: min(100%, 46rem); margin-inline: auto; } .contactList { grid-template-columns: repeat(2, minmax(0, 1fr)); } .wechatContact { grid-column: 1 / -1; } }
+@media (max-width: 38rem) { .topline span { display: none; } .title { font-size: clamp(3.2rem, 15vw, 5rem); } .contactList { grid-template-columns: 1fr; } .wechatContact { grid-column: auto; } .qrPanel { position: relative; bottom: auto; width: 100%; } .lastFrame { align-items: flex-start; flex-direction: column; } }
+@media (prefers-reduced-motion: reduce) { .footer { min-height: auto; } .stickyFrame { position: relative; top: auto; } }

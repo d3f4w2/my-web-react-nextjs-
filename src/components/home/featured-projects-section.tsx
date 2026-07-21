@@ -1,10 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import {
   motion,
-  type MotionValue,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
@@ -14,152 +14,7 @@ import {
 import type { ProjectPreview } from "@/data/home";
 import styles from "./featured-projects-section.module.css";
 
-const variants = ["assembly", "field", "poster"] as const;
-type SceneVariant = (typeof variants)[number];
-
-function AssemblyVisual() {
-  return (
-    <div className={styles.assemblyVisual} aria-hidden="true">
-      <span className={styles.assemblyFrame} />
-      <span className={styles.assemblyRail} />
-      <div className={styles.assemblyNode} data-node="context">
-        CONTEXT
-      </div>
-      <div className={styles.assemblyNode} data-node="agent">
-        AGENT
-      </div>
-      <div className={styles.assemblyNode} data-node="tools">
-        TOOLS
-      </div>
-      <div className={styles.assemblyBoundary}>BOUNDARY</div>
-    </div>
-  );
-}
-
-function FieldVisual() {
-  return (
-    <div className={styles.fieldVisual} aria-hidden="true">
-      <span className={styles.fieldOrbit} />
-      <span className={styles.fieldOrbit} />
-      <span className={styles.fieldOrbit} />
-      <div className={styles.fieldCore}>
-        <span>PERSONAL</span>
-        <strong>AGENT</strong>
-      </div>
-      <p>IDEA → PROTOTYPE → ITERATION</p>
-    </div>
-  );
-}
-
-function PosterVisual() {
-  return (
-    <div className={styles.posterVisual} aria-hidden="true">
-      <span className={styles.posterBar} />
-      <p>OPEN</p>
-      <p>SOURCE</p>
-      <strong>BUILD IN PUBLIC</strong>
-      <i>COLLABORATE / LEARN / CONTRIBUTE</i>
-    </div>
-  );
-}
-
-function ProjectVisual({ variant }: { variant: SceneVariant }) {
-  if (variant === "assembly") {
-    return <AssemblyVisual />;
-  }
-
-  if (variant === "field") {
-    return <FieldVisual />;
-  }
-
-  return <PosterVisual />;
-}
-
-const sceneMotion: Array<{
-  input: number[];
-  opacity: number[];
-  y: number[];
-  scale: number[];
-}> = [
-  {
-    input: [0, 0.2, 0.34],
-    opacity: [1, 1, 0],
-    y: [0, 0, -60],
-    scale: [1, 1, 0.94],
-  },
-  {
-    input: [0.22, 0.38, 0.62, 0.78],
-    opacity: [0, 1, 1, 0],
-    y: [70, 0, 0, -70],
-    scale: [0.94, 1, 1, 0.94],
-  },
-  {
-    input: [0.66, 0.82, 1],
-    opacity: [0, 1, 1],
-    y: [70, 0, 0],
-    scale: [0.94, 1, 1],
-  },
-];
-
-type ProjectSceneProps = {
-  active: boolean;
-  index: number;
-  progress: MotionValue<number>;
-  project: ProjectPreview;
-  reduceMotion: boolean | null;
-  variant: SceneVariant;
-};
-
-function ProjectScene({
-  active,
-  index,
-  progress,
-  project,
-  reduceMotion,
-  variant,
-}: ProjectSceneProps) {
-  const ranges = sceneMotion[index] ?? sceneMotion[0];
-  const opacity = useTransform(progress, ranges.input, ranges.opacity);
-  const y = useTransform(progress, ranges.input, ranges.y);
-  const scale = useTransform(progress, ranges.input, ranges.scale);
-
-  return (
-    <motion.article
-      className={`${styles.scene} ${styles[variant]}`}
-      data-active={active}
-      data-variant={variant}
-      style={reduceMotion ? undefined : { opacity, scale, y }}
-    >
-      <div className={`site-container ${styles.sceneInner}`}>
-        <div className={styles.projectCopy}>
-          <div className={styles.projectMeta}>
-            <p>{project.type}</p>
-            <span>{project.status}</span>
-          </div>
-          <h3>{project.title}</h3>
-          <p className={styles.projectSummary}>{project.summary}</p>
-          <p className={styles.responsibility}>
-            <span>个人职责</span>
-            {project.responsibility}
-          </p>
-          <ul className={styles.tags} aria-label="项目关键词">
-            {project.tags.map((tag) => (
-              <li key={tag}>{tag}</li>
-            ))}
-          </ul>
-          <div className={styles.projectAction}>
-            {project.href ? (
-              <Link href={project.href}>查看项目详情 →</Link>
-            ) : (
-              <span>详情内容整理中</span>
-            )}
-          </div>
-        </div>
-        <ProjectVisual variant={variant} />
-      </div>
-    </motion.article>
-  );
-}
+const stationStates = ["PLAN", "BUILD", "RUN"] as const;
 
 type FeaturedProjectsSectionProps = {
   projects: readonly ProjectPreview[];
@@ -174,13 +29,15 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
     offset: ["start start", "end end"],
   });
   const progress = useSpring(scrollYProgress, {
-    stiffness: 95,
-    damping: 28,
-    mass: 0.36,
+    stiffness: 86,
+    damping: 27,
+    mass: 0.42,
   });
+  const carriageLeft = useTransform(progress, [0, 0.5, 1], ["18%", "50%", "82%"]);
+  const railScale = useTransform(progress, [0.04, 0.94], [0, 1]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    const nextIndex = latest < 0.3 ? 0 : latest < 0.7 ? 1 : 2;
+    const nextIndex = latest < 0.34 ? 0 : latest < 0.67 ? 1 : 2;
     setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
   });
 
@@ -191,34 +48,72 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
       className={styles.section}
       aria-labelledby="featured-projects-title"
     >
-      <h2 id="featured-projects-title" className={styles.sectionTitle}>
-        精选项目
-      </h2>
-      <div className={styles.stageFrame}>
-        <div className={styles.stageChrome} aria-hidden="true">
-          <p>SELECTED PROJECTS</p>
-          <div className={styles.stageProgress}>
-            <span>{activeIndex + 1} / {projects.length}</span>
-            <i>
-              <motion.b
-                style={reduceMotion ? { scaleX: 1 } : { scaleX: progress }}
-              />
-            </i>
-          </div>
-        </div>
+      <div className={styles.stickyFrame}>
+        <div className={`site-container ${styles.inner}`}>
+          <header className={styles.header}>
+            <div>
+              <p>PROJECT STAGE / 机械编舞舞台</p>
+              <span>INPUT → PLAN → BUILD → RUN → OUTPUT</span>
+            </div>
+            <h2 id="featured-projects-title">项目不是画廊，而是一条可核验的装配线。</h2>
+            <p className={styles.counter}>POS: 0{activeIndex + 1} / 03</p>
+          </header>
 
-        <div className={styles.scenes}>
-          {projects.map((project, index) => (
-            <ProjectScene
-              active={activeIndex === index}
-              index={index}
-              progress={progress}
-              project={project}
-              reduceMotion={reduceMotion}
-              variant={variants[index] ?? "assembly"}
-              key={project.title}
+          <div className={styles.workbench}>
+            <Image
+              className={styles.workbenchImage}
+              src="/assets/homepage/project-workstations.png"
+              alt="由三座机械工位组成的项目装配线"
+              fill
+              sizes="(max-width: 1023px) 96vw, 92vw"
             />
-          ))}
+
+            <div className={styles.stations}>
+              {projects.map((project, index) => (
+                <article
+                  className={styles.station}
+                  data-active={activeIndex === index}
+                  key={project.title}
+                >
+                  <div className={styles.ticketTopline}>
+                    <span>0{index + 1} / PROJECT MODULE</span>
+                    <strong>STATE: {stationStates[index]}</strong>
+                  </div>
+                  <p className={styles.projectType}>{project.type}</p>
+                  <h3>{project.title}</h3>
+                  <p className={styles.summary}>{project.summary}</p>
+                  <p className={styles.responsibility}>
+                    <span>个人职责</span>
+                    {project.responsibility}
+                  </p>
+                  <ul className={styles.tags} aria-label="项目关键词">
+                    {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
+                  </ul>
+                  <div className={styles.ticketFooter}>
+                    <span>{project.status}</span>
+                    {project.href ? <Link href={project.href}>查看详情 →</Link> : <b>材料校验中</b>}
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className={styles.transferRail} aria-hidden="true">
+              <i><motion.b style={reduceMotion ? { scaleX: 1 } : { scaleX: railScale }} /></i>
+              <motion.span style={reduceMotion ? { left: "82%" } : { left: carriageLeft }}>
+                AGENT
+              </motion.span>
+            </div>
+          </div>
+
+          <div className={styles.stageStatus}>
+            <span>RAIL-01 / TRACKING SYSTEM ACTIVE</span>
+            <div aria-label={`当前工位：${stationStates[activeIndex]}`}>
+              {stationStates.map((state, index) => (
+                <i data-active={activeIndex === index} key={state}>{state}</i>
+              ))}
+            </div>
+            <span>OUTPUT: EVIDENCE REQUIRED</span>
+          </div>
         </div>
       </div>
     </section>
