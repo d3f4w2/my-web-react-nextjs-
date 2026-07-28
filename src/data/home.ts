@@ -20,15 +20,8 @@ export type ExperiencePreview = {
   title: string;
   organization: string;
   summary: string;
-};
-
-export type ContentPreview = {
-  type: string;
-  title: string;
-  summary: string;
-  status: string;
-  tags: readonly string[];
   href?: `/blog/${string}`;
+  linkLabel?: string;
 };
 
 export const capabilities = [
@@ -87,11 +80,13 @@ export const featuredProjects = [
 
 export const experiences = [
   {
-    period: "现在",
-    title: "AI Agent 方向学习与项目实践",
-    organization: "个人学习与实践",
+    period: "2026.07",
+    title: "Agent 自进化，不是让模型随便改自己",
+    organization: "8 篇论文 / Agent 工程学习归档",
     summary:
-      "用于梳理已经完成和正在进行的学习、实验与项目，具体时间和内容等待本人确认。",
+      "把 Memory、Skill、Tool、Harness、评测、安全和发布重新组织成一条可验证、可灰度、可回滚的生产闭环。",
+    href: "/blog/agent-self-evolution",
+    linkLabel: "查看完整技术文章",
   },
   {
     period: "待填写",
@@ -101,30 +96,3 @@ export const experiences = [
       "公开版本只保留经过审查的职责、方法与结果，受限业务信息不会进入网站。",
   },
 ] satisfies readonly ExperiencePreview[];
-
-export const latestContent = [
-  {
-    type: "完整技术文章",
-    title: "如何拆解一个 Agent 工作流",
-    summary:
-      "计划从问题背景、核心概念、实现过程、结果分析与参考资料展开。",
-    status: "正在整理",
-    tags: ["Agent Workflow", "Engineering"],
-  },
-  {
-    type: "短学习记录",
-    title: "一次工具调用实验",
-    summary:
-      "计划记录学习目标、实验过程、遇到的问题、当前结论与下一步。",
-    status: "实验记录整理中",
-    tags: ["Tool Use", "Experiment"],
-  },
-  {
-    type: "随笔",
-    title: "我如何理解 Agent 的可靠性",
-    summary:
-      "保留更自由的思考形式，同时明确区分事实、经验、推测与尚未验证的观点。",
-    status: "观点校对中",
-    tags: ["Reflection", "Reliability"],
-  },
-] satisfies readonly ContentPreview[];
