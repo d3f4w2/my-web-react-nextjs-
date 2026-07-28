@@ -1,0 +1,287 @@
+import {
+  AssetMap,
+  Callout,
+  EvaluationStack,
+  EvolutionLoop,
+  ReleaseRail,
+  RuntimeMap,
+} from "@/components/blog/article-diagrams"
+
+export const metadata = {
+  title: "Agent 自进化，不是让模型随便改自己",
+  subtitle: "从一次生产失败，到可验证、可灰度、可回滚的能力升级",
+  summary:
+    "读完八篇自进化 Agent 论文后，我把零散概念重新组织成一条生产闭环：记录失败、定位组件、验证更新、受控发布，并保留完整回滚能力。",
+  type: "完整技术文章",
+  publishedAt: "2026-07-28",
+  updatedAt: "2026-07-28",
+  tags: ["Agent Engineering", "Self-Evolution", "Evaluation", "Safety"],
+  draft: false,
+  featured: true,
+  eyebrow: "SYSTEM NOTE / 001",
+  sections: [
+    { id: "misunderstanding", label: "我最初误解了什么" },
+    { id: "definition", label: "什么才算自进化" },
+    { id: "assets", label: "到底应该修改什么" },
+    { id: "trace", label: "从失败中获得可用数据" },
+    { id: "attribution", label: "一个退款 Tool 案例" },
+    { id: "evaluation", label: "怎样证明新版本更好" },
+    { id: "release", label: "更新如何进入生产" },
+    { id: "safety", label: "安全边界必须在模型外" },
+    { id: "runtime", label: "它最终也是后端系统" },
+    { id: "conclusion", label: "我现在的结论" },
+  ],
+}
+
+最近我集中读了八篇与 Agent 自进化有关的论文。一开始，我更关注那些听起来最“智能”的部分：自动反思、自动生成 Skill、自动更新 Memory，甚至让 Agent 修改自己的 Harness。
+
+越往工程侧看，问题越明确：**让 Agent 产生一个修改并不难，难的是证明这个修改值得被后续任务继续使用。**
+
+完成一次任务不难。难的是让系统长期积累能力，同时不把错误和攻击也保存下来。
+
+<Callout label="我的核心结论" tone="thesis">
+  Agent 自进化，是把生产经验转化成可验证、可版本化、可灰度、可回滚的能力资产，而不是放任模型改写自己。
+</Callout>
+
+<h2 id="misunderstanding">01. 我最初误解了什么</h2>
+
+我最初会把这样的过程叫作“自进化”：
+
+```text
+Agent 执行失败
+→ 在当前对话里反思
+→ 换一种方法重试
+→ 最后成功
+```
+
+现在看，这更接近一次任务内的自我修正。它有价值，但会话结束以后，Agent 的 Memory、Skill、Tool、Harness 和模型权重都没有变化。下一个相同任务到来时，它很可能重新犯一次错误。
+
+后来我用一个很简单的问题重新定了判断标准：
+
+> 这次学到的东西，会不会离开当前会话，继续影响后续任务？
+
+如果答案是否定的，这次修正就没有形成持续能力。
+
+<h2 id="definition">02. 什么才算自进化</h2>
+
+我现在用五个条件判断一个系统是否真的发生了自进化：
+
+1. 更新来自任务结果、环境反馈或人工纠正；
+2. 更新被保存，而不是只留在当前上下文；
+3. 更新会改变后续任务的决策或执行；
+4. 更新能够被测试、追踪和解释；
+5. 更新出现问题时，可以降级或回滚。
+
+因此，自进化不只是一个算法问题。它是一条横跨数据、评测、安全和发布的工程闭环。
+
+<EvolutionLoop />
+
+这些论文从不同角度描述这条闭环：有的研究 Memory，有的研究 Skill，有的研究 Tool 或 Harness，还有的重点讨论评测和跨代安全。把它们放进生产系统以后，都要回答同一组问题：
+
+- 经验从哪里来？
+- 哪一部分应该被修改？
+- 谁来验证修改？
+- 验证使用什么依据？
+- 什么条件下允许发布？
+- 发布失败后怎样恢复？
+
+<h2 id="assets">03. 失败以后，到底应该修改什么</h2>
+
+学习这部分之前，我很容易把 Agent 的所有问题都归到 Prompt 上：工具选错了就改 Prompt，参数传错了也改 Prompt，流程缺步骤还是改 Prompt。
+
+Prompt 往往只是最容易修改的部分，不一定是根因。
+
+<AssetMap />
+
+我现在会按最小修改范围归因：
+
+- 缺少用户偏好、历史事实或经过验证的经验，修改 **Memory**；
+- 会做单步动作，但不会正确分解、路由或重规划，修改 **Harness**；
+- 一类任务缺少稳定 SOP，补充或修正 **Skill**；
+- 工具参数、Schema、返回结构或底层执行有问题，修改 **Tool**；
+- 信息、工具和流程都正确，模型仍稳定做不到，才考虑模型能力或权重；
+- 动作本身不应该被执行，修改的是权限和治理边界，而不是让 Prompt “更谨慎”。
+
+这套分类用来控制副作用。修改错组件，会让测试变得模糊，也可能把一个局部故障扩散到原本正常的能力。
+
+<h2 id="trace">04. 从一次失败中获得可用数据</h2>
+
+如果系统只记录“任务失败”，后续优化器几乎没有足够信息。一次可用于归因和改进的任务记录，至少需要包含：
+
+| 数据 | 用途 |
+|---|---|
+| 原始任务与约束 | 确认用户真正要求什么 |
+| 租户、权限与版本 | 重建当时可见的能力和边界 |
+| 关键模型决策 | 判断是选择错误还是执行错误 |
+| Tool Call 参数与返回 | 定位 Schema、接口和环境问题 |
+| 环境中的真实结果 | 避免只相信模型的自我评价 |
+| 用户或验证器反馈 | 确认最终结果是否可接受 |
+| Token、延迟和重试 | 判断改进是否用更高成本换来 |
+
+系统不需要无限保存思考文本，而要形成结构化、可查询、可复现的 Trace。敏感信息还需要脱敏、租户隔离，并设置保留期限。
+
+<Callout label="工程判断">
+  没有高质量 Trace，就无法可靠地区分“模型不会”“工具坏了”“Harness 路由错了”或者“底层数据已经变化”。
+</Callout>
+
+<h2 id="attribution">05. 一个退款 Tool 案例</h2>
+
+下面是一个**假设案例**，用于说明组件归因，不代表我已经部署过这个业务系统。
+
+假设退款 Agent 正确选择了 `create_refund`，但调用时总把 `order_id` 传到旧参数 `payment_id`，造成请求失败。
+
+最直接的做法似乎是修改 Prompt，让模型“仔细检查参数”。继续检查后发现：
+
+- Harness 暴露给模型的 Tool 描述还是旧版本；
+- 实际运行的 Tool 已经升级；
+- 模型按照它看到的 Schema 正确生成了参数；
+- 描述、Schema 和 Tool 实现发生了版本错位。
+
+根因不在模型或业务 SOP，而在 **Harness 中注册的 Tool Schema 与实际 Tool 版本不一致**。
+
+正确修复应该是：
+
+1. 当前任务立即切回已验证的旧 Tool，避免继续影响用户；
+2. 修正 Tool 描述、Schema 与实现的版本绑定；
+3. 增加参数契约和兼容性测试；
+4. 重新运行失败案例；
+5. 运行退款固定回归集、异常参数集和欺诈安全集；
+6. 通过后影子运行，再灰度发布。
+
+如果退款成功率提高了，但欺诈风险工单被错误批准，就不能发布。局部正确性提升不能抵消关键安全能力退化。
+
+<h2 id="evaluation">06. 怎样证明新版本真的更好</h2>
+
+自进化系统最容易犯的错，是把“修好了刚才那个错误”当成“获得了新能力”。
+
+原始失败案例已经参与了修改过程。它只能证明系统会修这一题，不能证明系统学会了一类问题。
+
+<EvaluationStack />
+
+评测需要提供几层不同的证据：
+
+- **修复集**证明具体 Bug 消失；
+- **语义邻域和新任务**检查是否形成泛化，而不是记住答案；
+- **固定回归集**保护历史关键能力；
+- **隐藏集**降低针对评测集调参的风险，但仍要防止间接泄漏；
+- **安全集**覆盖欺诈、越权、Prompt Injection、恶意 Tool 返回和数据污染；
+- **工程指标**检查 Token、延迟、成本、超时和基础设施错误；
+- **线上指标**验证真实流量，但不能把“用户没有投诉”直接当作正奖励。
+
+单个平均准确率说服力不够。它可能掩盖关键任务退化，也可能把模型能力与容器资源、API 延迟、测试环境故障混在一起。
+
+<Callout label="发布门禁" tone="warning">
+  对关键能力，回归从 92% 降到 81% 就应该阻止晋升。一次高危误操作也不能被其他普通任务的平均提升抵消。
+</Callout>
+
+<h2 id="release">07. 更新如何进入生产</h2>
+
+通过离线测试以后，新版本仍然不应该直接全量上线。
+
+<ReleaseRail />
+
+一次 Agent 更新可以按软件发布来管理，只是版本包更大。除了代码，它还需要记录：
+
+- 模型与推理配置；
+- Prompt、Harness 和路由；
+- Memory、Skill、Tool 与 Tool Schema；
+- 代码、依赖和数据来源；
+- 评测集版本和完整结果；
+- 权限策略与审批记录。
+
+线上任务执行新版本失败时，先切回旧 Tool、旧 Harness 或完整旧版本，避免当前任务继续受影响；然后再修复新版本。回滚不是失败后的临时补丁，而是发布前就要准备好的能力。
+
+影子运行先观察新版本会做什么，但不允许它产生真实副作用。灰度发布再让一小部分真实流量使用新版本，同时保留旧版本作为对照和 Fallback。正确性、安全、成本和延迟都满足门槛后，才能逐步扩大范围。
+
+<h2 id="safety">08. 安全边界必须在模型之外</h2>
+
+自进化会改变普通 Agent 风险的范围。一次恶意输入原本可能只影响当前会话；如果它被提取成 Memory、Skill 或 Tool，就可能跨任务保留，甚至传播到后续版本。
+
+因此，自生成资产不能由提出它的 Agent 自己直接批准。
+
+```text
+Agent 提出 Memory / Skill / Tool
+→ 外部安全网关
+→ 静态扫描与来源检查
+→ 沙箱动态测试
+→ 回归与权限测试
+→ 人工或策略审批
+→ 签名后的只读 Registry
+→ 受限运行时
+```
+
+“只能写 `/reports`”只能防止路径越界，挡不住 Agent 在允许目录中写入恶意代码。运行时还要限制：
+
+- 可以访问哪些域名、协议和端口；
+- 可以读取哪一把最小权限密钥；
+- 是否能够启动子进程或后台服务；
+- CPU、内存、磁盘和执行时间；
+- 哪些高风险 Tool 必须人工审批；
+- Memory、日志、缓存和向量索引是否按租户隔离。
+
+System Prompt 可以提醒模型。真正的边界要由模型无法绕过的代码、权限系统和沙箱强制执行。
+
+<h2 id="runtime">09. 自进化最终也是一个后端系统</h2>
+
+论文中的闭环放进真实业务以后，还要面对进程崩溃、消息重复、超时、取消和部分失败。
+
+<RuntimeMap />
+
+一个长任务不能只把状态放在 Worker 内存里，可以采用下面的方式：
+
+```text
+API 接收任务
+→ 数据库保存任务状态与 Outbox 事件
+→ Publisher 可靠投递队列
+→ Worker 领取任务
+→ Agent 在受限环境中执行
+→ 使用幂等键和 Attempt ID 更新结果
+→ 成功 ACK；失败退避、重试或进入 DLQ
+```
+
+Visibility Timeout 让 Worker 崩溃后消息能够重新出现；幂等键避免重试产生重复退款；Attempt ID 阻止已经过期的旧 Worker 恢复后覆盖新结果；Outbox 保证“数据库已经写入，但队列没有收到”这类不一致能够被恢复。
+
+这些机制没有“Agent 自己生成新 Skill”那么吸引人，但缺少它们，自进化系统连正在修改什么都无法可靠保存。
+
+<h2 id="conclusion">10. 我现在的结论</h2>
+
+读完这些论文后，我不再只问“模型能不能自己变聪明”，而是问“系统能不能安全地积累经过验证的能力”。
+
+一个最小可行的自进化系统不需要一开始就修改模型权重。它可以先从更容易解释和回滚的外部资产开始：
+
+```text
+结构化 Trace
++ 组件归因
++ 一种可修改资产（Memory / Skill / Tool / Harness）
++ 候选生成器
++ 分层评测
++ 版本与快照
++ 影子、灰度和回滚
++ 模型外部安全边界
+```
+
+这条路线听起来没有“完全自主进化”那么激进，却更符合生产工程的要求：每次变化都知道来自哪里，解决了什么，付出了多少成本，影响了哪些旧能力，出现问题时怎样恢复。
+
+<Callout label="最终判断" tone="thesis">
+  值得上线的自进化，要求每一次能力变化都有证据、有边界、有版本，也有退路。更新有多自动，反而不是首要标准。
+</Callout>
+
+## 参考资料
+
+### 本次学习的论文
+
+1. [Self-Improvements in Modern Agentic Systems: A Survey](https://arxiv.org/abs/2607.13104)
+2. [Agentic Harness Engineering](https://arxiv.org/abs/2604.25850)
+3. [SEAGym: An Evaluation Environment for Self-Evolving LLM Agents](https://arxiv.org/abs/2606.17546)
+4. [OpenSkill: Open-World Self-Evolution for LLM Agents](https://arxiv.org/abs/2606.06741)
+5. [UMEM: Unified Memory Extraction and Management Framework for Generalizable Memory](https://arxiv.org/abs/2602.10652)
+6. [Tool-Making and Self-Evolving LLM Agents in Low-Latency Systems](https://arxiv.org/abs/2607.08010)
+7. [Next-Generation Agentic Reinforcement Learning Systems Enable Self-Evolving Agents](https://arxiv.org/abs/2607.01120)
+8. [Safety in Self-Evolving LLM Agent Systems](https://arxiv.org/abs/2606.23075)
+
+### 工程延伸
+
+- [OpenAI — Harness engineering](https://openai.com/index/harness-engineering/)
+- [Anthropic — Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
+- [Anthropic — Code execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)
+- [OpenAI — Running Codex safely at OpenAI](https://openai.com/index/running-codex-safely/)

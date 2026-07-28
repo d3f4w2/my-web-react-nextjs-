@@ -1,9 +1,9 @@
 import Link from "next/link";
-import type { ContentPreview } from "@/data/home";
+import type { BlogPostPreview } from "@/types/blog";
 import styles from "./content-card.module.css";
 
 type ContentCardProps = {
-  content: ContentPreview;
+  content: BlogPostPreview;
   variant?: "default" | "featured";
 };
 
@@ -12,7 +12,9 @@ export function ContentCard({ content, variant = "default" }: ContentCardProps) 
     <article className={styles.card} data-variant={variant}>
       <header className={styles.meta}>
         <p>{content.type}</p>
-        <span>{content.status}</span>
+        <span>
+          {content.status} / {content.readingTimeMinutes} 分钟
+        </span>
       </header>
 
       <div className={styles.copy}>
@@ -27,13 +29,9 @@ export function ContentCard({ content, variant = "default" }: ContentCardProps) 
           ))}
         </ul>
 
-        {content.href ? (
-          <Link href={content.href} transitionTypes={["nav-forward"]}>
-            阅读正文 <span aria-hidden="true">↗</span>
-          </Link>
-        ) : (
-          <span>完成校对后发布</span>
-        )}
+        <Link href={content.href} transitionTypes={["nav-forward"]}>
+          阅读正文 <span aria-hidden="true">↗</span>
+        </Link>
       </footer>
     </article>
   );

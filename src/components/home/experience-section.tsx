@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 import {
   motion,
@@ -106,7 +107,19 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
                       <h3>{experience.title}</h3>
                       <p>{experience.organization}</p>
                     </div>
-                    <p className={styles.summary}>{experience.summary}</p>
+                    <div className={styles.entryCopy}>
+                      <p className={styles.summary}>{experience.summary}</p>
+                      {experience.href ? (
+                        <Link
+                          className={styles.entryAction}
+                          href={experience.href}
+                          transitionTypes={["nav-forward"]}
+                        >
+                          {experience.linkLabel ?? "查看记录"}
+                          <span aria-hidden="true">↗</span>
+                        </Link>
+                      ) : null}
+                    </div>
                   </article>
                 ))}
               </motion.div>

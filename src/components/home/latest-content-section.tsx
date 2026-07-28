@@ -3,11 +3,11 @@
 import { motion } from "motion/react";
 import { ContentCard } from "@/components/blog/content-card";
 import { SectionHeading } from "@/components/ui/section-heading";
-import type { ContentPreview } from "@/data/home";
+import type { BlogPostPreview } from "@/types/blog";
 import styles from "./home-sections.module.css";
 
 type LatestContentSectionProps = {
-  contents: readonly ContentPreview[];
+  contents: readonly BlogPostPreview[];
 };
 
 export function LatestContentSection({ contents }: LatestContentSectionProps) {
@@ -32,7 +32,7 @@ export function LatestContentSection({ contents }: LatestContentSectionProps) {
               initial={false}
               transition={{ duration: 0.28, delay: index * 0.02 }}
               whileHover={{ y: -8 }}
-              key={content.title}
+              key={content.slug}
             >
               <ContentCard content={content} variant={index === 0 ? "featured" : "default"} />
             </motion.div>
