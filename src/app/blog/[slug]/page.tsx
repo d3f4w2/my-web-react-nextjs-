@@ -97,8 +97,8 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
       <footer className={styles.articleEnd}>
         <div className="site-container">
-          <span>END OF NOTE / 001</span>
-          <p>结构可以继续演进，但每次变化都应该留下证据。</p>
+          <span>END OF {metadata.eyebrow}</span>
+          <p>结论会随着实践继续校正，未经验证的部分不会写成事实。</p>
           <a href="#main-content">返回文章开头 ↑</a>
         </div>
       </footer>

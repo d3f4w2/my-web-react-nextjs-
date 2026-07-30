@@ -1,0 +1,414 @@
+import {
+  AgentTeamMap,
+  Callout,
+  HarnessLoopMap,
+  RuntimeIdentityMap,
+  RuntimeMap,
+  TaskRuntimeFlow,
+} from "@/components/blog/article-diagrams"
+
+export const metadata = {
+  title: "一项 Agent 任务，到底是怎么跑完的",
+  subtitle: "从一次 Issue 进入系统开始，拆开 Harness、Session、Worker、多 Agent 和代码交付的数据流",
+  summary:
+    "模型只负责其中几次决策。任务登记、状态恢复、Tool 执行、Workspace、队列、审批和交付，才把这些决策接成一项能长期运行的工作。",
+  type: "完整技术文章",
+  publishedAt: "2026-07-30",
+  updatedAt: "2026-07-30",
+  tags: ["Agent Engineering", "Harness", "Orchestration", "Agentic Coding"],
+  draft: false,
+  featured: true,
+  eyebrow: "SYSTEM NOTE / 002",
+  sections: [
+    { id: "missing-system", label: "模型调用之外缺了什么" },
+    { id: "task-entry", label: "任务先进入系统" },
+    { id: "runtime-identities", label: "四个运行时对象" },
+    { id: "harness-loop", label: "Harness 怎样推进一步" },
+    { id: "tool-boundary", label: "Tool 为什么不能直接执行" },
+    { id: "pause-resume", label: "暂停、崩溃与恢复" },
+    { id: "sandbox", label: "Worker、Workspace 与沙箱" },
+    { id: "multi-agent", label: "什么时候需要多 Agent" },
+    { id: "delivery", label: "代码怎样成为可交付结果" },
+    { id: "minimum-system", label: "我会从哪里开始搭" },
+  ],
+}
+
+上一篇文章写完 Agent 自进化以后，我又花了几天补 Harness、Session、Worker、多 Agent 和生产调度。中间有一个问题反复出现：我能解释模型为什么要调用 Tool，却说不清用户关掉页面后任务为什么还能继续，也说不清 Worker 崩溃以后是谁接手、接手时从哪里恢复。
+
+这篇文章只处理这条数据流。我会用一个假设的代码工单贯穿全文：
+
+```text
+GitHub Issue #102：
+退款金额超过 500 元时，系统错误地自动退款。
+正确行为是创建申请并等待人工审批。
+```
+
+<Callout label="阅读前提" tone="thesis">
+  模型产生下一步建议，Harness 把建议变成受控动作，后端系统保存任务现场，测试和审批决定结果能不能被接受。
+</Callout>
+
+<h2 id="missing-system">01. 一次模型调用之外，还缺什么</h2>
+
+最小 Agent Loop 很容易画：
+
+```text
+用户输入
+→ 调用模型
+→ 模型请求 Tool
+→ 执行 Tool
+→ 把结果送回模型
+→ 模型给出回复
+```
+
+OpenAI 在 [Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) 中把 Agent Loop 描述为用户、模型和 Tool 之间的编排逻辑。这个循环是 Agent 的核心，但生产任务还要回答一些循环之外的问题：
+
+- 外部平台重复发送同一个 Issue，系统会不会启动两个 Agent？
+- 模型请求退款时，谁检查参数和权限？
+- Worker 执行到一半崩溃，下一台机器怎样继续？
+- 退款 API 超时，到底应该重试还是先查询状态？
+- 用户关掉浏览器，任务状态存在哪里？
+- 修改完成以后，谁判断测试和交付证据够不够？
+
+这些问题不能靠模型“更加谨慎”解决。它们需要 Task、Session、Queue、Worker、Workspace、权限系统和评测流程。
+
+<TaskRuntimeFlow />
+
+<h2 id="task-entry">02. 生产任务先进入系统，不先进入模型</h2>
+
+GitHub 创建 Issue #102 后，会向我们的 Orchestrator 发送 Webhook。网络通知可能因为超时被重复发送，所以 Orchestrator 先使用外部唯一标识去重：
+
+```text
+source = github
+repository = company/shop
+issue = 102
+```
+
+数据库里没有这组标识，才创建内部 Task 和 Session：
+
+```text
+task_id = task-882
+session_id = session-901
+```
+
+随后，系统把一条很小的消息放入队列：
+
+```json
+{"session_id": "session-901"}
+```
+
+这里还没有调用模型。先把任务写进数据库，是为了让任务不依赖某个 HTTP 请求或某个正在运行的进程。接口返回、浏览器关闭或者服务重启以后，它仍然是一项待完成的工作。
+
+`task_id` 和 `session_id` 也不能混用。Task 表示业务上要完成的事情；Session 保存某次 Agent 执行的现场。第一次执行彻底失败后，Task 仍然存在，系统可以为它创建新的 Session。
+
+<h2 id="runtime-identities">03. Task、Session、Attempt 和 Workspace</h2>
+
+这四个对象是我学习后端运行时最容易混淆的地方。
+
+<RuntimeIdentityMap />
+
+继续用 Issue #102：
+
+```text
+Task task-882
+└─ Session session-901
+   ├─ Attempt 1：Worker A 接手，分析完成后等待审批
+   ├─ Attempt 2：Worker B 接手，调用测试时进程崩溃
+   └─ Attempt 3：Worker C 恢复并完成任务
+```
+
+三个 Attempt 推进的是同一个 Session。它们不应该同时随意写状态，否则旧 Worker 恢复后可能覆盖新 Worker 的结果。生产实现通常会配合租约、状态版本或 Attempt ID，确认当前 Worker 仍然拥有写入资格。
+
+Session 保存当前快照，例如：
+
+```text
+状态：RUNNABLE
+当前阶段：运行退款模块测试
+剩余预算：6 次模型调用
+Workspace：workspace-882
+最后成功 Commit：def456
+```
+
+Event 保存状态怎样一步步变成现在这样：
+
+```text
+TASK_CREATED
+WORKSPACE_READY
+ROOT_CAUSE_FOUND
+PATCH_APPLIED
+UNIT_TEST_PASSED
+```
+
+Worker 恢复时直接读取 Session，不必重放所有 Event；排查事故或重建状态时，再查看 Event 账本。Trace 则记录模型调用、Tool 调用、Token 和耗时。Event 是业务事实，Trace 是观察这些事实如何产生。
+
+<h2 id="harness-loop">04. Harness 每次只推进一步</h2>
+
+Worker 领取队列消息后，会运行 Harness。最小入口可以写成：
+
+```python
+async def run_agent(session_id: str):
+    session = load_session(session_id)
+
+    if session.status in {"COMPLETED", "CANCELLED"}:
+        return
+
+    context = build_context(session)
+    tools = registry.get_allowed_tools(session)
+    response = await call_model(context, tools)
+    action = parse_response(response)
+```
+
+`load_session` 恢复可信任务现场。`build_context` 不会把数据库中的所有内容都发给模型，它只选当前步骤需要的目标、规则、事实和最近结果。`get_allowed_tools` 再根据租户、权限和任务状态决定模型能看到哪些 Tool。
+
+模型返回的 Tool Call 仍然只是申请：
+
+```json
+{
+  "name": "edit_file",
+  "arguments": {
+    "path": "refund/service.py",
+    "patch": "..."
+  }
+}
+```
+
+Harness 解析并验证后才会调用真实代码。
+
+<HarnessLoopMap />
+
+Tool 结果回来后，Harness 把它标准化、保存，再加入下一轮 Context。循环持续到模型给出最终回复，或者达到步数、时间、Token 和 Tool 调用预算。
+
+这也是 Harness 和 Prompt 的区别。Prompt 给模型说明；Harness 用程序控制可见信息、可用 Tool、执行顺序、审批和停止条件。
+
+<h2 id="tool-boundary">05. Schema 和 Handler 为什么要一起注册</h2>
+
+一个 Tool 至少包含两部分：
+
+```text
+Schema
+→ 告诉模型 Tool 名称、用途和参数格式
+
+Handler
+→ 接收通过校验的参数，调用真实代码或外部 API
+```
+
+假设模型看到的是旧 Schema：
+
+```text
+create_refund(payment_id)
+```
+
+实际 Handler 已经升级为：
+
+```text
+create_refund(order_id)
+```
+
+模型即使完全按照说明生成参数，调用仍然会失败。Schema、Handler 和版本必须作为同一个注册单元发布，不能让描述与实现各自升级。
+
+执行之前，Harness 还要检查：
+
+```text
+Tool 是否存在
+参数是否符合 Schema
+当前用户是否有权限
+当前 Session 状态是否允许
+高风险动作是否已经审批
+```
+
+对于退款、发消息或删除数据这类副作用，系统应先记录 `STARTED`、Tool 版本、参数和幂等键，再调用 Handler。API 超时不等于操作失败。结果不确定时要进入对账流程，先查询外部系统的真实状态，不能直接再退一次款。
+
+Handler 负责理解具体 API：
+
+```json
+{"cancelFlag": 1, "requestId": "req-778"}
+```
+
+它可以整理成：
+
+```json
+{"cancelled": true, "request_id": "req-778"}
+```
+
+Harness 再加上所有 Tool 共用的执行外壳：
+
+```json
+{
+  "status": "success",
+  "data": {"cancelled": true},
+  "latency_ms": 320
+}
+```
+
+前一层解释“这个业务接口返回了什么”，后一层统一成功、失败、监控和审计格式。
+
+<h2 id="pause-resume">06. 等待审批时，Worker 不应该原地等</h2>
+
+Worker 通常是服务器上的后端进程。它从队列领取消息，运行 Harness，推进任务，然后释放资源。
+
+如果 Issue #102 的修改需要人工批准，正确流程是：
+
+```text
+Agent 提出待审批动作
+→ Session = WAITING_APPROVAL
+→ 保存 Tool、版本和精确参数
+→ Worker 释放
+```
+
+二十分钟后审批通过：
+
+```text
+审批事件写入数据库
+→ session_id 再次进入队列
+→ 新 Worker 加载 Session
+→ 执行已经审批的准确动作
+```
+
+审批不能只保存一个模糊的“同意继续”。它要绑定 Tool、版本和参数，避免审批的是订单 `O-17`，恢复后执行的却是 `O-18`。
+
+Worker 崩溃的处理方式也类似。队列不会立即把正在处理的消息永久删除，而会暂时隐藏；Worker 没有在规定时间内确认完成，消息会重新出现。新 Worker 再根据 Session 和执行记录决定继续、重试还是对账。
+
+<Callout label="恢复原则" tone="warning">
+  Worker 可以重建，外部副作用不能假装没有发生。遇到不确定结果，先确认事实，再决定是否重试。
+</Callout>
+
+<h2 id="sandbox">07. Workspace 保存工作，Sandbox 限制执行</h2>
+
+Workspace 是任务的工作目录，里面可以放代码仓库、分支、生成文件和测试报告。Sandbox 是一组执行边界，可能由容器、虚拟机或操作系统权限实现。两者不是同一个概念。
+
+<RuntimeMap />
+
+OpenAI 在 [From model to agent](https://openai.com/index/equip-responses-api-computer-environment/) 中描述了模型、Agent Loop、Shell Tool 和托管容器 Workspace 的配合：模型提出命令，平台在隔离环境中执行，再把结果送回模型。文件系统可以保存中间产物，网络访问则需要单独的策略控制。
+
+一项代码任务通常会绑定：
+
+```text
+repository = company/shop
+base_commit = abc123
+branch = agent/task-882
+workspace = workspace-882
+```
+
+固定 `base_commit` 很重要。只记录 `main` 不够，因为 `main` 会移动；任务恢复时重新拉到不同代码，前面的分析和测试就无法复现。
+
+Sandbox 再限制：
+
+```text
+允许读写哪些路径
+允许访问哪些域名
+可以使用哪些密钥
+能否启动子进程
+CPU、内存和执行时间上限
+```
+
+“只允许写 `/reports`”只能阻止路径越界，挡不住 Agent 在允许目录里写恶意程序。网络、密钥、进程和资源权限必须一起限制。
+
+<h2 id="multi-agent">08. 多 Agent 只解决能独立拆开的工作</h2>
+
+多 Agent 不是默认升级。一个简单 Bug 如果拆给四个 Subagent，每个 Agent 都要重新读取背景，Lead 还要分配、等待、去重和合并，成本可能比单 Agent 更高。
+
+适合并行的任务有清楚边界：
+
+```text
+Subagent A：检查退款业务规则
+Subagent B：检查现有单元测试
+Subagent C：检查欺诈和权限边界
+```
+
+如果设计修改方案必须依赖 A、B、C 的结果，它就应该在下一层执行，而不是和前三项一起启动。
+
+Lead 给 Subagent 的任务还需要明确契约：
+
+```text
+目标
+范围
+禁止事项
+可用 Tool 和权限
+返回格式
+验收标准
+截止时间
+```
+
+Subagent 只接收完成任务所需的最小上下文，不继承 Lead 的全部对话和权限。返回时优先给结论、证据引用和版本，不复制整份日志。
+
+长任务可以进一步拆成三个职责：
+
+<AgentTeamMap />
+
+Planner 决定下一步，Executor 产生结果，Evaluator 根据测试、代码和证据决定是否接受。这三个职责可以由不同 Agent 完成，也可以由同一个 Agent 分阶段承担。结构是否值得保留，要看它有没有带来可测量的质量收益，而不是看 Agent 数量。
+
+<h2 id="delivery">09. 代码修改怎样成为可交付结果</h2>
+
+Agent 进入 Workspace 后，先读取 `AGENTS.md`、README、目录结构、测试命令和接口定义。然后用只读 Tool 建立“需求、规则、代码和测试”之间的证据链，再开始修改。
+
+测试从最相关的范围开始：
+
+```text
+退款单元测试
+→ 支付模块测试
+→ 固定关键回归
+→ 安全与异常参数测试
+```
+
+测试失败也要分类。断言失败通常指向代码逻辑，依赖下载超时、端口占用或内存不足则可能是基础设施问题。后者可以换环境重试，前者应该回到代码和需求分析。
+
+完成声明至少要带：
+
+```text
+修改了哪些文件
+为什么这样修改
+运行了哪些测试
+测试结果是什么
+基于哪个 Commit
+还有哪些测试没有运行
+```
+
+随后才是推送分支、创建 PR、运行 CI 和人工审查。CI 或 Reviewer 的反馈继续进入原 Task，Agent 恢复 Session 后更新同一个 PR。
+
+[Symphony](https://openai.com/index/open-source-codex-orchestration-symphony/) 展示了一种更完整的 Agentic Coding 调度方式：任务跟踪器充当控制面，每个任务映射到独立 Agent Workspace，Agent 读取任务、修改代码并处理后续反馈。这个案例说明，真正被管理的对象是交付任务，不是某个一直打开的聊天窗口。
+
+<h2 id="minimum-system">10. 如果从零开始，我会先搭什么</h2>
+
+学完这些组件后，我不会第一天就上多 Agent、复杂 Planner 或自动部署。最小版本只需要把一条单 Agent 链路做可靠：
+
+```text
+Task + Session
+→ Queue + Worker
+→ 独立 Workspace
+→ 最小 Harness Loop
+→ Tool Registry 与参数校验
+→ Event、Trace 和执行记录
+→ 测试、审批与失败恢复
+```
+
+这条链路稳定以后，再根据真实瓶颈增加：
+
+- 上下文太长，再做摘要、检索和 Artifact 引用；
+- 可并行工作确实很多，再加入 Subagent；
+- 长任务经常失去方向，再分 Planner、Executor 和 Evaluator；
+- Worker 经常积压，再做扩容、租户配额和背压；
+- 有跨任务改进需求，再接入第一篇文章里的评测、灰度和自进化闭环。
+
+现在我会把 Agent 系统看成几层协作：
+
+```text
+模型负责提出决策
+Harness 负责控制一次执行
+后端运行时负责保存和恢复任务
+Sandbox 负责限制真实动作
+测试与审批负责接受或拒绝结果
+```
+
+模型能力会继续变化。这几层边界仍然有用，因为它们解决的是权限、状态、失败和证据问题。
+
+<Callout label="我的当前理解" tone="thesis">
+  一项 Agent 任务能跑完，不靠某个永远在线的模型。系统每次恢复可信现场，让模型决定一小步，再把动作、结果和下一次恢复需要的证据保存下来。
+</Callout>
+
+## 参考资料
+
+- [OpenAI — Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/)
+- [OpenAI — Unlocking the Codex harness: how we built the App Server](https://openai.com/index/unlocking-the-codex-harness/)
+- [OpenAI — From model to agent: Equipping the Responses API with a computer environment](https://openai.com/index/equip-responses-api-computer-environment/)
+- [OpenAI — An open-source spec for Codex orchestration: Symphony](https://openai.com/index/open-source-codex-orchestration-symphony/)
+- [Anthropic — How we built our multi-agent research system](https://www.anthropic.com/engineering/multi-agent-research-system)
+- [Anthropic — Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)

@@ -1,6 +1,9 @@
 import AgentSelfEvolutionArticle, {
   metadata as agentSelfEvolutionMetadata,
 } from "./agent-self-evolution.mdx";
+import AgentRuntimeArticle, {
+  metadata as agentRuntimeMetadata,
+} from "./agent-runtime-from-loop-to-production.mdx";
 import type { BlogPostMetadata, BlogPostRecord } from "@/types/blog";
 
 function assertMetadata(
@@ -52,6 +55,15 @@ function assertMetadata(
 }
 
 const posts = [
+  {
+    slug: "agent-runtime-from-loop-to-production",
+    sourceFile: "agent-runtime-from-loop-to-production.mdx",
+    metadata: assertMetadata(
+      "agent-runtime-from-loop-to-production",
+      agentRuntimeMetadata,
+    ),
+    Content: AgentRuntimeArticle,
+  },
   {
     slug: "agent-self-evolution",
     sourceFile: "agent-self-evolution.mdx",

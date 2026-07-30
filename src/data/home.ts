@@ -80,19 +80,21 @@ export const featuredProjects = [
 
 export const experiences = [
   {
-    period: "2026.07",
+    period: "2026.07.30",
+    title: "一项 Agent 任务，到底是怎么跑完的",
+    organization: "Harness / Runtime / Multi-Agent / Agentic Coding",
+    summary:
+      "从 Issue 进入系统开始，拆开 Task、Session、Worker、Workspace、Tool 执行和代码交付之间的数据流。",
+    href: "/blog/agent-runtime-from-loop-to-production",
+    linkLabel: "查看完整技术文章",
+  },
+  {
+    period: "2026.07.28",
     title: "Agent 自进化，不是让模型随便改自己",
     organization: "8 篇论文 / Agent 工程学习归档",
     summary:
       "把 Memory、Skill、Tool、Harness、评测、安全和发布重新组织成一条可验证、可灰度、可回滚的生产闭环。",
     href: "/blog/agent-self-evolution",
     linkLabel: "查看完整技术文章",
-  },
-  {
-    period: "待填写",
-    title: "实习 / 真实工作经历",
-    organization: "组织名称暂不公开",
-    summary:
-      "公开版本只保留经过审查的职责、方法与结果，受限业务信息不会进入网站。",
   },
 ] satisfies readonly ExperiencePreview[];

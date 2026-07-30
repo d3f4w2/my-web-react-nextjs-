@@ -175,3 +175,134 @@ export function RuntimeMap() {
     </figure>
   );
 }
+
+const taskRuntimeSteps = [
+  ["01", "登记", "外部请求去重，创建 Task 与 Session"],
+  ["02", "领取", "队列唤醒 Worker，创建新的 Attempt"],
+  ["03", "执行", "Harness 驱动模型、Tool 与审批"],
+  ["04", "验证", "测试、Evaluator、CI 与人工审查"],
+  ["05", "交付", "提交版本、PR、发布或失败恢复"],
+] as const;
+
+export function TaskRuntimeFlow() {
+  return (
+    <figure className={styles.figure}>
+      <div className={styles.figureHeader}>
+        <span>TASK RUNTIME</span>
+        <i>一项任务怎样穿过系统</i>
+      </div>
+      <ol className={styles.taskFlow}>
+        {taskRuntimeSteps.map(([index, title, description]) => (
+          <li key={index}>
+            <span>{index}</span>
+            <strong>{title}</strong>
+            <p>{description}</p>
+          </li>
+        ))}
+      </ol>
+      <figcaption>
+        模型调用只占中间一段。任务入口、状态、恢复和交付都由模型外部的系统负责。
+      </figcaption>
+    </figure>
+  );
+}
+
+const runtimeIdentities = [
+  ["Task", "业务目标", "这件事是否仍然需要完成"],
+  ["Session", "执行现场", "某次 Agent 执行当前进行到哪里"],
+  ["Attempt", "一次接手", "哪个 Worker 正在推进这段执行"],
+  ["Workspace", "工作目录", "代码、文件和测试产物放在哪里"],
+] as const;
+
+export function RuntimeIdentityMap() {
+  return (
+    <figure className={styles.figure}>
+      <div className={styles.figureHeader}>
+        <span>RUNTIME IDENTITIES</span>
+        <i>不要把四个对象混成“会话”</i>
+      </div>
+      <div className={styles.identityMap}>
+        {runtimeIdentities.map(([name, role, description]) => (
+          <article key={name}>
+            <span>{name}</span>
+            <strong>{role}</strong>
+            <p>{description}</p>
+          </article>
+        ))}
+      </div>
+      <figcaption>
+        Worker 可以消失，Attempt 可以重建；Task、Session 和已保存的 Workspace 仍要允许系统继续工作。
+      </figcaption>
+    </figure>
+  );
+}
+
+const harnessSteps = [
+  ["Context", "当前需要知道什么"],
+  ["Model", "提出回复或 Tool Call"],
+  ["Validate", "检查 Schema、权限与审批"],
+  ["Handler", "调用真实代码或外部 API"],
+  ["Result", "标准化、保存并送回模型"],
+] as const;
+
+export function HarnessLoopMap() {
+  return (
+    <figure className={styles.figure}>
+      <div className={styles.figureHeader}>
+        <span>HARNESS LOOP</span>
+        <i>决定一步，执行一步</i>
+      </div>
+      <ol className={styles.harnessLoop}>
+        {harnessSteps.map(([title, description], index) => (
+          <li key={title}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <strong>{title}</strong>
+            <p>{description}</p>
+          </li>
+        ))}
+      </ol>
+      <div className={styles.loopReturn} aria-hidden="true">
+        <span>Tool Result 返回 Context，直到模型给出最终回复</span>
+      </div>
+      <figcaption>
+        模型只能提出动作。验证、执行、落库和循环终止都属于 Harness。
+      </figcaption>
+    </figure>
+  );
+}
+
+export function AgentTeamMap() {
+  return (
+    <figure className={styles.figure}>
+      <div className={styles.figureHeader}>
+        <span>PLANNER / EXECUTOR / EVALUATOR</span>
+        <i>长任务中的三个职责</i>
+      </div>
+      <div className={styles.agentTeam}>
+        <section>
+          <span>01</span>
+          <strong>Planner</strong>
+          <p>根据目标和证据决定下一步</p>
+        </section>
+        <i aria-hidden="true">下发当前步骤 →</i>
+        <section>
+          <span>02</span>
+          <strong>Executor</strong>
+          <p>执行步骤并提交结果与证据</p>
+        </section>
+        <i aria-hidden="true">结果与证据 →</i>
+        <section>
+          <span>03</span>
+          <strong>Evaluator</strong>
+          <p>按验收标准决定通过或退回</p>
+        </section>
+      </div>
+      <div className={styles.feedbackRail}>
+        <span>不通过：带着具体问题回到 Planner</span>
+      </div>
+      <figcaption>
+        三者是职责，不一定对应三种不同模型。简单任务可以由一个 Agent 分阶段完成。
+      </figcaption>
+    </figure>
+  );
+}

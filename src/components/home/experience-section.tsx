@@ -102,7 +102,7 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
                     <p className={styles.period}>{experience.period}</p>
                     <div className={styles.identity}>
                       <span className={styles.recordState}>
-                        {index === 0 ? "进行中" : "内容待核对"}
+                        {experience.href ? "已发布" : "内容待核对"}
                       </span>
                       <h3>{experience.title}</h3>
                       <p>{experience.organization}</p>
@@ -135,7 +135,9 @@ export function ExperienceSection({ experiences }: ExperienceSectionProps) {
               </div>
               <motion.i style={reduceMotion ? undefined : { scaleY: scanScale }} />
               <div className={styles.scannerFoot}>
-                {activeIndex === 0 ? "定位 · 核对 · 记录" : "审阅 · 保护边界"}
+                {experiences[activeIndex]?.href
+                  ? "已核对 · 可阅读"
+                  : "审阅 · 保护边界"}
               </div>
             </motion.div>
           </motion.div>

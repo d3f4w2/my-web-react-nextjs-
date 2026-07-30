@@ -65,7 +65,9 @@
 
 .loop,
 .rail,
-.stack {
+.stack,
+.taskFlow,
+.harnessLoop {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -248,6 +250,133 @@
   writing-mode: vertical-rl;
 }
 
+.taskFlow,
+.harnessLoop {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid rgb(240 234 223 / 0.24);
+  border-left: 1px solid rgb(240 234 223 / 0.24);
+}
+
+.taskFlow li,
+.harnessLoop li {
+  position: relative;
+  display: grid;
+  min-height: 9.5rem;
+  align-content: space-between;
+  gap: 0.85rem;
+  padding: 1rem;
+  border-right: 1px solid rgb(240 234 223 / 0.24);
+  border-bottom: 1px solid rgb(240 234 223 / 0.24);
+}
+
+.taskFlow li:not(:last-child)::after,
+.harnessLoop li:not(:last-child)::after {
+  position: absolute;
+  z-index: 2;
+  top: 1.2rem;
+  right: -0.33rem;
+  width: 0.62rem;
+  height: 0.62rem;
+  background: var(--color-accent);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  content: "";
+}
+
+.taskFlow li > span,
+.harnessLoop li > span,
+.agentTeam section > span {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.taskFlow strong,
+.harnessLoop strong,
+.identityMap strong,
+.agentTeam strong {
+  display: block;
+  font-weight: 830;
+}
+
+.taskFlow p,
+.harnessLoop p,
+.identityMap p,
+.agentTeam p {
+  margin: 0;
+  color: rgb(240 234 223 / 0.64);
+  font-size: 0.74rem;
+  line-height: 1.65;
+}
+
+.identityMap {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: rgb(240 234 223 / 0.22);
+}
+
+.identityMap article {
+  display: grid;
+  min-height: 10rem;
+  align-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #11100e;
+}
+
+.identityMap article > span {
+  width: fit-content;
+  padding: 0.25rem 0.45rem;
+  color: var(--color-ink);
+  background: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 850;
+}
+
+.loopReturn,
+.feedbackRail {
+  padding: 0.7rem 1rem;
+  color: var(--color-ink);
+  background: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.agentTeam {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.7rem;
+}
+
+.agentTeam section {
+  display: grid;
+  min-height: 9.5rem;
+  align-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid rgb(240 234 223 / 0.25);
+}
+
+.agentTeam > i {
+  align-self: center;
+  color: rgb(240 234 223 / 0.56);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-style: normal;
+}
+
+.feedbackRail {
+  color: var(--color-paper);
+  background: rgb(240 234 223 / 0.12);
+  border-left: 3px solid var(--color-accent);
+}
+
 .callout {
   display: grid;
   grid-template-columns: minmax(7rem, 0.24fr) 1fr;
@@ -317,6 +446,44 @@
   .rail li:nth-child(-n + 3) {
     border-bottom: 0;
   }
+
+  .taskFlow,
+  .harnessLoop {
+    grid-template-columns: 1fr;
+  }
+
+  .taskFlow li,
+  .harnessLoop li {
+    min-height: auto;
+    grid-template-columns: 2rem minmax(6rem, 0.3fr) 1fr;
+    align-items: start;
+  }
+
+  .taskFlow li:not(:last-child)::after,
+  .harnessLoop li:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: -0.4rem;
+    left: 1.4rem;
+    rotate: 90deg;
+  }
+
+  .identityMap {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .agentTeam {
+    grid-template-columns: 1fr;
+  }
+
+  .agentTeam section {
+    min-height: auto;
+  }
+
+  .agentTeam > i {
+    text-align: center;
+    rotate: 90deg;
+  }
 }
 
 @media (max-width: 40rem) {
@@ -362,6 +529,20 @@
   .runtime > i {
     writing-mode: initial;
     text-align: center;
+  }
+
+  .identityMap {
+    grid-template-columns: 1fr;
+  }
+
+  .taskFlow li,
+  .harnessLoop li {
+    grid-template-columns: 1.75rem 1fr;
+  }
+
+  .taskFlow p,
+  .harnessLoop p {
+    grid-column: 2;
   }
 
   .callout {
