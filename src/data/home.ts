@@ -68,13 +68,14 @@ export const featuredProjects = [
     tags: ["Prototype", "Tool Calling", "Iteration"],
   },
   {
-    type: "开源 / 比赛",
-    title: "开源协作：实践记录",
+    type: "开源贡献",
+    title: "OpenHands：禁用 Skill 上下文修复",
     summary:
-      "将根据真实材料补充 issue、贡献内容、团队分工与最终结果，不创建虚假链接。",
-    responsibility: "贡献内容、协作范围与结果待整理",
-    status: "材料待整理",
-    tags: ["Open Source", "Collaboration", "Learning"],
+      "修复禁用 Skill 仍进入新会话 Agent context 的一致性缺陷，同时覆盖 OpenHands 与 ACP 路径；PR #16168 已由上游维护者批准并合并。",
+    responsibility: "独立复现、修复、回归测试与上游协作",
+    status: "已被上游合并",
+    tags: ["Open Source", "Agent Context", "Regression Testing"],
+    href: "/projects/#open-source-contributions",
   },
 ] satisfies readonly ProjectPreview[];
 
