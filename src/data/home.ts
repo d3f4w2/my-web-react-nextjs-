@@ -1,3 +1,5 @@
+import { openSourceContributions } from "./open-source";
+
 export type CapabilityItem = {
   index: string;
   title: string;
@@ -13,6 +15,7 @@ export type ProjectPreview = {
   status: string;
   tags: readonly string[];
   href?: `/projects/${string}`;
+  linkLabel?: string;
 };
 
 export type ExperiencePreview = {
@@ -48,7 +51,25 @@ export const capabilities = [
   },
 ] satisfies readonly CapabilityItem[];
 
-export const featuredProjects = [
+const HOMEPAGE_OPEN_SOURCE_LIMIT = 2;
+
+const featuredOpenSourceProjects = openSourceContributions
+  .filter((contribution) => contribution.featured)
+  .slice(0, HOMEPAGE_OPEN_SOURCE_LIMIT)
+  .map(
+    (contribution): ProjectPreview => ({
+      type: "开源贡献",
+      title: `${contribution.repository.split(" / ")[0]}：${contribution.title}`,
+      summary: contribution.summary,
+      responsibility: contribution.scope,
+      status: "已被上游合并",
+      tags: contribution.tags,
+      href: "/projects/#open-source-contributions",
+      linkLabel: "查看全部开源贡献 →",
+    }),
+  );
+
+export const otherProjects = [
   {
     type: "实习 / 工作项目",
     title: "受限项目：Agent 工作流实践",
@@ -58,25 +79,11 @@ export const featuredProjects = [
     status: "待脱敏审查",
     tags: ["Agent 协作", "责任边界", "结果验证"],
   },
-  {
-    type: "个人 Agent 项目",
-    title: "个人项目：从想法到可运行原型",
-    summary:
-      "将补充动机、独立负责范围、Agent 架构、关键决策与迭代记录。",
-    responsibility: "项目范围与个人负责部分待补充",
-    status: "内容待补充",
-    tags: ["Prototype", "Tool Calling", "Iteration"],
-  },
-  {
-    type: "开源贡献",
-    title: "OpenHands：禁用 Skill 上下文修复",
-    summary:
-      "修复禁用 Skill 仍进入新会话 Agent context 的一致性缺陷，同时覆盖 OpenHands 与 ACP 路径；PR #16168 已由上游维护者批准并合并。",
-    responsibility: "独立复现、修复、回归测试与上游协作",
-    status: "已被上游合并",
-    tags: ["Open Source", "Agent Context", "Regression Testing"],
-    href: "/projects/#open-source-contributions",
-  },
+] satisfies readonly ProjectPreview[];
+
+export const featuredProjects = [
+  ...otherProjects,
+  ...featuredOpenSourceProjects,
 ] satisfies readonly ProjectPreview[];
 
 export const experiences = [

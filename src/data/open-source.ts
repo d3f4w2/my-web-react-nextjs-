@@ -1,4 +1,5 @@
 export type OpenSourceContribution = {
+  featured: boolean;
   repository: string;
   pullRequest: number;
   title: string;
@@ -20,6 +21,7 @@ export type OpenSourceContribution = {
 
 export const openSourceContributions = [
   {
+    featured: true,
     repository: "Mastra / mastra",
     pullRequest: 20312,
     title: "让 Hono SSE 断连清理失败不再击穿服务进程",
@@ -55,6 +57,7 @@ export const openSourceContributions = [
     tags: ["Agent Runtime", "SSE", "Failure Handling"],
   },
   {
+    featured: true,
     repository: "OpenHands / OpenHands",
     pullRequest: 16168,
     title: "让禁用的 Skill 真正退出新会话的 Agent 上下文",

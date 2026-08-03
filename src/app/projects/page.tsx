@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { OpenSourceContributions } from "@/components/projects/open-source-contributions";
 import { ProjectCard } from "@/components/projects/project-card";
-import { featuredProjects } from "@/data/home";
+import { otherProjects } from "@/data/home";
 import { openSourceContributions } from "@/data/open-source";
 import styles from "../collection-page.module.css";
 
@@ -30,7 +30,7 @@ export default function ProjectsPage() {
             <p>问题、职责、边界、验证</p>
           </div>
           <div className={styles.grid} data-layout="projects">
-            {featuredProjects.map((project, index) => (
+            {otherProjects.map((project, index) => (
               <ProjectCard index={index + 1} project={project} key={project.title} />
             ))}
           </div>

@@ -88,17 +88,17 @@ function AssemblyVisual({ progress }: { progress: MotionValue<number> }) {
   );
 }
 
-function FieldVisual() {
+function FieldVisual({ project }: { project: ProjectPreview }) {
   return (
     <div className={styles.fieldVisual} aria-hidden="true">
       <span className={styles.fieldOrbit} />
       <span className={styles.fieldOrbit} />
       <span className={styles.fieldOrbit} />
       <div className={styles.fieldCore}>
-        <span>PERSONAL</span>
-        <strong>AGENT</strong>
+        <span>UPSTREAM / MERGED</span>
+        <strong>{project.tags[0]?.replace("Agent ", "") ?? "PATCH"}</strong>
       </div>
-      <p>IDEA → PROTOTYPE → ITERATION</p>
+      <p>ISSUE → PATCH → VERIFY</p>
     </div>
   );
 }
@@ -117,9 +117,11 @@ function PosterVisual() {
 
 function ProjectVisual({
   progress,
+  project,
   variant,
 }: {
   progress: MotionValue<number>;
+  project: ProjectPreview;
   variant: SceneVariant;
 }) {
   if (variant === "assembly") {
@@ -127,7 +129,7 @@ function ProjectVisual({
   }
 
   if (variant === "field") {
-    return <FieldVisual />;
+    return <FieldVisual project={project} />;
   }
 
   return <PosterVisual />;
@@ -216,13 +218,15 @@ function ProjectScene({
           </ul>
           <div className={styles.projectAction}>
             {project.href ? (
-              <Link href={project.href}>查看项目详情 →</Link>
+              <Link href={project.href}>
+                {project.linkLabel ?? "查看项目详情 →"}
+              </Link>
             ) : (
               <span>详情内容整理中</span>
             )}
           </div>
         </div>
-        <ProjectVisual progress={progress} variant={variant} />
+        <ProjectVisual progress={progress} project={project} variant={variant} />
       </div>
     </motion.article>
   );
