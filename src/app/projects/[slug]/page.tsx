@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageFrame } from "@/components/layout/page-frame";
 import { JsonLd } from "@/components/metadata/json-ld";
-import { ProjectVideo } from "@/components/projects/project-video";
+import { InternshipDemo } from "@/components/projects/internship-demo";
 import { getProjectDetail, projectDetails } from "@/data/project-details";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import styles from "./project-detail.module.css";
@@ -133,18 +133,11 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
         {project.media ? (
           <section className={`site-container ${styles.mediaSection}`} aria-labelledby="project-media-title">
-            <h2 id="project-media-title">产品真实运行。</h2>
-            <div className={styles.mediaGrid}>
-              {project.media.map((item, index) => (
-                <figure key={item.src} data-position={index}>
-                  <ProjectVideo src={item.src} poster={item.poster} title={item.title} />
-                  <figcaption>
-                    <strong>{item.title}</strong>
-                    <p>{item.caption}</p>
-                  </figcaption>
-                </figure>
-              ))}
+            <div className={styles.mediaIntro}>
+              <h2 id="project-media-title">领券 / 比价</h2>
+              <p>两段完整 Android 操作演示。点击步骤，可以直接跳到对应位置。</p>
             </div>
+            <InternshipDemo items={project.media} />
           </section>
         ) : null}
 

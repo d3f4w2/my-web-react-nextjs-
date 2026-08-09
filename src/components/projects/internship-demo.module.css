@@ -1,0 +1,264 @@
+.theater {
+  display: grid;
+  gap: clamp(3.5rem, 6vw, 5.5rem);
+  margin-top: clamp(4rem, 9vw, 8rem);
+}
+
+.demo {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.72fr) minmax(20rem, 1.28fr);
+  grid-template-areas:
+    "copy player"
+    "chapters player";
+  gap: clamp(2.5rem, 7vw, 7rem);
+  align-items: center;
+  min-height: min(58rem, calc(100svh - var(--header-height)));
+  padding-block: clamp(3rem, 7vw, 6rem);
+  border-block: 1px solid var(--color-border-strong);
+}
+
+.demo:nth-child(even) {
+  grid-template-columns: minmax(20rem, 1.28fr) minmax(16rem, 0.72fr);
+  grid-template-areas:
+    "player copy"
+    "player chapters";
+  color: var(--color-ink);
+  background: var(--color-accent);
+  box-shadow: 0 0 0 100vmax var(--color-accent);
+  clip-path: inset(0 -100vmax);
+}
+
+.copy {
+  grid-area: copy;
+  align-self: end;
+}
+
+.copy h3 {
+  max-width: 5ch;
+  color: var(--color-accent);
+  font-size: clamp(5rem, 11vw, 9rem);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 0.78;
+  transform: skewX(-5deg);
+  transform-origin: left center;
+}
+
+.demo:nth-child(even) .copy h3 {
+  color: var(--color-ink);
+}
+
+.caption {
+  max-width: 34rem;
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 560;
+  line-height: 1.75;
+}
+
+.responsibilities {
+  display: grid;
+  margin-top: 2.25rem;
+  padding: 0;
+  border-top: 1px solid currentColor;
+  list-style: none;
+}
+
+.responsibilities li {
+  padding-block: 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 38%, transparent);
+  font-size: clamp(1rem, 1.5vw, 1.16rem);
+  font-weight: 760;
+}
+
+.playerStage {
+  position: relative;
+  grid-area: player;
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  color: var(--color-paper);
+  background: var(--color-page-deep);
+  clip-path: polygon(2% 0, 100% 1.5%, 98% 96%, 4% 100%, 0 7%);
+}
+
+.playerStage::before {
+  position: absolute;
+  inset: 1.2rem auto 1.2rem 1rem;
+  width: 0.34rem;
+  content: "";
+  background: var(--color-accent);
+  transform: skewY(-10deg);
+}
+
+.playerMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(100%, 29rem);
+  margin: 0 auto 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.playerMeta strong,
+.playerMeta span {
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.playerMeta strong {
+  color: var(--color-accent);
+}
+
+.phoneFrame {
+  width: min(100%, 29rem);
+  margin-inline: auto;
+  overflow: hidden;
+  background: #000;
+  transform: rotate(0.7deg);
+}
+
+.demo:nth-child(even) .phoneFrame {
+  transform: rotate(-0.7deg);
+}
+
+.phoneFrame video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 19.5;
+  object-fit: contain;
+  background: #000;
+  accent-color: var(--color-accent);
+}
+
+.progressTrack {
+  width: min(100%, 29rem);
+  height: 0.3rem;
+  margin: 1rem auto 0;
+  overflow: hidden;
+  background: rgb(232 231 222 / 0.2);
+}
+
+.progressTrack span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-accent);
+  transform-origin: left center;
+  transition: transform 180ms linear;
+}
+
+.chapters {
+  grid-area: chapters;
+  align-self: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chapters li + li {
+  border-top: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+}
+
+.chapters button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 3.5rem minmax(4rem, 0.48fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: color 180ms ease, transform 240ms var(--easing-standard);
+}
+
+.chapters button:hover,
+.chapters button:focus-visible,
+.activeChapter {
+  color: var(--color-accent);
+  transform: translateX(0.35rem);
+}
+
+.demo:nth-child(even) .chapters button:hover,
+.demo:nth-child(even) .chapters button:focus-visible,
+.demo:nth-child(even) .activeChapter {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 0.14em;
+  text-underline-offset: 0.2em;
+}
+
+.chapters span {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.chapters strong {
+  font-size: 1.05rem;
+  font-weight: 850;
+}
+
+.chapters small {
+  font-size: 0.92rem;
+  font-weight: 560;
+  line-height: 1.55;
+}
+
+@media (max-width: 64rem) {
+  .demo,
+  .demo:nth-child(even) {
+    grid-template-columns: minmax(15rem, 0.8fr) minmax(18rem, 1.2fr);
+    grid-template-areas:
+      "copy player"
+      "chapters player";
+  }
+}
+
+@media (max-width: 48rem) {
+  .theater {
+    gap: 5rem;
+  }
+
+  .demo,
+  .demo:nth-child(even) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "copy"
+      "player"
+      "chapters";
+    gap: 2.5rem;
+    min-height: auto;
+  }
+
+  .copy h3 {
+    font-size: clamp(5.5rem, 29vw, 8rem);
+  }
+
+  .playerStage {
+    width: calc(100% + 1rem);
+    margin-left: -0.5rem;
+    padding: 1.5rem;
+  }
+
+  .chapters button {
+    grid-template-columns: 3rem 4rem minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressTrack span,
+  .chapters button {
+    transition: none;
+  }
+
+  .chapters button:hover,
+  .chapters button:focus-visible,
+  .activeChapter {
+    transform: none;
+  }
+}

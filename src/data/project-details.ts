@@ -33,6 +33,14 @@ export type ProjectDetail = {
     poster: string;
     title: string;
     caption: string;
+    durationSeconds: number;
+    durationLabel: string;
+    responsibilities: readonly string[];
+    chapters: readonly {
+      at: number;
+      label: string;
+      body: string;
+    }[];
   }[];
   team?: string;
 };
@@ -99,16 +107,36 @@ export const projectDetails = [
     ],
     media: [
       {
-        src: "/assets/work/price-comparison-demo.mp4",
+        src: "/assets/work/price-comparison-full.mp4",
         poster: "/assets/work/price-comparison-poster.webp",
-        title: "跨平台比价",
-        caption: "Agent 进入外部购物平台，识别同一商品的规格与价格，并把结果送回应用。",
+        title: "比价",
+        caption: "从傻瓜比价发起任务，进入多个消费平台完成商品选择、规格识别与价格比较，再把结果送回应用。",
+        durationSeconds: 132,
+        durationLabel: "02:12",
+        responsibilities: ["跨平台任务编排", "商品与规格识别", "价格结果回传"],
+        chapters: [
+          { at: 0, label: "发起", body: "在应用内提交要比较的商品。" },
+          { at: 18, label: "选品", body: "进入平台并确认商品与规格。" },
+          { at: 61, label: "切换", body: "继续进入其他平台寻找同款。" },
+          { at: 105, label: "对齐", body: "统一规格后比较可成交价格。" },
+          { at: 126, label: "回传", body: "把可确认的结果送回应用。" },
+        ],
       },
       {
-        src: "/assets/work/coupon-demo.mp4",
+        src: "/assets/work/coupon-full.mp4",
         poster: "/assets/work/coupon-poster.webp",
-        title: "自动领券",
-        caption: "任务执行过程可以被查看和停止，完成后在应用内确认领券结果。",
+        title: "领券",
+        caption: "从应用发起领券任务，连续进入外部平台领取优惠，过程可追踪、可停止，完成后统一返回结果。",
+        durationSeconds: 91,
+        durationLabel: "01:31",
+        responsibilities: ["领券任务生命周期", "执行进度追踪", "异常恢复与结果汇总"],
+        chapters: [
+          { at: 0, label: "开始", body: "创建领券任务并生成执行标识。" },
+          { at: 13, label: "执行", body: "进入平台逐项领取可用优惠。" },
+          { at: 39, label: "换台", body: "切换平台并保持同一任务进度。" },
+          { at: 66, label: "追踪", body: "应用持续显示数量与执行状态。" },
+          { at: 84, label: "完成", body: "汇总领券结果并返回应用。" },
+        ],
       },
     ],
     team: "团队从产品、Agent 后端到客户端共同完成 0 到 1 的交付。成员具有清华、北大、中科院、人大、哈工大、哥大等教育背景，以及微软、亚马逊、字节、腾讯、百度、华为等工作经验。",
