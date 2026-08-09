@@ -1,0 +1,249 @@
+.page {
+  min-height: calc(100svh - var(--header-height));
+  overflow: clip;
+  color: var(--color-ink);
+  background:
+    linear-gradient(rgb(11 12 10 / 0.08) 1px, transparent 1px) 0 0 / 100% 2.2rem,
+    var(--color-accent);
+}
+
+.poster {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+  grid-template-areas:
+    "heading wechat"
+    "email wechat"
+    "routes routes";
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: calc(100svh - var(--header-height));
+  padding-block: clamp(3.5rem, 7vw, 7rem) clamp(2rem, 5vw, 4rem);
+}
+
+.poster::before {
+  position: absolute;
+  top: clamp(2rem, 5vw, 5rem);
+  right: 27%;
+  width: clamp(7rem, 14vw, 12rem);
+  aspect-ratio: 1;
+  border: clamp(0.8rem, 1.7vw, 1.6rem) solid var(--color-ink);
+  content: "";
+  opacity: 0.08;
+  transform: rotate(14deg);
+  pointer-events: none;
+}
+
+.heading {
+  grid-area: heading;
+  align-self: start;
+}
+
+.heading h1 {
+  max-width: 8ch;
+  font-size: clamp(4rem, 8.5vw, 8.6rem);
+  font-weight: 920;
+  letter-spacing: -0.075em;
+  line-height: 0.84;
+}
+
+.heading h1 span {
+  display: block;
+}
+
+.heading h1 span:last-child {
+  margin-left: clamp(1.2rem, 5vw, 5rem);
+  color: var(--color-text);
+  -webkit-text-stroke: clamp(1px, 0.12vw, 2px) var(--color-ink);
+  transform: skewX(-8deg);
+}
+
+.heading p {
+  max-width: 30rem;
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+  font-size: var(--type-body-large);
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.email {
+  grid-area: email;
+  align-self: end;
+  padding-top: clamp(2rem, 5vw, 4rem);
+  border-top: 0.45rem solid var(--color-ink);
+}
+
+.email h2,
+.wechat h2 {
+  font-size: var(--type-body);
+  font-weight: 850;
+}
+
+.email a {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: 0.8rem;
+  align-items: baseline;
+  margin-top: 0.8rem;
+  overflow-wrap: anywhere;
+  font-size: clamp(1.7rem, 4.3vw, 4.4rem);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  border-bottom: 0.12em solid var(--color-ink);
+  transition: color 180ms ease, background 180ms ease, transform 220ms var(--easing-standard);
+}
+
+.email a span {
+  font-size: 0.65em;
+}
+
+.email a:hover {
+  color: var(--color-accent);
+  background: var(--color-ink);
+  transform: translateX(0.5rem) skewX(-3deg);
+}
+
+.wechat {
+  grid-area: wechat;
+  align-self: center;
+  justify-self: end;
+  width: min(100%, 24rem);
+  padding: clamp(1.2rem, 3vw, 2rem);
+  color: var(--color-text);
+  background: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  transform: rotate(1.8deg);
+}
+
+.wechatCopy {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(232 231 222 / 0.32);
+}
+
+.wechatCopy p {
+  color: var(--color-text-muted);
+  font-size: var(--type-body);
+}
+
+.qrFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  margin-top: 1.2rem;
+  background: var(--color-paper);
+  filter: contrast(1.06) grayscale(1);
+}
+
+.qrFrame img {
+  object-fit: cover;
+  object-position: 50% 58%;
+}
+
+.routes {
+  grid-area: routes;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  margin-top: clamp(1rem, 3vw, 3rem);
+  border-block: 1px solid var(--color-ink);
+}
+
+.routes a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 0.2rem 1rem;
+  min-height: 8.5rem;
+  align-content: center;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.routes a + a {
+  border-left: 1px solid var(--color-ink);
+}
+
+.routes span {
+  grid-column: 1;
+  font-size: var(--type-small);
+  font-weight: 700;
+}
+
+.routes strong {
+  grid-column: 1;
+  font-size: var(--type-heading);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.routes b {
+  grid-row: 1 / -1;
+  grid-column: 2;
+  align-self: center;
+  font-size: var(--type-heading);
+}
+
+.routes a:hover {
+  color: var(--color-accent);
+  background: var(--color-ink);
+}
+
+@media (max-width: 52rem) {
+  .poster {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "heading"
+      "email"
+      "wechat"
+      "routes";
+  }
+
+  .poster::before {
+    right: -2rem;
+  }
+
+  .wechat {
+    justify-self: start;
+    width: min(78vw, 23rem);
+    transform: rotate(-1.2deg);
+  }
+}
+
+@media (max-width: 38rem) {
+  .poster {
+    padding-top: 3.5rem;
+  }
+
+  .heading h1 {
+    font-size: clamp(3.7rem, 18vw, 5.6rem);
+  }
+
+  .heading h1 span:last-child {
+    margin-left: 0.8rem;
+  }
+
+  .routes {
+    grid-template-columns: 1fr;
+  }
+
+  .routes a + a {
+    border-top: 1px solid var(--color-ink);
+    border-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .email a,
+  .routes a {
+    transition: none;
+  }
+
+  .email a:hover {
+    transform: none;
+  }
+}

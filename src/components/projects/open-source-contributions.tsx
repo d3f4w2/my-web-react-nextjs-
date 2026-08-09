@@ -1,4 +1,6 @@
+import Image from "next/image";
 import type { OpenSourceContribution } from "@/data/open-source";
+import { openSourceProjectProfiles } from "@/data/open-source";
 import styles from "./open-source-contributions.module.css";
 
 type OpenSourceContributionsProps = {
@@ -15,87 +17,116 @@ export function OpenSourceContributions({
       aria-labelledby="open-source-title"
     >
       <header className={styles.sectionHeader}>
-        <div>
-          <p className={styles.eyebrow}>开源贡献</p>
-          <h2 id="open-source-title">代码已经进入上游。</h2>
-        </div>
-        <p className={styles.policy}>
-          这里只记录由外部项目维护者确认合并的贡献。开放 PR 和个人仓库合并不计入成果。
-        </p>
+        <h2 id="open-source-title">
+          代码进入了
+          <span>真正的大项目。</span>
+        </h2>
       </header>
 
-      <div className={styles.list}>
-        {contributions.map((contribution) => (
-          <article
-            className={styles.card}
-            key={`${contribution.repository}-${contribution.pullRequest}`}
-          >
-            <div className={styles.cardHeader}>
-              <p>
-                {contribution.repository} <span>#{contribution.pullRequest}</span>
-              </p>
-              <strong>MERGED</strong>
-            </div>
+      <div className={styles.projects}>
+        {openSourceProjectProfiles.map((profile, projectIndex) => {
+          const projectContributions = contributions.filter(
+            (contribution) => contribution.repository === profile.repository,
+          );
 
-            <div className={styles.cardBody}>
-              <div className={styles.copy}>
-                <h3>{contribution.title}</h3>
-                <p>{contribution.summary}</p>
-              </div>
-
-              <dl className={styles.facts}>
-                {contribution.facts.map((fact) => (
-                  <div key={fact.label}>
-                    <dt>{fact.label}</dt>
-                    <dd>{fact.value}</dd>
+          return (
+            <article
+              className={styles.project}
+              data-project={projectIndex + 1}
+              key={profile.repository}
+            >
+              <div className={styles.authority}>
+                <div className={styles.brandLockup}>
+                  <div className={styles.logoStage}>
+                    <Image
+                      className={styles.logo}
+                      data-logo={profile.repository.toLowerCase()}
+                      src={profile.logo}
+                      alt={profile.logoAlt}
+                      width={profile.repository === "Mastra" ? 4096 : 1365}
+                      height={profile.repository === "Mastra" ? 1001 : 1365}
+                    />
                   </div>
-                ))}
-              </dl>
-            </div>
+                  <p>{profile.position}</p>
+                </div>
 
-            <div className={styles.evidence}>
-              <p>我完成的工作</p>
-              <ul>
-                {contribution.evidence.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
+                <div className={styles.reach}>
+                  <strong>{profile.reach}</strong>
+                  <span>{projectContributions.length} 项修改已由上游合并</span>
+                </div>
 
-            <footer className={styles.footer}>
-              <div className={styles.merge}>
-                <p>{contribution.scope}</p>
-                <span>
-                  {contribution.mergedAt} · merged by {contribution.mergedBy} ·{" "}
-                  <a
-                    href={contribution.commitUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {contribution.mergeCommit}
+                <div className={styles.projectCopy}>
+                  <p>{profile.description}</p>
+                  <ul>
+                    {profile.strengths.map((strength) => (
+                      <li key={strength}>{strength}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className={styles.projectLinks}>
+                  <a href={profile.officialUrl} target="_blank" rel="noreferrer">
+                    打开项目官网
                   </a>
-                </span>
+                  <a href={profile.sourceUrl} target="_blank" rel="noreferrer">
+                    查看官方代码仓库
+                  </a>
+                </div>
               </div>
 
-              <div className={styles.links}>
-                <a
-                  href={contribution.pullRequestUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  查看合并 PR
-                </a>
-                <a
-                  href={contribution.issueUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  关联 Issue
-                </a>
+              <div className={styles.contributionList}>
+                {projectContributions.map((contribution) => (
+                  <article
+                    className={styles.contribution}
+                    key={`${contribution.repository}-${contribution.pullRequest}`}
+                  >
+                    <div className={styles.contributionHeading}>
+                      <h3>{contribution.title}</h3>
+                      <a
+                        href={contribution.pullRequestUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        查看已合并 PR #{contribution.pullRequest}
+                      </a>
+                    </div>
+
+                    <p className={styles.summary}>{contribution.summary}</p>
+
+                    <dl className={styles.facts}>
+                      {contribution.facts.map((fact) => (
+                        <div key={fact.label}>
+                          <dt>{fact.label}</dt>
+                          <dd>{fact.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+
+                    <div className={styles.evidence}>
+                      <h4>我完成的工作</h4>
+                      <ul>
+                        {contribution.evidence.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <footer className={styles.contributionFooter}>
+                      <p>{contribution.scope}</p>
+                      <a
+                        href={contribution.commitUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        查看合并提交 {contribution.mergeCommit}
+                      </a>
+                    </footer>
+                  </article>
+                ))}
               </div>
-            </footer>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
     </section>
   );

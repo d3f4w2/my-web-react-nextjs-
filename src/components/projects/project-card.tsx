@@ -10,37 +10,22 @@ type ProjectCardProps = {
 export function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <article className={styles.card} data-project-tone={index}>
-      <header className={styles.header}>
-        <p>{project.type}</p>
-        <span>{project.status}</span>
-      </header>
-
-      <div className={styles.body}>
-        <div className={styles.copy}>
-          <h3>{project.title}</h3>
-          <p>{project.summary}</p>
-        </div>
-
-        <div className={styles.boundary}>
-          <span>当前公开边界</span>
-          <strong>{project.responsibility}</strong>
-        </div>
+      <div>
+        <h3>{project.title}</h3>
+        <p className={styles.summary}>{project.summary}</p>
       </div>
-
+      <p className={styles.responsibility}>{project.responsibility}</p>
       <footer className={styles.footer}>
-        <ul className={styles.tags} aria-label="项目关键词">
-          {project.tags.map((tag) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
-
         {project.href ? (
           <Link href={project.href} transitionTypes={["nav-forward"]}>
-            进入项目 <span aria-hidden="true">↗</span>
+            {project.linkLabel ?? "进入项目详情"}
           </Link>
-        ) : (
-          <span className={styles.pending}>公开材料确认后开放详情</span>
-        )}
+        ) : null}
+        {project.officialHref ? (
+          <a href={project.officialHref} target="_blank" rel="noreferrer">
+            打开产品官网
+          </a>
+        ) : null}
       </footer>
     </article>
   );

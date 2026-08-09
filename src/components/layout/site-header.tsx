@@ -1,23 +1,15 @@
-import Link from "next/link";
-import { SiteNavigation } from "./site-navigation";
+import { SiteNavigation, type NavigationSection } from "./site-navigation";
 import styles from "./site-header.module.css";
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  activeSection?: NavigationSection;
+};
+
+export function SiteHeader({ activeSection }: SiteHeaderProps) {
   return (
     <header className={styles.header}>
       <div className={`site-container ${styles.inner}`}>
-        <Link
-          className={styles.brand}
-          href="/"
-          aria-label="Personal Agent Lab 首页"
-          transitionTypes={["nav-back"]}
-        >
-          <span className={styles.brandMark} aria-hidden="true">
-            LAB
-          </span>
-          <span className={styles.brandName}>Personal Agent Lab</span>
-        </Link>
-        <SiteNavigation />
+        <SiteNavigation activeSection={activeSection} />
       </div>
     </header>
   );

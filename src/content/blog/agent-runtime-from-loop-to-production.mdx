@@ -8,32 +8,32 @@ import {
 } from "@/components/blog/article-diagrams"
 
 export const metadata = {
-  title: "一项 Agent 任务，到底是怎么跑完的",
-  subtitle: "从一次 Issue 进入系统开始，拆开 Harness、Session、Worker、多 Agent 和代码交付的数据流",
+  title: "一项 AI 任务从开始到交付，系统内部发生了什么",
+  subtitle: "用一个代码修复任务，说明任务保存、执行、暂停、恢复和交付的完整过程",
   summary:
-    "模型只负责其中几次决策。任务登记、状态恢复、Tool 执行、Workspace、队列、审批和交付，才把这些决策接成一项能长期运行的工作。",
-  type: "完整技术文章",
+    "模型只负责提出下一步建议。后端系统负责保存任务、调用工具、等待审批、处理失败并提交最终结果。",
+  type: "技术文章",
   publishedAt: "2026-07-30",
   updatedAt: "2026-07-30",
-  tags: ["Agent Engineering", "Harness", "Orchestration", "Agentic Coding"],
+  tags: ["AI 任务", "后端执行", "失败恢复", "代码交付"],
   draft: false,
   featured: true,
-  eyebrow: "SYSTEM NOTE / 002",
+  eyebrow: "技术文章",
   sections: [
     { id: "missing-system", label: "模型调用之外缺了什么" },
     { id: "task-entry", label: "任务先进入系统" },
-    { id: "runtime-identities", label: "四个运行时对象" },
-    { id: "harness-loop", label: "Harness 怎样推进一步" },
-    { id: "tool-boundary", label: "Tool 为什么不能直接执行" },
+    { id: "runtime-identities", label: "系统需要保存哪四类信息" },
+    { id: "harness-loop", label: "控制程序怎样推进任务" },
+    { id: "tool-boundary", label: "为什么不能直接执行模型请求" },
     { id: "pause-resume", label: "暂停、崩溃与恢复" },
-    { id: "sandbox", label: "Worker、Workspace 与沙箱" },
-    { id: "multi-agent", label: "什么时候需要多 Agent" },
+    { id: "sandbox", label: "工作目录和隔离执行环境" },
+    { id: "multi-agent", label: "什么时候需要多个 AI 协作" },
     { id: "delivery", label: "代码怎样成为可交付结果" },
     { id: "minimum-system", label: "我会从哪里开始搭" },
   ],
 }
 
-上一篇文章写完 Agent 自进化以后，我又花了几天补 Harness、Session、Worker、多 Agent 和生产调度。中间有一个问题反复出现：我能解释模型为什么要调用 Tool，却说不清用户关掉页面后任务为什么还能继续，也说不清 Worker 崩溃以后是谁接手、接手时从哪里恢复。
+我用一个代码修复任务，说明 AI 任务怎样在后端系统中运行。文中会用到几个术语：Task 是待办任务，Session 是一次执行记录，Worker 是后台执行程序，Workspace 是保存代码和测试结果的工作目录，Harness 是检查并控制每一步的程序。
 
 这篇文章只处理这条数据流。我会用一个假设的代码工单贯穿全文：
 
@@ -43,11 +43,11 @@ GitHub Issue #102：
 正确行为是创建申请并等待人工审批。
 ```
 
-<Callout label="阅读前提" tone="thesis">
-  模型产生下一步建议，Harness 把建议变成受控动作，后端系统保存任务现场，测试和审批决定结果能不能被接受。
+<Callout label="先记住这一点" tone="thesis">
+  模型只提出下一步建议。控制程序检查建议是否安全，后端保存任务进度，测试和人工审批决定结果能不能接受。
 </Callout>
 
-<h2 id="missing-system">01. 一次模型调用之外，还缺什么</h2>
+<h2 id="missing-system">一次模型调用之外，还缺什么</h2>
 
 最小 Agent Loop 很容易画：
 
@@ -73,7 +73,7 @@ OpenAI 在 [Unrolling the Codex agent loop](https://openai.com/index/unrolling-t
 
 <TaskRuntimeFlow />
 
-<h2 id="task-entry">02. 生产任务先进入系统，不先进入模型</h2>
+<h2 id="task-entry">任务先保存，再调用模型</h2>
 
 GitHub 创建 Issue #102 后，会向我们的 Orchestrator 发送 Webhook。网络通知可能因为超时被重复发送，所以 Orchestrator 先使用外部唯一标识去重：
 
@@ -100,7 +100,7 @@ session_id = session-901
 
 `task_id` 和 `session_id` 也不能混用。Task 表示业务上要完成的事情；Session 保存某次 Agent 执行的现场。第一次执行彻底失败后，Task 仍然存在，系统可以为它创建新的 Session。
 
-<h2 id="runtime-identities">03. Task、Session、Attempt 和 Workspace</h2>
+<h2 id="runtime-identities">系统需要分别保存哪四类信息</h2>
 
 这四个对象是我学习后端运行时最容易混淆的地方。
 
@@ -140,7 +140,7 @@ UNIT_TEST_PASSED
 
 Worker 恢复时直接读取 Session，不必重放所有 Event；排查事故或重建状态时，再查看 Event 账本。Trace 则记录模型调用、Tool 调用、Token 和耗时。Event 是业务事实，Trace 是观察这些事实如何产生。
 
-<h2 id="harness-loop">04. Harness 每次只推进一步</h2>
+<h2 id="harness-loop">控制程序每次只推进一步</h2>
 
 Worker 领取队列消息后，会运行 Harness。最小入口可以写成：
 
@@ -179,7 +179,7 @@ Tool 结果回来后，Harness 把它标准化、保存，再加入下一轮 Con
 
 这也是 Harness 和 Prompt 的区别。Prompt 给模型说明；Harness 用程序控制可见信息、可用 Tool、执行顺序、审批和停止条件。
 
-<h2 id="tool-boundary">05. Schema 和 Handler 为什么要一起注册</h2>
+<h2 id="tool-boundary">工具说明和真实代码必须一起更新</h2>
 
 一个 Tool 至少包含两部分：
 
@@ -241,7 +241,7 @@ Harness 再加上所有 Tool 共用的执行外壳：
 
 前一层解释“这个业务接口返回了什么”，后一层统一成功、失败、监控和审计格式。
 
-<h2 id="pause-resume">06. 等待审批时，Worker 不应该原地等</h2>
+<h2 id="pause-resume">等待审批时，后台程序不应该一直占用资源</h2>
 
 Worker 通常是服务器上的后端进程。它从队列领取消息，运行 Harness，推进任务，然后释放资源。
 
@@ -271,7 +271,7 @@ Worker 崩溃的处理方式也类似。队列不会立即把正在处理的消�
   Worker 可以重建，外部副作用不能假装没有发生。遇到不确定结果，先确认事实，再决定是否重试。
 </Callout>
 
-<h2 id="sandbox">07. Workspace 保存工作，Sandbox 限制执行</h2>
+<h2 id="sandbox">工作目录保存文件，隔离环境限制执行</h2>
 
 Workspace 是任务的工作目录，里面可以放代码仓库、分支、生成文件和测试报告。Sandbox 是一组执行边界，可能由容器、虚拟机或操作系统权限实现。两者不是同一个概念。
 
@@ -300,23 +300,23 @@ Sandbox 再限制：
 CPU、内存和执行时间上限
 ```
 
-“只允许写 `/reports`”只能阻止路径越界，挡不住 Agent 在允许目录里写恶意程序。网络、密钥、进程和资源权限必须一起限制。
+“只允许写 `/reports`”只能阻止路径越界，挡不住 AI 在允许目录里写恶意程序。网络、密钥、进程和资源权限必须一起限制。
 
-<h2 id="multi-agent">08. 多 Agent 只解决能独立拆开的工作</h2>
+<h2 id="multi-agent">多个 AI 只适合处理能够独立拆分的工作</h2>
 
-多 Agent 不是默认升级。一个简单 Bug 如果拆给四个 Subagent，每个 Agent 都要重新读取背景，Lead 还要分配、等待、去重和合并，成本可能比单 Agent 更高。
+安排多个 AI 协作不一定更好。一个简单问题如果拆给四个 AI，每个 AI 都要重新读取背景，负责人还要分配、等待、去重和合并，成本可能比一个 AI 独立完成更高。
 
 适合并行的任务有清楚边界：
 
 ```text
-Subagent A：检查退款业务规则
-Subagent B：检查现有单元测试
-Subagent C：检查欺诈和权限边界
+协作者 A：检查退款业务规则
+协作者 B：检查现有单元测试
+协作者 C：检查欺诈和权限边界
 ```
 
 如果设计修改方案必须依赖 A、B、C 的结果，它就应该在下一层执行，而不是和前三项一起启动。
 
-Lead 给 Subagent 的任务还需要明确契约：
+负责人给协作者的任务还需要明确要求：
 
 ```text
 目标
@@ -328,17 +328,17 @@ Lead 给 Subagent 的任务还需要明确契约：
 截止时间
 ```
 
-Subagent 只接收完成任务所需的最小上下文，不继承 Lead 的全部对话和权限。返回时优先给结论、证据引用和版本，不复制整份日志。
+协助工作的 AI 只接收完成任务所需的信息，不继承负责人掌握的全部对话和权限。完成后，它优先返回结论、证据和版本，不复制整份日志。
 
 长任务可以进一步拆成三个职责：
 
 <AgentTeamMap />
 
-Planner 决定下一步，Executor 产生结果，Evaluator 根据测试、代码和证据决定是否接受。这三个职责可以由不同 Agent 完成，也可以由同一个 Agent 分阶段承担。结构是否值得保留，要看它有没有带来可测量的质量收益，而不是看 Agent 数量。
+计划职责决定下一步，执行职责产生结果，验收职责根据测试、代码和证据决定是否接受。它们可以由不同的 AI 完成，也可以由同一个 AI 分阶段承担。是否需要拆开，要看这样做能否带来可测量的质量提升，而不是看参与的 AI 数量。
 
-<h2 id="delivery">09. 代码修改怎样成为可交付结果</h2>
+<h2 id="delivery">代码修改怎样成为可以提交的结果</h2>
 
-Agent 进入 Workspace 后，先读取 `AGENTS.md`、README、目录结构、测试命令和接口定义。然后用只读 Tool 建立“需求、规则、代码和测试”之间的证据链，再开始修改。
+AI 进入独立工作目录后，先读取 `AGENTS.md`、README、目录结构、测试命令和接口定义。然后用不会修改文件的工具核对需求、规则、代码和测试，再开始修改。
 
 测试从最相关的范围开始：
 
@@ -358,43 +358,43 @@ Agent 进入 Workspace 后，先读取 `AGENTS.md`、README、目录结构、测
 为什么这样修改
 运行了哪些测试
 测试结果是什么
-基于哪个 Commit
+基于哪一次代码提交
 还有哪些测试没有运行
 ```
 
-随后才是推送分支、创建 PR、运行 CI 和人工审查。CI 或 Reviewer 的反馈继续进入原 Task，Agent 恢复 Session 后更新同一个 PR。
+随后才是推送代码分支、创建合并请求、运行自动检查和人工审查。检查或审查人员的反馈继续进入原任务，AI 恢复执行记录后更新同一个合并请求。
 
-[Symphony](https://openai.com/index/open-source-codex-orchestration-symphony/) 展示了一种更完整的 Agentic Coding 调度方式：任务跟踪器充当控制面，每个任务映射到独立 Agent Workspace，Agent 读取任务、修改代码并处理后续反馈。这个案例说明，真正被管理的对象是交付任务，不是某个一直打开的聊天窗口。
+[Symphony](https://openai.com/index/open-source-codex-orchestration-symphony/) 展示了一种更完整的 AI 编程任务调度方式：任务跟踪器负责分配工作，每个任务使用独立工作目录，AI 读取任务、修改代码并处理后续反馈。这个案例说明，系统管理的是需要交付的任务，不是某个一直打开的聊天窗口。
 
-<h2 id="minimum-system">10. 如果从零开始，我会先搭什么</h2>
+<h2 id="minimum-system">如果从零开始，先做哪些部分</h2>
 
-学完这些组件后，我不会第一天就上多 Agent、复杂 Planner 或自动部署。最小版本只需要把一条单 Agent 链路做可靠：
+如果从零开始，我不会第一天就安排多个 AI 协作、加入复杂的计划模块或自动部署。最小版本只需要先让一个 AI 稳定完成一项任务：
 
 ```text
-Task + Session
-→ Queue + Worker
-→ 独立 Workspace
-→ 最小 Harness Loop
-→ Tool Registry 与参数校验
-→ Event、Trace 和执行记录
+任务 + 执行记录
+→ 等待队列 + 后台执行程序
+→ 独立工作目录
+→ 最小控制循环
+→ 工具清单与参数校验
+→ 事件、过程记录和执行结果
 → 测试、审批与失败恢复
 ```
 
-这条链路稳定以后，再根据真实瓶颈增加：
+这套基础流程稳定以后，再根据真实问题增加：
 
-- 上下文太长，再做摘要、检索和 Artifact 引用；
-- 可并行工作确实很多，再加入 Subagent；
-- 长任务经常失去方向，再分 Planner、Executor 和 Evaluator；
-- Worker 经常积压，再做扩容、租户配额和背压；
-- 有跨任务改进需求，再接入第一篇文章里的评测、灰度和自进化闭环。
+- 输入信息太长，再增加摘要、检索和成果文件引用；
+- 确实有很多工作可以同时进行，再加入协作的 AI；
+- 长任务经常失去方向，再拆分计划、执行和验收职责；
+- 后台任务经常积压，再增加处理能力、用户配额和流量限制；
+- 需要从多次任务中持续改进，再加入评测、分批发布和自动优化流程。
 
 现在我会把 Agent 系统看成几层协作：
 
 ```text
-模型负责提出决策
-Harness 负责控制一次执行
+模型负责提出下一步动作
+控制程序负责检查并推进每一步
 后端运行时负责保存和恢复任务
-Sandbox 负责限制真实动作
+隔离环境负责限制 AI 可以执行的真实操作
 测试与审批负责接受或拒绝结果
 ```
 

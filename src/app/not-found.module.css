@@ -10,32 +10,6 @@
   align-items: center;
   padding-block: clamp(5rem, 12vw, 10rem);
   overflow: clip;
-  isolation: isolate;
-}
-
-.section::before {
-  position: absolute;
-  z-index: -3;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgb(240 234 223 / 0.045) 1px, transparent 1px),
-    radial-gradient(circle at 78% 50%, rgb(215 90 50 / 0.15), transparent 35rem);
-  background-size: 8rem 100%, auto;
-  content: "";
-}
-
-.beam {
-  position: absolute;
-  z-index: -2;
-  top: -20%;
-  bottom: -20%;
-  left: 67%;
-  width: clamp(4rem, 10vw, 9rem);
-  background: linear-gradient(90deg, transparent, rgb(215 90 50 / 0.5), transparent);
-  filter: blur(1.1rem);
-  opacity: 0.75;
-  transform: rotate(17deg);
-  animation: beam-lock 900ms var(--easing-standard) both;
 }
 
 .layout {
@@ -48,13 +22,12 @@
   z-index: -1;
   top: 50%;
   right: -0.08em;
-  color: transparent;
-  font-family: var(--font-mono);
-  font-size: clamp(12rem, 37vw, 34rem);
-  font-weight: 850;
-  line-height: 0.7;
-  letter-spacing: -0.14em;
-  -webkit-text-stroke: 1px rgb(240 234 223 / 0.13);
+  color: rgb(240 234 223 / 0.055);
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 18vw, 6rem);
+  font-weight: 680;
+  line-height: 1;
+  letter-spacing: -0.035em;
   transform: translateY(-50%);
 }
 
@@ -65,29 +38,19 @@
   animation: copy-enter 720ms var(--easing-standard) both;
 }
 
-.eyebrow {
-  color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-  font-weight: 850;
-  letter-spacing: 0.1em;
-}
-
 .title {
   max-width: 10ch;
-  font-size: clamp(3.4rem, 10vw, 8.8rem);
-  font-weight: 880;
-  line-height: 0.9;
-  letter-spacing: -0.08em;
+  font-size: var(--type-display-hero);
+  font-weight: 680;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
 .description {
   max-width: 40rem;
-  padding-left: var(--space-5);
   color: var(--color-text-muted);
-  border-left: 3px solid var(--color-accent);
-  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-size: var(--type-body-large);
   line-height: 1.8;
 }
 
@@ -135,18 +98,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes beam-lock {
-  from {
-    opacity: 0;
-    transform: translateX(18vw) rotate(17deg);
-  }
-
-  to {
-    opacity: 0.75;
-    transform: translateX(0) rotate(17deg);
   }
 }
 

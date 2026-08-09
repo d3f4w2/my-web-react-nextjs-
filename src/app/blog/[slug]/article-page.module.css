@@ -1,9 +1,7 @@
 .page {
   min-height: 100vh;
-  color: var(--color-ink);
-  background:
-    linear-gradient(90deg, rgb(20 18 15 / 0.055) 1px, transparent 1px) 0 0 / 8rem 100%,
-    var(--color-paper);
+  color: var(--color-text);
+  background: var(--color-page);
 }
 
 .hero {
@@ -11,21 +9,10 @@
   min-height: min(52rem, calc(100svh - var(--header-height)));
   color: var(--color-paper);
   background:
-    linear-gradient(112deg, transparent 0 62%, rgb(215 90 50 / 0.2) 62% 62.35%, transparent 62.35%),
-    radial-gradient(circle at 82% 42%, rgb(215 90 50 / 0.18), transparent 26rem),
-    var(--color-page);
-  border-bottom: 0.65rem solid var(--color-accent);
+    linear-gradient(90deg, rgb(11 12 10 / 0.88) 0 56%, rgb(11 12 10 / 0.2)),
+    url("/assets/editorial/post-punk-hero.webp") 68% center / cover;
+  border-bottom: 1px solid var(--color-border-strong);
   overflow: hidden;
-}
-
-.hero::before {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgb(240 234 223 / 0.055) 1px, transparent 1px) 0 0 / 100% 3rem,
-    linear-gradient(90deg, transparent 0 8%, rgb(240 234 223 / 0.06) 8% calc(8% + 1px), transparent calc(8% + 1px));
-  content: "";
-  pointer-events: none;
 }
 
 .heroGrid {
@@ -38,40 +25,22 @@
   padding-block: clamp(5rem, 12vw, 9rem);
 }
 
-.heroMeta {
-  display: flex;
-  grid-column: 1 / -1;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 850;
-  letter-spacing: 0.08em;
-}
-
-.heroMeta i {
-  color: rgb(240 234 223 / 0.55);
-  font-style: normal;
-}
-
 .hero h1 {
   max-width: 13ch;
-  font-size: clamp(3.4rem, 8.2vw, 8.2rem);
-  font-weight: 890;
-  line-height: 0.9;
-  letter-spacing: -0.08em;
+  font-size: var(--type-display-hero);
+  font-weight: 850;
+  line-height: 0.98;
+  letter-spacing: -0.06em;
   text-wrap: balance;
 }
 
 .subtitle {
   max-width: 29rem;
   align-self: end;
-  padding: 1.25rem 0 1.25rem 1.25rem;
-  color: rgb(240 234 223 / 0.74);
-  border-left: 3px solid var(--color-accent);
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  padding: 1.25rem 0;
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border-strong);
+  font-size: var(--type-body-large);
   line-height: 1.75;
 }
 
@@ -83,23 +52,15 @@
   gap: 1.5rem;
   padding-top: 1rem;
   border-top: 1px solid rgb(240 234 223 / 0.2);
-  font-family: var(--font-mono);
-  font-size: 0.67rem;
+  font-size: 0.86rem;
 }
 
 .publication time {
-  color: rgb(240 234 223 / 0.65);
+  color: var(--color-text-muted);
 }
 
-.publication ul {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.4rem 1.1rem;
-  margin: 0;
-  padding: 0;
-  color: var(--color-accent);
-  list-style: none;
+.publication span {
+  color: var(--color-text-muted);
 }
 
 .articleGrid {
@@ -112,7 +73,7 @@
 .prose {
   min-width: 0;
   max-width: 52rem;
-  font-size: clamp(1rem, 1.4vw, 1.08rem);
+  font-size: 1.05rem;
   line-height: 1.95;
 }
 
@@ -126,17 +87,17 @@
   scroll-margin-top: calc(var(--header-height) + 2rem);
   margin: clamp(4.5rem, 10vw, 7rem) 0 1.6rem;
   padding-top: 1rem;
-  border-top: 1px solid rgb(20 18 15 / 0.42);
-  font-size: clamp(2rem, 4.5vw, 3.7rem);
-  font-weight: 870;
-  line-height: 1.02;
-  letter-spacing: -0.06em;
+  border-top: 1px solid var(--color-border-strong);
+  font-size: var(--type-heading);
+  font-weight: 780;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
 .prose :global(h3) {
   margin: 3rem 0 1rem;
-  font-size: clamp(1.35rem, 2.7vw, 2rem);
+  font-size: var(--type-subheading);
   line-height: 1.2;
   letter-spacing: -0.035em;
 }
@@ -146,8 +107,8 @@
 }
 
 .prose :global(strong) {
-  color: #a83b1f;
-  font-weight: 820;
+  color: var(--color-accent);
+  font-weight: 700;
 }
 
 .prose :global(ul),
@@ -167,19 +128,19 @@
 .prose :global(pre) {
   margin-block: 1.8rem;
   padding: 1.25rem;
-  color: var(--color-paper);
-  background: var(--color-ink);
-  border-left: 0.35rem solid var(--color-accent);
+  color: var(--color-text);
+  background: var(--color-page-deep);
+  border-top: 1px solid var(--color-accent);
   overflow-x: auto;
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.86rem;
   line-height: 1.8;
 }
 
 .prose :global(code:not(pre code)) {
   padding: 0.13rem 0.35rem;
-  color: #8f321d;
-  background: rgb(215 90 50 / 0.11);
+  color: var(--color-accent);
+  background: rgb(199 242 59 / 0.1);
   font-family: var(--font-mono);
   font-size: 0.82em;
 }
@@ -197,21 +158,21 @@
   padding: 0.85rem 0.75rem;
   text-align: left;
   vertical-align: top;
-  border: 1px solid rgb(20 18 15 / 0.28);
+  border: 1px solid var(--color-border);
 }
 
 .prose :global(th) {
-  color: var(--color-paper);
-  background: var(--color-ink);
+  color: var(--color-ink);
+  background: var(--color-accent);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   letter-spacing: 0.04em;
 }
 
 .prose :global(a) {
-  color: #9d351d;
+  color: var(--color-accent);
   text-decoration: underline;
-  text-decoration-color: rgb(157 53 29 / 0.35);
+  text-decoration-color: rgb(199 242 59 / 0.35);
   text-underline-offset: 0.2em;
 }
 
@@ -224,9 +185,10 @@
   position: relative;
   margin: 2rem 0;
   padding: 1.4rem 1.5rem 1.4rem 3.3rem;
-  color: var(--color-paper);
-  background: var(--color-ink);
-  border: 1px solid rgb(20 18 15 / 0.8);
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-strong);
+  border-top-color: var(--color-accent);
   font-size: clamp(1.05rem, 2vw, 1.3rem);
   font-weight: 680;
   line-height: 1.75;
@@ -250,7 +212,7 @@
 .prose :global(hr) {
   margin-block: 4rem;
   border: 0;
-  border-top: 1px solid rgb(20 18 15 / 0.3);
+  border-top: 1px solid var(--color-border);
 }
 
 .articleEnd {
@@ -260,20 +222,17 @@
 }
 
 .articleEnd > div {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 2rem;
   padding-block: clamp(2rem, 5vw, 3.5rem);
 }
 
-.articleEnd span,
 .articleEnd a {
   color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 0.84rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
 }
 
 .articleEnd p {

@@ -32,8 +32,7 @@ export function EvolutionLoop() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>EVOLUTION LOOP</span>
-        <i>跨任务闭环</i>
+        <span>能力更新流程</span>
       </div>
       <ol className={styles.loop}>
         {evolutionSteps.map(([index, title, description]) => (
@@ -54,20 +53,19 @@ export function EvolutionLoop() {
 }
 
 const assets = [
-  ["M", "Memory", "缺少事实、偏好或可复用经验"],
-  ["H", "Harness", "分解、路由、检查或重规划有问题"],
-  ["S", "Skill", "缺少稳定、可复用的领域操作方法"],
-  ["T", "Tool", "接口、参数、返回或执行效率有问题"],
-  ["θ", "Model", "给足信息后仍稳定缺少基础能力"],
-  ["G", "Governance", "动作不应被允许，或缺少审批边界"],
+  ["M", "记忆（Memory）", "缺少事实、偏好或已经验证的经验"],
+  ["H", "执行控制（Harness）", "任务拆分、工具选择或检查过程有问题"],
+  ["S", "工作方法（Skill）", "缺少稳定、可以重复使用的操作步骤"],
+  ["T", "工具（Tool）", "接口、参数、返回结果或执行过程有问题"],
+  ["θ", "模型（Model）", "信息完整时仍无法完成基础任务"],
+  ["G", "权限规则", "动作不应被允许，或缺少人工审批"],
 ] as const;
 
 export function AssetMap() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>CHANGE TARGET</span>
-        <i>先归因，再修改</i>
+        <span>先判断问题出在哪里</span>
       </div>
       <div className={styles.assetMap}>
         {assets.map(([code, name, description]) => (
@@ -99,8 +97,7 @@ export function EvaluationStack() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>EVALUATION STACK</span>
-        <i>不是一个准确率</i>
+        <span>怎样验证新版本</span>
       </div>
       <ol className={styles.stack}>
         {evaluationLayers.map(([title, description], index) => (
@@ -124,15 +121,14 @@ const releaseSteps = [
   "影子运行",
   "小流量灰度",
   "逐步扩大",
-  "晋升 / 回滚",
+  "扩大使用 / 恢复旧版",
 ] as const;
 
 export function ReleaseRail() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>RELEASE RAIL</span>
-        <i>把更新当作发布工程</i>
+        <span>怎样逐步发布新版本</span>
       </div>
       <ol className={styles.rail}>
         {releaseSteps.map((step, index) => (
@@ -143,7 +139,7 @@ export function ReleaseRail() {
         ))}
       </ol>
       <figcaption>
-        新版本必须携带完整血缘：模型、Memory、Harness、Skill、Tool、Schema、代码、数据和评测结果。
+        每个新版本都要记录模型、记忆、执行规则、工作方法、工具、参数格式、代码、数据和测试结果。
       </figcaption>
     </figure>
   );
@@ -153,43 +149,41 @@ export function RuntimeMap() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>CONTROL / EXECUTION</span>
-        <i>可信控制面与受限执行面</i>
+        <span>谁决定动作，谁负责执行</span>
       </div>
       <div className={styles.runtime}>
         <section>
-          <span>CONTROL PLANE</span>
-          <strong>Harness</strong>
-          <p>身份、策略、模型调用、审批、Trace、恢复和版本状态</p>
+          <span>负责判断和记录</span>
+          <strong>执行控制程序</strong>
+          <p>检查身份、权限、模型请求、人工审批、运行记录和恢复状态</p>
         </section>
         <i aria-hidden="true">受限任务与结果 ⇄</i>
         <section>
-          <span>EXECUTION PLANE</span>
-          <strong>Sandbox</strong>
-          <p>文件、Shell、网络、进程、依赖和计算资源</p>
+          <span>负责运行真实动作</span>
+          <strong>隔离执行环境</strong>
+          <p>限制文件、命令、网络、进程、依赖和计算资源</p>
         </section>
       </div>
       <figcaption>
-        模型提出动作，Harness 决定是否允许，Sandbox 负责在技术边界内执行。
+        模型提出动作，控制程序检查是否允许，隔离环境负责执行。
       </figcaption>
     </figure>
   );
 }
 
 const taskRuntimeSteps = [
-  ["01", "登记", "外部请求去重，创建 Task 与 Session"],
-  ["02", "领取", "队列唤醒 Worker，创建新的 Attempt"],
-  ["03", "执行", "Harness 驱动模型、Tool 与审批"],
-  ["04", "验证", "测试、Evaluator、CI 与人工审查"],
-  ["05", "交付", "提交版本、PR、发布或失败恢复"],
+  ["01", "登记", "去掉重复请求，创建任务和执行记录"],
+  ["02", "领取", "队列通知后端进程接手任务"],
+  ["03", "执行", "控制程序调用模型和工具，必要时等待人工审批"],
+  ["04", "验证", "运行测试、自动检查和人工审查"],
+  ["05", "交付", "提交代码、创建合并请求，失败时恢复任务"],
 ] as const;
 
 export function TaskRuntimeFlow() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>TASK RUNTIME</span>
-        <i>一项任务怎样穿过系统</i>
+        <span>一项任务怎样完成</span>
       </div>
       <ol className={styles.taskFlow}>
         {taskRuntimeSteps.map(([index, title, description]) => (
@@ -208,18 +202,17 @@ export function TaskRuntimeFlow() {
 }
 
 const runtimeIdentities = [
-  ["Task", "业务目标", "这件事是否仍然需要完成"],
-  ["Session", "执行现场", "某次 Agent 执行当前进行到哪里"],
-  ["Attempt", "一次接手", "哪个 Worker 正在推进这段执行"],
-  ["Workspace", "工作目录", "代码、文件和测试产物放在哪里"],
+  ["任务（Task）", "要完成的事情", "这件事是否仍然需要完成"],
+  ["执行记录（Session）", "当前进度", "这次 AI 执行已经进行到哪里"],
+  ["接手记录（Attempt）", "一次执行尝试", "哪个后端进程正在处理任务"],
+  ["工作目录（Workspace）", "文件位置", "代码、文件和测试结果放在哪里"],
 ] as const;
 
 export function RuntimeIdentityMap() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>RUNTIME IDENTITIES</span>
-        <i>不要把四个对象混成“会话”</i>
+        <span>系统需要分别保存的四类信息</span>
       </div>
       <div className={styles.identityMap}>
         {runtimeIdentities.map(([name, role, description]) => (
@@ -238,19 +231,18 @@ export function RuntimeIdentityMap() {
 }
 
 const harnessSteps = [
-  ["Context", "当前需要知道什么"],
-  ["Model", "提出回复或 Tool Call"],
-  ["Validate", "检查 Schema、权限与审批"],
-  ["Handler", "调用真实代码或外部 API"],
-  ["Result", "标准化、保存并送回模型"],
+  ["准备信息", "只提供当前步骤需要的目标、规则和结果"],
+  ["模型建议", "模型提出回复或工具调用请求"],
+  ["检查请求", "检查参数格式、权限和人工审批"],
+  ["执行工具", "调用真实代码或外部接口"],
+  ["保存结果", "整理并保存结果，再交给模型决定下一步"],
 ] as const;
 
 export function HarnessLoopMap() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>HARNESS LOOP</span>
-        <i>决定一步，执行一步</i>
+        <span>控制程序怎样推进任务</span>
       </div>
       <ol className={styles.harnessLoop}>
         {harnessSteps.map(([title, description], index) => (
@@ -262,10 +254,10 @@ export function HarnessLoopMap() {
         ))}
       </ol>
       <div className={styles.loopReturn} aria-hidden="true">
-        <span>Tool Result 返回 Context，直到模型给出最终回复</span>
+        <span>工具结果会回到下一步输入，直到任务完成</span>
       </div>
       <figcaption>
-        模型只能提出动作。验证、执行、落库和循环终止都属于 Harness。
+        模型只负责提出动作。检查、执行、保存结果和停止任务都由控制程序完成。
       </figcaption>
     </figure>
   );
@@ -275,33 +267,32 @@ export function AgentTeamMap() {
   return (
     <figure className={styles.figure}>
       <div className={styles.figureHeader}>
-        <span>PLANNER / EXECUTOR / EVALUATOR</span>
-        <i>长任务中的三个职责</i>
+        <span>长任务中的三个职责</span>
       </div>
       <div className={styles.agentTeam}>
         <section>
           <span>01</span>
-          <strong>Planner</strong>
+          <strong>计划</strong>
           <p>根据目标和证据决定下一步</p>
         </section>
         <i aria-hidden="true">下发当前步骤 →</i>
         <section>
           <span>02</span>
-          <strong>Executor</strong>
+          <strong>执行</strong>
           <p>执行步骤并提交结果与证据</p>
         </section>
         <i aria-hidden="true">结果与证据 →</i>
         <section>
           <span>03</span>
-          <strong>Evaluator</strong>
+          <strong>验收</strong>
           <p>按验收标准决定通过或退回</p>
         </section>
       </div>
       <div className={styles.feedbackRail}>
-        <span>不通过：带着具体问题回到 Planner</span>
+        <span>没有通过：说明具体问题，再重新制定下一步</span>
       </div>
       <figcaption>
-        三者是职责，不一定对应三种不同模型。简单任务可以由一个 Agent 分阶段完成。
+        这三项是职责，不一定需要三个 AI。简单任务可以由一个 AI 分阶段完成。
       </figcaption>
     </figure>
   );

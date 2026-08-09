@@ -10,15 +10,13 @@ export function ArticleToc({ sections }: ArticleTocProps) {
   return (
     <aside className={styles.toc}>
       <div className={styles.header}>
-        <span>ARTICLE MAP</span>
-        <i>{String(sections.length).padStart(2, "0")} SECTIONS</i>
+        <span>文章目录</span>
       </div>
       <nav aria-label="文章目录">
         <ol>
-          {sections.map((section, index) => (
+          {sections.map((section) => (
             <li key={section.id}>
               <a href={`#${section.id}`}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
                 {section.label}
               </a>
             </li>
@@ -26,7 +24,7 @@ export function ArticleToc({ sections }: ArticleTocProps) {
         </ol>
       </nav>
       <Link href="/blog" transitionTypes={["nav-back"]}>
-        ← 返回博客
+        ← 返回文章列表
       </Link>
     </aside>
   );

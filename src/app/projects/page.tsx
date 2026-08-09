@@ -1,46 +1,80 @@
 import type { Metadata } from "next";
+import { PageFrame } from "@/components/layout/page-frame";
+import { JsonLd } from "@/components/metadata/json-ld";
 import { OpenSourceContributions } from "@/components/projects/open-source-contributions";
 import { ProjectCard } from "@/components/projects/project-card";
-import { otherProjects } from "@/data/home";
+import { otherProjects, personalProjects } from "@/data/home";
 import { openSourceContributions } from "@/data/open-source";
+import { absoluteUrl } from "@/lib/site";
 import styles from "../collection-page.module.css";
+
+const description = "真实 Agent 产品、个人运行时扩展和已被上游合并的开源修复。每项工作都说明职责、难点与验证依据。";
 
 export const metadata: Metadata = {
   title: "项目",
-  description: "记录 Agent 项目的问题、个人职责、工程方法、公开边界与验证过程。",
+  description,
+  alternates: { canonical: "/projects" },
+  openGraph: { type: "website", title: "项目", description, url: "/projects" },
+  twitter: { card: "summary_large_image", title: "项目", description },
+};
+
+const projectsJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Agent 工程项目",
+  url: absoluteUrl("/projects"),
+  description,
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: openSourceContributions.map((contribution, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: contribution.pullRequestUrl,
+      name: contribution.title,
+      description: contribution.summary,
+    })),
+  },
 };
 
 export default function ProjectsPage() {
   return (
-    <main id="main-content" className={styles.page} data-page="projects">
-      <div className="site-container">
-        <header className={styles.intro}>
-          <p className={styles.eyebrow}>项目与方法</p>
-          <h1 className={styles.title}>不只展示结果，也留下系统如何被做出来。</h1>
-          <p className={styles.description}>
-            这里记录真实工作、个人 Agent 原型与协作实践。没有确认的事实不包装成成果；受限内容先完成脱敏审查，再公开方法与证据。
-          </p>
-        </header>
+    <PageFrame activeSection="projects">
+      <JsonLd data={projectsJsonLd} />
+      <main id="main-content" className={styles.page} data-page="projects">
+        <div className="site-container">
+          <header className={styles.intro}>
+            <h1 className={styles.title}>
+              <span>行动留下证据。</span>
+              <span>故障留下方法。</span>
+            </h1>
+          </header>
 
-        <OpenSourceContributions contributions={openSourceContributions} />
+          <section id="internship-work" className={styles.collection} aria-labelledby="internship-title">
+            <div className={styles.collectionHeader}>
+              <h2 id="internship-title">实习项目</h2>
+            </div>
+            <div className={styles.grid} data-layout="projects">
+              {otherProjects.map((project, index) => (
+                <ProjectCard index={index + 1} project={project} key={project.title} />
+              ))}
+            </div>
+          </section>
 
-        <section className={styles.collection} aria-labelledby="project-list-title">
-          <div className={styles.collectionHeader}>
-            <h2 id="project-list-title">其他项目材料</h2>
-            <p>问题、职责、边界、验证</p>
-          </div>
-          <div className={styles.grid} data-layout="projects">
-            {otherProjects.map((project, index) => (
-              <ProjectCard index={index + 1} project={project} key={project.title} />
-            ))}
-          </div>
-        </section>
+          <section id="personal-work" className={styles.collection} aria-labelledby="personal-title">
+            <div className={styles.collectionHeader}>
+              <h2 id="personal-title">个人项目</h2>
+            </div>
+            <div className={styles.grid} data-layout="projects">
+              {personalProjects.map((project, index) => (
+                <ProjectCard index={index + 2} project={project} key={project.title} />
+              ))}
+            </div>
+          </section>
 
-        <p className={styles.notice}>
-          <strong>公开边界：</strong>
-          上方开源贡献已经提供可核验的上游证据；其余项目材料仍在确认与脱敏，详情入口只会在问题背景、个人职责和证据都能够被准确说明后开放。
-        </p>
-      </div>
-    </main>
+          <OpenSourceContributions contributions={openSourceContributions} />
+
+        </div>
+      </main>
+    </PageFrame>
   );
 }

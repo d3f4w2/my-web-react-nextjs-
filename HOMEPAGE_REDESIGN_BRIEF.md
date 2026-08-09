@@ -2,6 +2,54 @@
 
 Updated: 2026-07-20
 
+## Direction Pinned: 2026-08-09
+
+The owner has now selected the generated post-punk transmission image as the
+visual target for the entire site. This is the active acceptance target and
+overrides the earlier editorial reopening below.
+
+- Palette: near-black, dirty ivory, and one acid chartreuse signal.
+- Mood: absurd, unruly, human, and authored, while all content stays legible.
+- Form: torn print fields, dry toner, halftone interference, oversized Chinese
+  typography, hard cuts, and raw real-world media.
+- Hero: no concrete project, biography, personal name, status labels, or tiny
+  decorative copy. It must lead with one ambitious statement.
+- Projects: clearly explain the Agent-backend responsibility, link to the
+  official product, introduce the team, and make `pi-go` the growing personal-
+  project stage with verified implementation, active-development status, and
+  a clear invitation to co-build.
+- Motion: pointer response, scroll-linked spatial drift, authored route cuts,
+  full reduced-motion fallback, and no content hidden behind animation.
+- Stability: scroll motion must never pin project copy while later capability
+  sections pass underneath it. Project copy, media, and evidence remain in a
+  stable reading flow with no overlap at intermediate scroll positions.
+- Privacy: never expose the owner's personal name, team account, or internal
+  screenshots. The contact email is intentionally public in contact and resume
+  surfaces.
+
+The generated source texture is stored at
+`public/assets/editorial/post-punk-hero.webp` and is an original asset made for
+this project.
+
+## Direction Reopened: 2026-08-09
+
+The owner explicitly withdrew the mechanical and industrial direction for the
+homepage. The current implementation target is a high-end, evidence-led
+editorial portfolio with a recognisable black, warm-paper, and vermilion
+palette. Do not restore film countdowns, machinery, fake system status,
+dashboard chrome, decorative metrics, or assembly metaphors.
+
+The homepage should still feel alive. Character comes from oversized Chinese
+typography, asymmetrical composition, real project evidence, authored line and
+crop motion, pointer-aware article imagery, and direct human copy. Content must
+remain visible without waiting for animation, and reduced-motion users must get
+the complete experience without hydration differences.
+
+The previous Post-Punk Agent Assembly material below is retained as design
+history, not as the current acceptance target. See
+[`HOMEPAGE_EDITORIAL_EVIDENCE_SPEC.md`](HOMEPAGE_EDITORIAL_EVIDENCE_SPEC.md)
+for the active trial direction.
+
 ## Selected Final Direction
 
 On 2026-07-21, the visual direction was finalized as **Post-Punk Agent

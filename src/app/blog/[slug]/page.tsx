@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleToc } from "@/components/blog/article-toc";
+import { JsonLd } from "@/components/metadata/json-ld";
 import {
   getPublishedPostBySlug,
   getPublishedPostPreviewBySlug,
   getPublishedPostSlugs,
 } from "@/lib/blog";
+import { absoluteUrl } from "@/lib/site";
 import styles from "./article-page.module.css";
 
 type ArticlePageProps = {
@@ -42,14 +44,20 @@ export async function generateMetadata({
     title: post.metadata.title,
     description: post.metadata.summary,
     keywords: [...post.metadata.tags],
-    authors: [{ name: "Personal Agent Lab" }],
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       type: "article",
       title: post.metadata.title,
       description: post.metadata.summary,
+      url: `/blog/${slug}`,
       publishedTime: post.metadata.publishedAt,
       modifiedTime: post.metadata.updatedAt,
       tags: [...post.metadata.tags],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.metadata.title,
+      description: post.metadata.summary,
     },
   };
 }
@@ -64,26 +72,34 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   }
 
   const { Content, metadata } = post;
+  const articleUrl = absoluteUrl(`/blog/${slug}`);
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: metadata.title,
+    description: metadata.summary,
+    url: articleUrl,
+    mainEntityOfPage: articleUrl,
+    datePublished: metadata.publishedAt,
+    dateModified: metadata.updatedAt ?? metadata.publishedAt,
+    inLanguage: "zh-CN",
+    isAccessibleForFree: true,
+    keywords: metadata.tags.join(", "),
+  };
 
   return (
-    <main id="main-content" className={styles.page}>
+    <>
+      <JsonLd data={articleJsonLd} />
+      <main id="main-content" className={styles.page}>
       <header className={styles.hero}>
         <div className={`site-container ${styles.heroGrid}`}>
-          <div className={styles.heroMeta}>
-            <span>{metadata.eyebrow}</span>
-            <i>READ / {preview.readingTimeMinutes} MIN</i>
-          </div>
           <h1>{metadata.title}</h1>
           <p className={styles.subtitle}>{metadata.subtitle}</p>
           <div className={styles.publication}>
             <time dateTime={metadata.publishedAt}>
               {formatDate(metadata.publishedAt)}
             </time>
-            <ul aria-label="文章标签">
-              {metadata.tags.map((tag) => (
-                <li key={tag}>{tag}</li>
-              ))}
-            </ul>
+            <span>预计阅读 {preview.readingTimeMinutes} 分钟</span>
           </div>
         </div>
       </header>
@@ -97,11 +113,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
       <footer className={styles.articleEnd}>
         <div className="site-container">
-          <span>END OF {metadata.eyebrow}</span>
-          <p>结论会随着实践继续校正，未经验证的部分不会写成事实。</p>
-          <a href="#main-content">返回文章开头 ↑</a>
+          <p>文章中的判断会随着新实践继续更新。</p>
+          <a href="#main-content">返回文章开头</a>
         </div>
       </footer>
-    </main>
+      </main>
+    </>
   );
 }

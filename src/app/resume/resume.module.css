@@ -1,0 +1,244 @@
+.page {
+  overflow: clip;
+  color: var(--color-text);
+  background: var(--color-page);
+}
+
+.hero {
+  min-height: min(52rem, calc(100svh - var(--header-height)));
+  color: var(--color-ink);
+  background:
+    linear-gradient(90deg, rgb(199 242 59 / 0.95) 0 62%, rgb(199 242 59 / 0.5)),
+    url("/assets/editorial/post-punk-hero.webp") center / cover;
+}
+
+.heroGrid {
+  display: grid;
+  min-height: inherit;
+  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-content: end;
+  padding-block: clamp(6rem, 12vw, 10rem);
+}
+
+.hero h1 {
+  max-width: 10ch;
+  font-size: clamp(3.7rem, 7.4vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.hero h1 span { display: block; }
+
+.heroGrid > p {
+  max-width: 34rem;
+  align-self: end;
+  font-size: clamp(1.15rem, 1.9vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.75;
+}
+
+.heroActions {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid currentColor;
+}
+
+.heroActions a {
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding-block: 0.45rem;
+  border-bottom: 2px solid currentColor;
+  font-weight: 800;
+  transition: transform 260ms var(--easing-standard);
+}
+
+.heroActions a:hover { transform: translateX(0.35rem) skewX(-3deg); }
+
+.profile {
+  padding-block: clamp(8rem, 14vw, 13rem);
+  background: var(--color-page-deep);
+}
+
+.profileIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(20rem, 0.9fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: end;
+}
+
+.profileIntro h2 {
+  max-width: 10ch;
+  font-size: clamp(3rem, 6vw, 5.6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+}
+
+.profileIntro p {
+  max-width: 38rem;
+  color: var(--color-text-muted);
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  line-height: 1.8;
+}
+
+.achievementGrid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  margin-top: clamp(5rem, 10vw, 9rem);
+  border-block: 1px solid var(--color-accent);
+}
+
+.achievementGrid article {
+  min-height: 21rem;
+  padding: clamp(2rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.achievementGrid article:nth-child(2),
+.achievementGrid article:nth-child(3) {
+  color: var(--color-ink);
+  background: var(--color-accent);
+}
+
+.achievementGrid article:nth-child(2) {
+  transform: translateY(-1rem) rotate(-0.7deg);
+}
+
+.achievementGrid strong {
+  display: block;
+  max-width: 12ch;
+  font-size: clamp(2.5rem, 5vw, 4.8rem);
+  font-weight: 920;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+.achievementGrid h3 {
+  max-width: 18ch;
+  margin-top: 3rem;
+  font-size: clamp(1.35rem, 2.5vw, 2.2rem);
+  font-weight: 790;
+  line-height: 1.25;
+}
+
+.focus,
+.selectedWork,
+.contact { padding-block: clamp(8rem, 14vw, 13rem); }
+
+.focus > h2,
+.experience h2,
+.selectedWork > h2,
+.openSource h2,
+.contact h2 {
+  max-width: 11ch;
+  font-size: clamp(3rem, 6vw, 5.6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.focusGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: clamp(4rem, 8vw, 7rem);
+}
+
+.focusGrid article {
+  min-height: 18rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.focusGrid article:nth-child(2),
+.focusGrid article:nth-child(3) {
+  color: var(--color-ink);
+  background: var(--color-accent);
+}
+
+.focusGrid h3 { font-size: clamp(1.8rem, 3.4vw, 3rem); font-weight: 850; line-height: 1; }
+.focusGrid p { max-width: 31rem; margin-top: 2rem; color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.8; }
+.focusGrid article:nth-child(2) p,
+.focusGrid article:nth-child(3) p { color: rgb(11 12 10 / 0.75); }
+
+.experience,
+.openSource { padding-block: clamp(8rem, 14vw, 13rem); background: var(--color-surface); }
+
+.experienceEntry {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.7fr) minmax(0, 1.3fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  margin-top: clamp(4rem, 9vw, 8rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-accent);
+}
+
+.experienceEntry h3 { max-width: 12ch; font-size: clamp(2.1rem, 4vw, 3.7rem); font-weight: 850; line-height: 1; }
+.experienceEntry time { display: block; margin-top: 1.5rem; color: var(--color-accent); font-size: 1rem; font-weight: 750; }
+.experienceEntry p { max-width: 43rem; font-size: 1.12rem; line-height: 1.85; }
+.experienceEntry ul { display: grid; gap: 1rem; max-width: 43rem; margin: 2rem 0; padding-left: 1.2rem; font-size: 1rem; line-height: 1.75; }
+.experienceEntry li::marker { color: var(--color-accent); }
+.experienceEntry a,
+.selectedWork a,
+.contributions a { display: inline-flex; min-height: 2.75rem; align-items: center; color: var(--color-accent); border-bottom: 1px solid currentColor; font-weight: 780; }
+
+.selectedWorkGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  margin-top: clamp(4rem, 8vw, 7rem);
+}
+
+.selectedWorkGrid article { min-height: 26rem; padding: clamp(2rem, 5vw, 4rem); background: var(--color-page-deep); border-top: 0.35rem solid var(--color-accent); }
+.selectedWorkGrid article:nth-child(even) { transform: translateY(5rem) rotate(0.7deg); }
+.selectedWorkGrid h3 { max-width: 12ch; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 850; line-height: 1; }
+.selectedWorkGrid p { max-width: 36rem; margin: 2rem 0; color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.8; }
+
+.contributions { margin-top: clamp(4rem, 8vw, 7rem); }
+
+.contributions article {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.7fr) minmax(0, 1fr) auto;
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: start;
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.contributions h3 { max-width: 14ch; font-size: clamp(1.65rem, 3vw, 2.7rem); font-weight: 820; line-height: 1.05; }
+.contributions p { max-width: 40rem; color: var(--color-text-muted); font-size: 1rem; line-height: 1.8; }
+.contributions a { align-self: end; white-space: nowrap; }
+
+.contact { color: var(--color-ink); background: var(--color-accent); }
+.contact a { display: inline-block; margin-top: clamp(3rem, 7vw, 6rem); font-size: clamp(1.4rem, 3vw, 2.5rem); font-weight: 850; border-bottom: 3px solid currentColor; }
+
+@media (max-width: 54rem) {
+  .heroGrid,
+  .profileIntro,
+  .experienceEntry,
+  .selectedWorkGrid { grid-template-columns: 1fr; }
+  .selectedWorkGrid article:nth-child(even) { transform: none; }
+  .contributions article { grid-template-columns: 1fr; }
+  .contributions a { justify-self: start; }
+}
+
+@media (max-width: 42rem) {
+  .hero h1 { font-size: clamp(3.2rem, 15vw, 4.8rem); }
+  .achievementGrid { grid-template-columns: 1fr; }
+  .achievementGrid article { min-height: auto; }
+  .achievementGrid article:nth-child(2) { transform: none; }
+  .focusGrid { grid-template-columns: 1fr; }
+  .focusGrid article { min-height: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroActions a { transition: none; }
+  .heroActions a:hover { transform: none; }
+  .achievementGrid article:nth-child(2) { transform: none; }
+}

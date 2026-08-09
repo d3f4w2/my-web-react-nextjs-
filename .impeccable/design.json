@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-09T15:10:00+08:00",
+  "title": "Design System: Agent 工程作品集",
+  "extensions": {
+    "colorMeta": {
+      "acid-signal": {
+        "role": "primary",
+        "displayName": "酸性信号绿",
+        "canonical": "#c7f23b",
+        "tonalRamp": ["#172000", "#344700", "#587100", "#7f9c12", "#a3c927", "#c7f23b", "#ddff68", "#f4ffd1"]
+      },
+      "page-black": {
+        "role": "neutral",
+        "displayName": "页面黑",
+        "canonical": "#0b0c0a",
+        "tonalRamp": ["#050604", "#0b0c0a", "#1a1d15", "#34372e", "#5a5d53", "#85887d", "#b5b7ac", "#e8e7de"]
+      },
+      "dirty-ivory": {
+        "role": "neutral",
+        "displayName": "脏象牙白",
+        "canonical": "#e8e7de",
+        "tonalRamp": ["#24241f", "#48483f", "#707066", "#99998f", "#bcbcB2", "#d3d2c8", "#e8e7de", "#f7f6ef"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "压印标题", "purpose": "首屏主张与章节高潮。" },
+      "body": { "displayName": "证据正文", "purpose": "职责、过程、团队与验证信息。" },
+      "label": { "displayName": "技术字段", "purpose": "日期、事实和代码信息。" }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "standard-cut", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "页面硬切、媒体漂移和链接位移。" },
+      { "name": "fast-signal", "value": "160ms", "purpose": "颜色和焦点反馈。" }
+    ],
+    "breakpoints": [
+      { "name": "compact", "value": "48rem" },
+      { "name": "wide", "value": "62rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Signal Action Link",
+      "kind": "button",
+      "refersTo": "action-link",
+      "description": "明确动作结果的酸绿色文本链接。",
+      "html": "<a class=\"ds-action\" href=\"#\">进入作品</a>",
+      "css": ".ds-action { display:inline-flex; color:var(--color-accent); padding:.65rem 0; border-bottom:2px solid currentColor; font-weight:780; text-decoration:none; transition:transform 280ms cubic-bezier(.22,1,.36,1),color 160ms ease; } .ds-action:hover { color:var(--color-accent-hover); transform:translateX(.35rem) skewX(-4deg); } .ds-action:focus-visible { outline:3px solid var(--color-focus); outline-offset:4px; }"
+    },
+    {
+      "name": "Signal Panel",
+      "kind": "card",
+      "refersTo": "signal-panel",
+      "description": "用于个人项目或关键结论的整面酸绿色段落。",
+      "html": "<article class=\"ds-signal-panel\"><h3>持续生长的个人作品</h3><p>真实能力、过程与后续验证。</p></article>",
+      "css": ".ds-signal-panel { color:var(--color-ink); background:var(--color-accent); padding:clamp(1.5rem,4vw,3rem); clip-path:polygon(0 0,99% 2%,97% 100%,2% 96%); } .ds-signal-panel h3 { margin:0; font-size:clamp(2rem,4vw,4rem); line-height:.95; letter-spacing:-.06em; } .ds-signal-panel p { max-width:34rem; margin:1.5rem 0 0; line-height:1.75; }"
+    },
+    {
+      "name": "Evidence Panel",
+      "kind": "card",
+      "refersTo": "evidence-panel",
+      "description": "承载职责、验证记录和技术文章的深色证据面板。",
+      "html": "<article class=\"ds-evidence\"><h3>核心职责在 Agent 后端</h3><p>说明任务执行、平台能力、追踪和恢复。</p></article>",
+      "css": ".ds-evidence { color:var(--color-text); background:var(--color-surface); padding:clamp(1.5rem,4vw,3rem); border-top:1px solid var(--color-accent); } .ds-evidence h3 { max-width:14ch; margin:0; font-size:2rem; line-height:1.05; letter-spacing:-.05em; } .ds-evidence p { max-width:38rem; margin:1.25rem 0 0; color:var(--color-text-muted); line-height:1.8; }"
+    },
+    {
+      "name": "Transmission Navigation",
+      "kind": "nav",
+      "description": "固定黑色页头与酸绿色当前态。",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-active\" href=\"#\">项目</a><a href=\"#\">文章</a><a href=\"#\">联系</a></nav>",
+      "css": ".ds-nav { display:flex; gap:2rem; padding:1rem 0; background:var(--color-page-deep); } .ds-nav a { color:var(--color-text-muted); padding:.65rem .2rem; font-weight:560; text-decoration:none; border-bottom:.32rem solid transparent; } .ds-nav a:hover,.ds-nav .ds-nav-active { color:var(--color-accent); border-color:var(--color-accent); } .ds-nav a:focus-visible { outline:3px solid var(--color-focus); outline-offset:4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "失控的广播档案",
+    "overview": "像深夜地下电台传单一样工作的技术作品集。视觉上的疯癫来自真实纹理、极端字重和结构碰撞，工程事实始终清楚。",
+    "keyCharacteristics": ["单一酸绿色信号", "超重中文标题", "不对称十二栏布局", "真实媒体与印刷纹理", "硬切与滚动漂移"],
+    "rules": [
+      { "name": "One Signal", "body": "同一屏幕只使用酸绿色作为彩色信号。", "section": "colors" },
+      { "name": "Compression", "body": "大标题紧字距与紧行距，正文保持舒展。", "section": "typography" },
+      { "name": "Flat Material", "body": "深度来自构图和材料，不来自通用阴影。", "section": "elevation" }
+    ],
+    "dos": ["Do 让每个页面至少有一次明确的尺度变化或结构断裂。", "Do 优先使用真实视频、截图、代码链接和可验证事实。", "Do 为 reduced motion 提供完整且静止的阅读体验。"],
+    "donts": ["Don't 出现个人姓名、团队账号或内部截图；联系邮箱只出现在明确的联系与简历场景。", "Don't 使用圆角 SaaS 卡片、玻璃效果、霓虹渐变或第二强调色。", "Don't 把页面重新排成等宽、等高、等间距的普通列表。"]
+  }
+}

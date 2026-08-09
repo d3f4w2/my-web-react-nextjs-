@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design MD Collection"
+  short_description: "Compare design languages and derive project-specific rules"
+  default_prompt: "Use $design-md-collection to compare suitable design languages and draft original project-specific UI rules."

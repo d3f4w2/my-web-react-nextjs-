@@ -1,31 +1,66 @@
 import type { Metadata } from "next";
 import { ContentCard } from "@/components/blog/content-card";
+import { JsonLd } from "@/components/metadata/json-ld";
 import { getPublishedPostPreviews } from "@/lib/blog";
+import { absoluteUrl } from "@/lib/site";
 import styles from "../collection-page.module.css";
 
+const description =
+  "两篇文章分别解释 AI 任务怎样执行，以及系统怎样安全地更新记忆、工具和工作方法。";
+
 export const metadata: Metadata = {
-  title: "博客",
-  description: "关于 Agent 工程、工具调用、可靠性与持续实践的技术观察。",
+  title: "文章",
+  description,
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    type: "website",
+    title: "文章",
+    description,
+    url: "/blog",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "文章",
+    description,
+  },
 };
 
 export default async function BlogPage() {
   const posts = await getPublishedPostPreviews();
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "AI 工程技术文章",
+    url: absoluteUrl("/blog"),
+    description,
+    inLanguage: "zh-CN",
+    blogPost: posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      url: absoluteUrl(post.href),
+      datePublished: post.publishedAt,
+      dateModified: post.updatedAt ?? post.publishedAt,
+    })),
+  };
 
   return (
-    <main id="main-content" className={styles.page} data-page="blog">
-      <div className="site-container">
+    <>
+      <JsonLd data={blogJsonLd} />
+      <main id="main-content" className={styles.page} data-page="blog">
+        <div className="site-container">
         <header className={styles.intro}>
-          <p className={styles.eyebrow}>观察与记录</p>
-          <h1 className={styles.title}>把工程判断写下来，让它经得起下一次复查。</h1>
+          <h1 className={styles.title}>
+            <span>把复杂系统，</span>
+            <span>写到可以被理解。</span>
+          </h1>
           <p className={styles.description}>
-            长文解释完整过程，实验记录保留失败与修正，随笔区分事实、经验和推测。内容宁可少，也不发布没有完成校对的结论。
+            不堆术语，也不回避细节。文章从真实工程问题出发，把 Agent 的执行、恢复和能力更新拆开讲清楚。
           </p>
         </header>
 
         <section className={styles.collection} aria-labelledby="content-list-title">
           <div className={styles.collectionHeader}>
-            <h2 id="content-list-title">已经留下证据的内容</h2>
-            <p>{String(posts.length).padStart(2, "0")} 篇已发布</p>
+            <h2 id="content-list-title">已发布文章</h2>
           </div>
           <div className={styles.grid} data-layout="notes">
             {posts.map((content, index) => (
@@ -39,10 +74,10 @@ export default async function BlogPage() {
         </section>
 
         <p className={styles.notice}>
-          <strong>发布原则：</strong>
-          区分论文事实、作者观点和个人工程判断；不使用空文章制造更新频率。
+          外部资料均附链接；假设案例会明确标注，不会写成真实项目。
         </p>
-      </div>
-    </main>
+        </div>
+      </main>
+    </>
   );
 }
