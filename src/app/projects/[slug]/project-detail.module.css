@@ -50,6 +50,30 @@
   text-wrap: balance;
 }
 
+.piGoName {
+  display: block;
+  width: fit-content;
+  margin-bottom: 0.45rem;
+  color: var(--color-paper);
+  font-size: clamp(5rem, 12vw, 8rem);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 0.78;
+  -webkit-text-stroke: clamp(1px, 0.13vw, 2px) var(--color-ink);
+  transform: skewX(-6deg);
+}
+
+.shaguaName {
+  display: block;
+  width: fit-content;
+  color: var(--color-accent);
+  font-size: clamp(4.8rem, 10vw, 7.2rem);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 0.82;
+  transform: skewX(-5deg);
+}
+
 .statement {
   max-width: 34rem;
   align-self: end;

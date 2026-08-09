@@ -198,6 +198,15 @@
 .selectedWorkGrid article { min-height: 26rem; padding: clamp(2rem, 5vw, 4rem); background: var(--color-page-deep); border-top: 0.35rem solid var(--color-accent); }
 .selectedWorkGrid article:nth-child(even) { transform: translateY(5rem) rotate(0.7deg); }
 .selectedWorkGrid h3 { max-width: 12ch; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 850; line-height: 1; }
+.selectedWorkGrid .piGoTitle {
+  width: fit-content;
+  color: var(--color-accent);
+  font-size: clamp(4rem, 8vw, 6.5rem);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  transform: skewX(-6deg);
+}
 .selectedWorkGrid p { max-width: 36rem; margin: 2rem 0; color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.8; }
 
 .contributions { margin-top: clamp(4rem, 8vw, 7rem); }

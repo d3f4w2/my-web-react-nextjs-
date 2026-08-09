@@ -39,7 +39,7 @@ export default function ContactPage() {
               <span>有具体的事，</span>
               <span>直接联系。</span>
             </h1>
-            <p>Agent、全栈开发、开源协作或 pi-go 共建，都可以直接聊。</p>
+            <p>Agent、全栈开发、开源协作或 <strong className={styles.piGoName}>PI-GO</strong> 共建，都可以直接聊。</p>
           </header>
 
           <section className={styles.email} aria-labelledby="contact-email-title">

@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   if (!project) return {};
 
   return {
-    title: project.kind === "internship" ? "傻瓜比价 Agent 项目" : "pi-go 个人 Coding Agent 工程",
+    title: project.kind === "internship" ? "傻瓜比价 Agent 项目" : "PI-GO 个人 Coding Agent 工程",
     description: project.summary,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
@@ -38,6 +38,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const project = getProjectDetail((await params).slug);
   if (!project) notFound();
+  const isPiGo = project.kind === "personal";
 
   const projectJsonLd = {
     "@context": "https://schema.org",
@@ -54,7 +55,13 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
         <header className={styles.hero}>
           <div className={`site-container ${styles.heroGrid}`}>
             <p className={styles.period}>{project.period}</p>
-            <h1>{project.title}</h1>
+            <h1>
+              {isPiGo ? (
+                <span className={styles.piGoName}>{project.title}</span>
+              ) : (
+                <span className={styles.shaguaName}>{project.title}</span>
+              )}
+            </h1>
             <p className={styles.statement}>{project.statement}</p>
             <div className={styles.actions}>
               <a href={project.primaryHref} target="_blank" rel="noreferrer">
@@ -143,7 +150,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
         <section className={`site-container ${styles.flow}`} aria-labelledby="project-flow-title">
           <h2 id="project-flow-title">
-            {project.kind === "internship" ? "一次任务怎样穿过系统。" : "一次代码任务，怎样被 pi-go 接住。"}
+            {project.kind === "internship" ? "一次任务怎样穿过系统。" : "一次代码任务，怎样被 PI-GO 接住。"}
           </h2>
           <div className={styles.flowTrack}>
             {project.stages.map((stage) => (
@@ -187,7 +194,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                 <p>{project.collaboration.body}</p>
                 <div className={styles.collaborationActions}>
                   <a href={project.primaryHref} target="_blank" rel="noreferrer">先看代码与进展</a>
-                  <a href={`mailto:${siteConfig.email}?subject=pi-go%20共建`}>联系一起开发</a>
+                  <a href={`mailto:${siteConfig.email}?subject=PI-GO%20共建`}>联系一起开发</a>
                 </div>
               </div>
             </div>

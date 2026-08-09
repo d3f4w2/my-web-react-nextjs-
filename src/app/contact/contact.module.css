@@ -65,6 +65,17 @@
   line-height: 1.65;
 }
 
+.piGoName {
+  display: inline-block;
+  color: var(--color-paper);
+  font-size: 1.3em;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  -webkit-text-stroke: 1px var(--color-ink);
+  transform: skewX(-5deg);
+}
+
 .email {
   grid-area: email;
   align-self: end;

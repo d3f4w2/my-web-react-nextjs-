@@ -31,7 +31,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
       <article id="internship-work" className={styles.internship}>
         <div className={`site-container ${styles.internshipGrid}`}>
           <div className={styles.projectCopy}>
-            <h3>{internship.title}</h3>
+            <h3 className={styles.internshipName}>{internship.title}</h3>
             <p className={styles.summary}>{internship.summary}</p>
 
             <div className={styles.role}>
@@ -89,7 +89,9 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
         <div className={`site-container ${styles.personalGrid}`}>
           <div className={styles.personalLead}>
             <span className={styles.personalStatus}>{personal.status}</span>
-            <h3>{personal.title}</h3>
+            <h3>
+              <span className={styles.personalName}>{personal.title}</span>
+            </h3>
             <p>{personal.summary}</p>
           </div>
           <div className={styles.personalWork}>
@@ -100,7 +102,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
             </Link>
           </div>
 
-          <div className={styles.personalSystems} aria-label="pi-go 当前能力">
+          <div className={styles.personalSystems} aria-label="PI-GO 当前能力">
             <article>
               <h4>安全执行</h4>
               <p>持久权限、危险操作确认、工具保护与无交互安全拒绝。</p>
@@ -115,7 +117,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
             </article>
           </div>
 
-          <div className={styles.personalVerification} aria-label="pi-go 当前验证结果">
+          <div className={styles.personalVerification} aria-label="PI-GO 当前验证结果">
             <p><strong>13 组 / 89 项</strong><span>核心系统测试通过</span></p>
             <p><strong>9 个包</strong><span>完整离线构建通过</span></p>
             <p><strong>持续开发</strong><span>正在寻找长期共建者</span></p>

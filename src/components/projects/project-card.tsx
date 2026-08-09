@@ -8,10 +8,19 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project, index }: ProjectCardProps) {
+  const isPiGo = project.href === "/projects/pi-go";
+  const isShagua = project.href === "/projects/shagua-agent";
+
   return (
-    <article className={styles.card} data-project-tone={index}>
+    <article className={styles.card} data-project-tone={index} data-project-name={isPiGo ? "pi-go" : undefined}>
       <div>
-        <h3>{project.title}</h3>
+        <h3>
+          {isPiGo ? (
+            <span className={styles.piGoName}>{project.title}</span>
+          ) : isShagua ? (
+            <span className={styles.shaguaName}>{project.title}</span>
+          ) : project.title}
+        </h3>
         <p className={styles.summary}>{project.summary}</p>
       </div>
       <p className={styles.responsibility}>{project.responsibility}</p>

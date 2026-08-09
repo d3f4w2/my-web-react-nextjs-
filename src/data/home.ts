@@ -67,7 +67,7 @@ const featuredOpenSourceProjects = openSourceContributions
 export const otherProjects = [
   {
     type: "AI 电商产品",
-    title: "让 Agent 跨越真实平台，完成比价与领券",
+    title: "傻瓜比价",
     summary:
       "用户在 Android 应用中提出需求后，Agent 会理解任务、调用不同平台的操作能力、识别商品与价格，并把可确认的比价或领券结果送回应用。",
     responsibility:
@@ -111,7 +111,7 @@ export const otherProjects = [
 export const personalProjects = [
   {
     type: "个人项目",
-    title: "pi-go：让 Coding Agent 对自己的执行负责",
+    title: "PI-GO",
     summary:
       "以 Pi 为上游基础持续演进的个人 Coding Agent 工程分支。它把权限、代码修改、验证、调试、恢复和 Git 交付连成一条可控执行链。",
     responsibility:
@@ -120,7 +120,7 @@ export const personalProjects = [
     tags: ["权限边界", "结构化修改", "验证闭环", "失败恢复"],
     href: "/projects/pi-go",
     externalHref: "https://github.com/d3f4w2/pi",
-    linkLabel: "进入 pi-go",
+    linkLabel: "进入 PI-GO",
     facts: [
       { label: "工程形态", value: "Agent Runtime、CLI 与终端界面" },
       { label: "当前验证", value: "9 个包离线构建、13 组 89 项测试通过" },

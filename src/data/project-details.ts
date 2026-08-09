@@ -41,7 +41,7 @@ export const projectDetails = [
   {
     slug: "shagua-agent",
     kind: "internship",
-    title: "让 Agent 进入真实平台，完成比价与领券。",
+    title: "傻瓜比价",
     statement: "我负责的核心不是界面，而是 Agent 后端怎样把一次用户意图变成可以执行、追踪、恢复并返回结果的完整任务。",
     summary: "傻瓜比价面向真实消费场景。用户在 Android 应用中提出需求，系统需要理解目标、进入不同平台、识别商品与价格、处理领券过程，并把可确认的结果送回应用。",
     period: "2026.05 至今",
@@ -116,12 +116,12 @@ export const projectDetails = [
   {
     slug: "pi-go",
     kind: "personal",
-    title: "pi-go：让 Coding Agent 对自己的执行负责。",
+    title: "PI-GO",
     statement: "这是我的个人 Coding Agent 工程分支。它不把能力停在生成代码，而是把权限、修改、验证、调试、恢复和交付做成同一条可控执行链。",
-    summary: "pi-go 以 Pi 的 Agent Runtime、Coding Agent 和终端界面为上游基础，面向真实代码任务补齐执行安全与工程闭环。当前分支已经实现持久权限、结构化修改、验证控制、回合撤销、Git 交付、调试与本地运行环境，并通过完整离线构建和针对性测试。",
+    summary: "PI-GO 以 Pi 的 Agent Runtime、Coding Agent 和终端界面为上游基础，面向真实代码任务补齐执行安全与工程闭环。当前分支已经实现持久权限、结构化修改、验证控制、回合撤销、Git 交付、调试与本地运行环境，并通过完整离线构建和针对性测试。",
     period: "正在开发 · 寻找共建",
     primaryHref: "https://github.com/d3f4w2/pi",
-    primaryLabel: "打开 pi-go 代码仓库",
+    primaryLabel: "打开 PI-GO 代码仓库",
     externalHref: "https://pi.dev",
     externalLabel: "查看 Pi 上游项目",
     facts: [
@@ -131,7 +131,7 @@ export const projectDetails = [
     ],
     challenge: {
       title: "写出代码，只完成了一半。",
-      body: "真实 Coding Agent 还必须知道什么操作需要确认、修改是否落在正确位置、验证有没有发生、失败后怎样恢复，以及最终怎样安全提交。pi-go 把这些责任从提示词移到运行时。",
+      body: "真实 Coding Agent 还必须知道什么操作需要确认、修改是否落在正确位置、验证有没有发生、失败后怎样恢复，以及最终怎样安全提交。PI-GO 把这些责任从提示词移到运行时。",
     },
     verification: {
       title: "当前版本已经可以被验证。",
@@ -170,7 +170,7 @@ export const projectDetails = [
     },
     collaboration: {
       title: "它已经能工作，也远没有结束。",
-      body: "pi-go 正在持续开发。我在寻找愿意长期讨论并动手解决 Agent Runtime、工具安全、代码理解、验证恢复与终端交互问题的共建者。可以先看代码和现有测试，再通过 GitHub 或邮箱直接联系。",
+      body: "PI-GO 正在持续开发。我在寻找愿意长期讨论并动手解决 Agent Runtime、工具安全、代码理解、验证恢复与终端交互问题的共建者。可以先看代码和现有测试，再通过 GitHub 或邮箱直接联系。",
     },
     stages: [
       { title: "理解", body: "结合结构搜索、LSP、网页读取与环境诊断，先确认代码和运行条件。" },

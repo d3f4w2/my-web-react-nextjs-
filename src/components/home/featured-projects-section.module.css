@@ -62,6 +62,16 @@
   line-height: 0.98;
 }
 
+.projectCopy .internshipName {
+  width: fit-content;
+  color: var(--color-accent);
+  font-size: clamp(4.6rem, 9vw, 7rem);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 0.82;
+  transform: skewX(-5deg);
+}
+
 .summary {
   max-width: 35rem;
   margin-top: 2rem;
@@ -247,7 +257,7 @@
   right: -5vw;
   bottom: -10%;
   color: rgb(11 12 10 / 0.13);
-  content: "pi-go";
+  content: "PI-GO";
   font-size: min(24vw, 22rem);
   font-weight: 950;
   letter-spacing: -0.04em;
@@ -281,11 +291,24 @@
 }
 
 .personal h3 {
-  max-width: 10ch;
+  max-width: 12ch;
   font-size: clamp(3rem, 6vw, 5.5rem);
   font-weight: 900;
   letter-spacing: -0.04em;
   line-height: 0.92;
+}
+
+.personalName {
+  display: block;
+  width: fit-content;
+  margin-bottom: 0.35rem;
+  color: var(--color-paper);
+  font-size: clamp(5rem, 12vw, 8rem);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 0.78;
+  -webkit-text-stroke: clamp(1px, 0.13vw, 2px) var(--color-ink);
+  transform: skewX(-6deg);
 }
 
 .personalGrid > div:first-child p {

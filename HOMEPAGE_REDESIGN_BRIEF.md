@@ -15,7 +15,7 @@ overrides the earlier editorial reopening below.
 - Hero: no concrete project, biography, personal name, status labels, or tiny
   decorative copy. It must lead with one ambitious statement.
 - Projects: clearly explain the Agent-backend responsibility, link to the
-  official product, introduce the team, and make `pi-go` the growing personal-
+  official product, introduce the team, and make `PI-GO` the growing personal-
   project stage with verified implementation, active-development status, and
   a clear invitation to co-build.
 - Motion: pointer response, scroll-linked spatial drift, authored route cuts,
