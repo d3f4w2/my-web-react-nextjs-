@@ -104,23 +104,23 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
 
           <div className={styles.personalSystems} aria-label="PI-GO 当前能力">
             <article>
-              <h4>安全执行</h4>
-              <p>持久权限、危险操作确认、工具保护与无交互安全拒绝。</p>
+              <h4>能力治理</h4>
+              <p>按需发现、风险审批、有界并发、超时熔断与失败降级。</p>
             </article>
             <article>
-              <h4>可靠修改</h4>
-              <p>可靠锚点、AST 批量修改、统一 Diff 与多文件原子写入。</p>
+              <h4>OS 级沙箱</h4>
+              <p>跨平台文件与进程边界，Windows 默认断网并按目的地授权。</p>
             </article>
             <article>
-              <h4>验证恢复</h4>
-              <p>verify、LSP、DAP、回合撤销和受控 Git 交付。</p>
+              <h4>证据闭环</h4>
+              <p>可靠编辑、Verify、隐藏验收、长期记忆与受控学习。</p>
             </article>
           </div>
 
           <div className={styles.personalVerification} aria-label="PI-GO 当前验证结果">
-            <p><strong>13 组 / 89 项</strong><span>核心系统测试通过</span></p>
-            <p><strong>9 个包</strong><span>完整离线构建通过</span></p>
-            <p><strong>持续开发</strong><span>正在寻找长期共建者</span></p>
+            <p><strong>608 项</strong><span>专项测试通过</span></p>
+            <p><strong>84.0%</strong><span>固定实验输入减少</span></p>
+            <p><strong>67.1%</strong><span>Windows RPC 启动提速</span></p>
           </div>
         </div>
       </article>

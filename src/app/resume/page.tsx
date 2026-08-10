@@ -106,7 +106,7 @@ export default function ResumePage() {
           <div className={styles.selectedWorkGrid}>
             <article>
               <h3 className={styles.piGoTitle}>PI-GO</h3>
-              <p>正在开发的个人 Coding Agent 工程分支。已完成从权限、结构化修改、验证调试到回合撤销与 Git 交付的执行责任链；当前 9 个包构建与 13 组 89 项测试通过，并寻找长期共建者。</p>
+              <p>正在开发的本地 Coding Agent 能力平台。已完成统一能力治理、跨平台 OS 沙箱、11 语言 AST、15 项 LSP、23 项 DAP、隔离评测、证据型记忆与受控学习；当前 65 个测试文件、608 项专项测试通过，并寻找长期共建者。</p>
               <Link href="/projects/pi-go" transitionTypes={["nav-forward"]}>查看当前实现与共建方向</Link>
             </article>
             <article>

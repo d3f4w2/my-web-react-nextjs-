@@ -113,23 +113,23 @@ export const personalProjects = [
     type: "个人项目",
     title: "PI-GO",
     summary:
-      "以 Pi 为上游基础持续演进的个人 Coding Agent 工程分支。它把权限、代码修改、验证、调试、恢复和 Git 交付连成一条可控执行链。",
+      "以 Pi 为上游基础，把轻量终端 Agent 扩展为可执行、可验证、可控制、可恢复的本地 Coding Agent 能力平台。",
     responsibility:
-      "当前版本已完成持久工具权限、可靠锚点与 AST 修改、修改后验证、DAP 调试、持久运行环境、回合撤销、结构化 Git、运行指标和 Web 可靠性等系统；项目仍在持续开发，并寻找愿意一起把 Coding Agent 做进真实工程的人。",
+      "当前工作区已收口统一能力治理、跨平台 OS 沙箱、11 语言 AST、项目 LSP / DAP、隐藏验收、证据型记忆、受控学习、MCP / ACP 和隔离任务 Worker；项目持续开发并寻找长期共建者。",
     status: "正在开发 · 寻找共建",
-    tags: ["权限边界", "结构化修改", "验证闭环", "失败恢复"],
+    tags: ["能力治理", "OS 级沙箱", "代码智能", "证据评测"],
     href: "/projects/pi-go",
     externalHref: "https://github.com/d3f4w2/pi",
     linkLabel: "进入 PI-GO",
     facts: [
-      { label: "工程形态", value: "Agent Runtime、CLI 与终端界面" },
-      { label: "当前验证", value: "9 个包离线构建、13 组 89 项测试通过" },
-      { label: "项目状态", value: "持续开发，寻找长期共建者" },
+      { label: "代码智能", value: "11 种 AST、15 项 LSP、23 项 DAP" },
+      { label: "验证基线", value: "65 个测试文件、608 项专项测试" },
+      { label: "性能证据", value: "Windows RPC 启动中位耗时降低 67.1%" },
     ],
     evidence: [
-      "已形成理解、约束、修改、验证、恢复与交付的完整责任链。",
-      "当前分支 9 个包离线构建通过，13 组 89 项针对性测试最终全部通过。",
-      "权限、撤销、Git、AST 编辑、调试、评估与指标均有实现、架构记录与测试。",
+      "控制面、能力面、证据面和进程外强制面共同约束 Agent 执行。",
+      "隔离 Agent Evals 在任务结束后注入隐藏验收，不让执行者修改评分器或自证结果。",
+      "固定实验中上下文输入减少 84.0%，Windows RPC 启动中位耗时降低 67.1%。",
     ],
   },
 ] satisfies readonly ProjectPreview[];
