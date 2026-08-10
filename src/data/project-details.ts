@@ -42,6 +42,17 @@ export type ProjectDetail = {
       body: string;
     }[];
   }[];
+  resultEvidence?: {
+    image: string;
+    alt: string;
+    title: string;
+    summary: string;
+    caption: string;
+    points: readonly {
+      title: string;
+      body: string;
+    }[];
+  };
   team?: string;
 };
 
@@ -101,6 +112,7 @@ export const projectDetails = [
     evidence: [
       "真实 Android 比价功能演示",
       "真实 Android 自动领券功能演示",
+      "真实比价结果页与优惠后价格回传",
       "三平台能力与 Agent 后端提交记录",
       "链接识别、平台回调与系统权限异常修复记录",
       "价格识别测试数据与领券过程信息维护记录",
@@ -139,6 +151,27 @@ export const projectDetails = [
         ],
       },
     ],
+    resultEvidence: {
+      image: "/assets/work/price-comparison-result.webp",
+      alt: "傻瓜比价结果页展示淘宝、美团和京东的可比商品、优惠后价格、节省金额、最低价提示与继续购买入口。",
+      title: "Agent 最后必须给出答案。",
+      summary: "外部平台跑完之后，系统把可比商品、优惠后价格和差异说明送回傻瓜比价。用户看到的是可以判断、可以继续操作的结果，不是一句模糊的“任务完成”。",
+      caption: "真实结果页，截取自上方完整比价演示的结果回传阶段。",
+      points: [
+        {
+          title: "价格算清",
+          body: "每个平台分别展示优惠后的可成交价格和已节省金额，最低价直接标出。",
+        },
+        {
+          title: "差异说清",
+          body: "商品不完全一致时保留规格差异与近似替换说明，不把不同商品伪装成同款。",
+        },
+        {
+          title: "行动接上",
+          body: "结果保留购买或查看入口，用户可以继续进入对应平台完成下一步。",
+        },
+      ],
+    },
     team: "团队从产品、Agent 后端到客户端共同完成 0 到 1 的交付。成员具有清华、北大、中科院、人大、哈工大、哥大等教育背景，以及微软、亚马逊、字节、腾讯、百度、华为等工作经验。",
   },
   {

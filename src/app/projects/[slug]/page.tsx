@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PageFrame } from "@/components/layout/page-frame";
 import { JsonLd } from "@/components/metadata/json-ld";
 import { InternshipDemo } from "@/components/projects/internship-demo";
+import { InternshipResultEvidence } from "@/components/projects/internship-result-evidence";
 import { getProjectDetail, projectDetails } from "@/data/project-details";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import styles from "./project-detail.module.css";
@@ -138,6 +139,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               <p>两段完整 Android 操作演示。点击步骤，可以直接跳到对应位置。</p>
             </div>
             <InternshipDemo items={project.media} />
+            {project.resultEvidence ? <InternshipResultEvidence evidence={project.resultEvidence} /> : null}
           </section>
         ) : null}
 
