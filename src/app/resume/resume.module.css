@@ -209,6 +209,38 @@
 }
 .selectedWorkGrid p { max-width: 36rem; margin: 2rem 0; color: var(--color-text-muted); font-size: 1.05rem; line-height: 1.8; }
 
+.resumeRelease {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0;
+  padding: 1.25rem;
+  color: var(--color-paper);
+  background: var(--color-ink);
+  border: 1px solid var(--color-accent);
+}
+
+.resumeRelease span {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 820;
+  letter-spacing: 0.08em;
+}
+
+.resumeRelease code {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: 720;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.resumeRelease a {
+  width: fit-content;
+  color: var(--color-accent);
+}
+
 .contributions { margin-top: clamp(4rem, 8vw, 7rem); }
 
 .contributions article {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageFrame } from "@/components/layout/page-frame";
 import { JsonLd } from "@/components/metadata/json-ld";
 import { openSourceContributions } from "@/data/open-source";
+import { getProjectDetail } from "@/data/project-details";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import styles from "./resume.module.css";
 
@@ -24,6 +25,8 @@ const resumeJsonLd = {
 };
 
 export default function ResumePage() {
+  const pigoRelease = getProjectDetail("pi-go")?.release;
+
   return (
     <PageFrame activeSection="resume">
       <JsonLd data={resumeJsonLd} />
@@ -107,6 +110,13 @@ export default function ResumePage() {
             <article>
               <h3 className={styles.piGoTitle}>PI-GO</h3>
               <p>已公开发布并持续开发的可验证工程执行平台。唯一交互入口 /run 会冻结原始目标、范围、验收项和聚合预算，持续执行后在模型外验证差距，再按最近证据自动重规划；支持严格检查点恢复、分支隔离、安全边界暂停恢复、停滞保护、用户决策与幂等终态验收。闭环 5 个测试文件、48 项专项用例通过；pi-gogogo@0.84.1 已首发 npm，一行安装路径通过公共注册表隔离验收。</p>
+              {pigoRelease ? (
+                <div className={styles.resumeRelease} aria-label="PI-GO npm 安装">
+                  <span>NPM PUBLIC · LATEST v{pigoRelease.version}</span>
+                  <code>{pigoRelease.installCommand}</code>
+                  <a href={pigoRelease.registryHref} target="_blank" rel="noreferrer">打开 npm 公开包 ↗</a>
+                </div>
+              ) : null}
               <Link href="/projects/pi-go" transitionTypes={["nav-forward"]}>查看当前实现与共建方向</Link>
             </article>
             <article>

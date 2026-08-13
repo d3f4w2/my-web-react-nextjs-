@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ProjectPreview } from "@/data/home";
 import { personalProjects } from "@/data/home";
 import { openSourceProjectProfiles } from "@/data/open-source";
+import { getProjectDetail } from "@/data/project-details";
 import { ProjectVideo } from "@/components/projects/project-video";
 import styles from "./featured-projects-section.module.css";
 
@@ -13,6 +14,7 @@ type FeaturedProjectsSectionProps = {
 export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionProps) {
   const internship = projects[0];
   const personal = personalProjects[0];
+  const pigoRelease = getProjectDetail("pi-go")?.release;
   const openSource = projects.slice(1);
 
   if (!internship || !personal) return null;
@@ -101,6 +103,19 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
               查看当前实现与共建方向
             </Link>
           </div>
+
+          {pigoRelease ? (
+            <div className={styles.personalInstall} aria-label="PI-GO npm 公开发行">
+              <div>
+                <span>NPM / PUBLIC / LATEST</span>
+                <strong>v{pigoRelease.version}</strong>
+              </div>
+              <code>{pigoRelease.installCommand}</code>
+              <a href={pigoRelease.registryHref} target="_blank" rel="noreferrer">
+                打开 npm 公开包 ↗
+              </a>
+            </div>
+          ) : null}
 
           <div className={styles.personalSystems} aria-label="PI-GO 当前能力">
             <article>

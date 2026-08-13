@@ -9,6 +9,19 @@ export type ProjectDetail = {
   primaryLabel: string;
   externalHref?: string;
   externalLabel?: string;
+  release?: {
+    packageName: string;
+    version: string;
+    channel: string;
+    executable: string;
+    installCommand: string;
+    launchCommand: string;
+    registryHref: string;
+    repositoryHref: string;
+    nodeRequirement: string;
+    platforms: readonly string[];
+    verification: readonly string[];
+  };
   facts: readonly { title: string; value: string }[];
   challenge: { title: string; body: string };
   stages: readonly { title: string; body: string }[];
@@ -185,6 +198,23 @@ export const projectDetails = [
     primaryLabel: "打开 PI-GO 代码仓库",
     externalHref: "https://www.npmjs.com/package/pi-gogogo",
     externalLabel: "查看 npm 公开包",
+    release: {
+      packageName: "pi-gogogo",
+      version: "0.84.1",
+      channel: "latest",
+      executable: "pigo",
+      installCommand: "npm install -g --ignore-scripts pi-gogogo",
+      launchCommand: "pigo",
+      registryHref: "https://www.npmjs.com/package/pi-gogogo",
+      repositoryHref: "https://github.com/d3f4w2/pi-Gogogo",
+      nodeRequirement: ">=22.19.0",
+      platforms: ["Windows", "macOS", "Linux"],
+      verification: [
+        "从 npm 公共注册表安装精确版本到空的临时全局前缀",
+        "验证生成清单、pigo 命令 shim、版本输出与脱敏 doctor 结果",
+        "安装不依赖 lifecycle scripts；公开包与 fork 仓库元数据一致",
+      ],
+    },
     facts: [
       { title: "工程闭环", value: "执行、验证差距、自动重规划" },
       { title: "闭环验证", value: "5 个测试文件、48 项用例" },

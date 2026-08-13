@@ -5,6 +5,7 @@ import { PageFrame } from "@/components/layout/page-frame";
 import { JsonLd } from "@/components/metadata/json-ld";
 import { InternshipDemo } from "@/components/projects/internship-demo";
 import { InternshipResultEvidence } from "@/components/projects/internship-result-evidence";
+import { CopyInstallCommand } from "@/components/projects/copy-install-command";
 import { getProjectDetail, projectDetails } from "@/data/project-details";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import styles from "./project-detail.module.css";
@@ -41,13 +42,33 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   if (!project) notFound();
   const isPiGo = project.kind === "personal";
 
-  const projectJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: project.title,
-    description: project.summary,
-    url: absoluteUrl(`/projects/${project.slug}`),
-  };
+  const projectJsonLd = project.release
+    ? {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: project.title,
+        description: project.summary,
+        url: absoluteUrl(`/projects/${project.slug}`),
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: project.release.platforms.join(", "),
+        softwareVersion: project.release.version,
+        downloadUrl: project.release.registryHref,
+        sameAs: [project.release.registryHref, project.release.repositoryHref],
+        isAccessibleForFree: true,
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+        },
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "CreativeWork",
+        name: project.title,
+        description: project.summary,
+        url: absoluteUrl(`/projects/${project.slug}`),
+      };
 
   return (
     <PageFrame activeSection="projects">
@@ -77,6 +98,76 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
             </div>
           </div>
         </header>
+
+        {project.release ? (
+          <section className={styles.release} aria-labelledby="pigo-release-title">
+            <div className={`site-container ${styles.releaseShell}`}>
+              <div className={styles.releaseIntro}>
+                <p className={styles.releaseEyebrow}>PUBLIC RELEASE / NPM</p>
+                <h2 id="pigo-release-title">一行安装，任何目录直接启动。</h2>
+                <p>
+                  PI-GO 已经不是本机演示包。公开版本从 npm 官方注册表安装，命令固定为
+                  <strong> {project.release.executable}</strong>；安装后可以先运行 doctor，再进入真实工程。
+                </p>
+              </div>
+
+              <div className={styles.releaseConsole} aria-label="PI-GO 安装命令">
+                <div className={styles.releaseConsoleBar}>
+                  <span>NPM / {project.release.channel.toUpperCase()}</span>
+                  <span>PUBLIC</span>
+                </div>
+                <div className={styles.installCommand}>
+                  <span aria-hidden="true">$</span>
+                  <code>{project.release.installCommand}</code>
+                  <CopyInstallCommand
+                    command={project.release.installCommand}
+                    className={styles.copyCommand}
+                  />
+                </div>
+                <div className={styles.launchCommand}>
+                  <span>安装完成后</span>
+                  <code>{project.release.launchCommand}</code>
+                  <code>pigo doctor</code>
+                </div>
+              </div>
+
+              <dl className={styles.releaseMeta}>
+                <div>
+                  <dt>VERSION</dt>
+                  <dd>v{project.release.version}</dd>
+                </div>
+                <div>
+                  <dt>PACKAGE</dt>
+                  <dd>{project.release.packageName}</dd>
+                </div>
+                <div>
+                  <dt>RUNTIME</dt>
+                  <dd>Node {project.release.nodeRequirement}</dd>
+                </div>
+                <div>
+                  <dt>PLATFORMS</dt>
+                  <dd>{project.release.platforms.join(" / ")}</dd>
+                </div>
+              </dl>
+
+              <div className={styles.releaseProof}>
+                <h3>公开发行验收</h3>
+                <ol>
+                  {project.release.verification.map((item) => <li key={item}>{item}</li>)}
+                </ol>
+              </div>
+
+              <div className={styles.releaseLinks}>
+                <a href={project.release.registryHref} target="_blank" rel="noreferrer">
+                  在 npm 查看公开包 ↗
+                </a>
+                <a href={project.release.repositoryHref} target="_blank" rel="noreferrer">
+                  查看 GitHub 源码 ↗
+                </a>
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         <section className={`site-container ${styles.facts}`} aria-label="项目范围">
           {project.facts.map((fact) => (

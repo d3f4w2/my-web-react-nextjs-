@@ -336,6 +336,61 @@
   line-height: 1.8;
 }
 
+.personalInstall {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: clamp(1.25rem, 4vw, 3rem);
+  align-items: center;
+  margin-top: clamp(2rem, 5vw, 4rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  color: var(--color-paper);
+  background: var(--color-ink);
+  border: 2px solid var(--color-ink);
+  clip-path: polygon(0.5rem 0, 100% 0.4rem, calc(100% - 0.6rem) 100%, 0 92%);
+}
+
+.personalInstall > div {
+  display: grid;
+  gap: 0.45rem;
+  min-width: 7rem;
+}
+
+.personalInstall span {
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.personalInstall strong {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 920;
+  line-height: 1;
+}
+
+.personalInstall code {
+  min-width: 0;
+  color: var(--color-paper);
+  font-family: var(--font-mono);
+  font-size: clamp(0.9rem, 1.6vw, 1.08rem);
+  font-weight: 750;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.personalInstall a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  color: var(--color-accent);
+  border-bottom: 2px solid currentColor;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .personalSystems {
   grid-column: 1 / -1;
   display: grid;
@@ -530,6 +585,14 @@
 
   .personalSystems {
     grid-template-columns: 1fr;
+  }
+
+  .personalInstall {
+    grid-template-columns: 1fr;
+  }
+
+  .personalInstall a {
+    justify-self: start;
   }
 
   .personalSystems article + article {
