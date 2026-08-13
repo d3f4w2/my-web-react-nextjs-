@@ -180,15 +180,15 @@ export const projectDetails = [
     title: "PI-GO",
     statement: "一个 Coding Agent 不该靠一句“已完成”交付。PI-GO 冻结原始目标和验收边界，持续执行，在模型外验证差距，再按证据自动重规划，直到达标或触发明确停止条件。",
     summary: "PI-GO 以 Pi 为上游基础，把能力治理、跨平台 OS 沙箱、代码智能、会话检查点、确定性验证和回执 CI 串成可验证工程执行器。交互里只有一个 /run：开始、查看、暂停、恢复、决策、停止和终态验收按状态出现；shell 的 pigo run / pigo ci 保留给脚本和流水线。",
-    period: "正在开发 · 寻找共建",
+    period: "已公开发布 · 持续开发",
     primaryHref: "https://github.com/d3f4w2/pi-Gogogo",
     primaryLabel: "打开 PI-GO 代码仓库",
-    externalHref: "https://pi.dev",
-    externalLabel: "查看 Pi 上游项目",
+    externalHref: "https://www.npmjs.com/package/pi-gogogo",
+    externalLabel: "查看 npm 公开包",
     facts: [
       { title: "工程闭环", value: "执行、验证差距、自动重规划" },
-      { title: "终止条件", value: "通过、预算、停滞、用户决策" },
       { title: "闭环验证", value: "5 个测试文件、48 项用例" },
+      { title: "公开发行", value: "npm latest · v0.84.1" },
     ],
     challenge: {
       title: "工具越多，失控面就越大。",
@@ -196,7 +196,7 @@ export const projectDetails = [
     },
     verification: {
       title: "每个结论都要能复跑。",
-      summary: "这里展示的是 2026-08-12 工作区基线，不把本机专项测试写成公共发布结果，也不把固定实验写成线上 SLA。闭环状态机、私有基线、独立验证、回执策略、代码测试和架构记录共同构成证据。",
+      summary: "这里展示的是 2026-08-13 可复跑基线：本机专项测试仍与公共发布结果分开，固定实验不写成线上 SLA；只有 npm 注册表元数据和发布后隔离安装被记为公开发行证据。闭环状态机、私有基线、独立验证、回执策略、代码测试和架构记录共同构成工程证据。",
       facts: [
         { value: "48", label: "项闭环专项测试", detail: "覆盖单入口控制、命令解析、状态转换、预算、停滞、阶段恢复、分支异步隔离、私有 Git 基线、幂等终态回执和离线验收。" },
         { value: "4", label: "类聚合预算", detail: "墙钟时间、Token、工具调用和 Agent 轮次全部跨目标累计，不会在重规划时重置。" },
@@ -257,6 +257,11 @@ export const projectDetails = [
         proof: "回执通过既有 schema 与完整性校验，保留真实停止原因和最近验证证据；相同内容可幂等重试、不同内容不覆盖。交互不再注册 /ci，流水线仍可用零参数 pigo ci 发现当前项目最新私有回执。",
       },
       {
+        title: "一行安装与 fork 自有发布",
+        body: "把构建后的 CLI、运行时资源和必要依赖收敛为无安装脚本的 pi-gogogo 产品包，公开命令保持为 pigo；发布工作流只属于 d3f4w2/pi-Gogogo，不能误发上游 scoped workspaces。",
+        proof: "pi-gogogo@0.84.1 于 2026-08-13 首发到 npm。发布后 smoke 从公共 registry 把精确版本安装到空的临时全局前缀，并验证生成清单、平台命令 shim、版本输出和脱敏 doctor 结果；npm latest、pigo bin 与 GitHub 仓库元数据一致。",
+      },
+      {
         title: "统一主 Agent 能力平台",
         body: "分开能力注册、用户允许、模型临时可见与调用审批；执行层统一处理 180 秒超时、连续失败熔断、恢复探测、脱敏错误，以及只读共享、写入独占的有界调度。",
         proof: "能力平台跨功能基线记录 15 个测试文件、105 个用例通过；低频工具每轮最多临时暴露两个。",
@@ -307,7 +312,7 @@ export const projectDetails = [
       "固定长任务实验估算输入减少 84.0%，关键证据、用户要求和恢复标记全部保留",
       "外部信息固定十题官方源首命中 10/10，十次同资源读取缓存命中率 90%",
       "Windows RPC 启动中位耗时降低 67.1%，机器、版本、方法与原始样本均已保存",
-      "当前事实属于 2026-08-13 工作区基线；fork-owned trusted publishing 与发布后 registry 安装验收已落盘，首次 npm 注册和 trusted publisher 配置仍待完成",
+      "pi-gogogo@0.84.1 已公开发布；npm latest、pigo bin、fork 仓库元数据与发布后隔离安装验收均已通过，后续版本的 GitHub OIDC trusted publisher 工作流已落盘",
     ],
   },
 ] as const satisfies readonly ProjectDetail[];

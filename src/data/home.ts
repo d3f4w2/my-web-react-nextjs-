@@ -116,7 +116,7 @@ export const personalProjects = [
       "让 Coding Agent 围绕一个不可变目标持续执行：在模型外验证差距，按证据重新规划，直到通过或触发明确停止条件。",
     responsibility:
       "我独立把交互收口为唯一 /run 入口：目标开始、状态、暂停、恢复、停止、用户决策和终态验收都按当前状态出现；版本化状态机、私有 Git 基线、聚合预算、安全边界控制和 CI 回执运行在同一会话底座上。",
-    status: "正在开发 · 寻找共建",
+    status: "已公开发布 · 持续开发",
     tags: ["可验证执行", "自动纠偏", "独立验收", "可恢复状态"],
     href: "/projects/pi-go",
     externalHref: "https://github.com/d3f4w2/pi-Gogogo",
@@ -126,6 +126,7 @@ export const personalProjects = [
       { label: "停止边界", value: "通过、预算、停滞、用户决策" },
       { label: "单一入口", value: "/run 按状态只呈现当前可用动作" },
       { label: "本轮验证", value: "5 个测试文件、48 项闭环用例" },
+      { label: "公开发行", value: "npm latest · v0.84.1" },
     ],
     evidence: [
       "原始目标、修改范围、确定性验收项和聚合预算在开始时冻结，重新规划不能降低完成标准。",
@@ -134,6 +135,7 @@ export const personalProjects = [
       "最近三轮执行与验证差距会进入下一轮纠偏上下文；连续相同差距停止盲目重试，真实产品选择进入等待用户状态。",
       "恢复会严格跳过损坏检查点；慢验证器和回执写入受运行 ID 与修订号隔离，不能在切换会话后污染新分支。",
       "终态回执保留真实停止原因和最近验证证据；相同内容可幂等重试，不同内容永不覆盖。",
+      "pi-gogogo@0.84.1 已发布到 npm；发布后从公共 registry 安装精确版本到空隔离前缀，并执行安装后的 pigo 入口完成验收。",
     ],
   },
 ] satisfies readonly ProjectPreview[];
