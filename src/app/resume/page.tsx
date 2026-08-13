@@ -73,7 +73,7 @@ export default function ResumePage() {
           <h2 id="resume-focus-title">Agent 与全栈开发能力。</h2>
           <div className={styles.focusGrid}>
             <article><h3>Agent 后端</h3><p>任务理解、执行主流程、平台能力、过程追踪、异常恢复与结果回传。</p></article>
-            <article><h3>Agent Runtime</h3><p>持久权限、结构化修改、验证与调试、失败恢复、上下文治理和受控 Git 交付。</p></article>
+            <article><h3>Agent Runtime</h3><p>目标冻结、持续执行、模型外验证、差距驱动重规划、失败恢复与可审计交付。</p></article>
             <article><h3>客户端联调</h3><p>Android 任务承接、执行标识贯通、过程状态展示和真实设备问题处理。</p></article>
             <article><h3>开源交付</h3><p>围绕并发、协议兼容与配置行为修复问题，并让代码通过上游维护者审查。</p></article>
           </div>
@@ -106,7 +106,7 @@ export default function ResumePage() {
           <div className={styles.selectedWorkGrid}>
             <article>
               <h3 className={styles.piGoTitle}>PI-GO</h3>
-              <p>正在开发的本地 Coding Agent 能力平台。已完成统一能力治理、跨平台 OS 沙箱、11 语言 AST、15 项 LSP、23 项 DAP、隔离评测、证据型记忆与受控学习；当前 65 个测试文件、608 项专项测试通过，并寻找长期共建者。</p>
+              <p>正在开发的可验证工程执行平台。唯一交互入口 /run 会冻结原始目标、范围、验收项和聚合预算，持续执行后在模型外验证差距，再按最近证据自动重规划；支持严格检查点恢复、分支隔离、安全边界暂停恢复、停滞保护、用户决策与幂等终态验收。闭环 5 个测试文件、48 项专项用例通过。</p>
               <Link href="/projects/pi-go" transitionTypes={["nav-forward"]}>查看当前实现与共建方向</Link>
             </article>
             <article>

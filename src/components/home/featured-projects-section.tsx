@@ -118,7 +118,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
           </div>
 
           <div className={styles.personalVerification} aria-label="PI-GO 当前验证结果">
-            <p><strong>608 项</strong><span>专项测试通过</span></p>
+            <p><strong>48 项</strong><span>目标闭环专项测试</span></p>
             <p><strong>84.0%</strong><span>固定实验输入减少</span></p>
             <p><strong>67.1%</strong><span>Windows RPC 启动提速</span></p>
           </div>
